@@ -3,29 +3,30 @@
 > **HACKVERSE 2026 — Problem Statement 01 (PS-01)**  
 > *Vellore Institute of Technology (VIT) Chennai*
 
-[![Build & Test Status](https://img.shields.io/badge/pytest-56%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/tests/test_rag_provenance.py)
-[![Security & Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20Argon2-blue?style=flat-square&logo=jsonwebtokens)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/auth/auth_service.py)
-[![Evidence RAG](https://img.shields.io/badge/RAG-Zero%20Hardcoded%20Truth-success?style=flat-square&logo=diagramsdotnet)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/fundamental_rag_agent.py)
-[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue?style=flat-square&logo=python)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine)
-[![Framework](https://img.shields.io/badge/FastAPI-3.0.0-009688?style=flat-square&logo=fastapi)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/main.py)
-[![Vector RAG](https://img.shields.io/badge/ChromaDB-Semantic%20Vector-purple?style=flat-square)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/fundamental_rag_agent.py)
-[![Architecture](https://img.shields.io/badge/Architecture-Market%20View%20%E2%89%A0%20Personal%20Action-orange?style=flat-square)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/orchestrator.py)
+[![Build & Test Status](https://img.shields.io/badge/pytest-56%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](tests/test_rag_provenance.py)
+[![Security & Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20Argon2-blue?style=flat-square&logo=jsonwebtokens)](auth/auth_service.py)
+[![Evidence RAG](https://img.shields.io/badge/RAG-Zero%20Hardcoded%20Truth-success?style=flat-square&logo=diagramsdotnet)](agents/fundamental_rag_agent.py)
+[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue?style=flat-square&logo=python)](https://www.python.org/)
+[![Framework](https://img.shields.io/badge/FastAPI-3.0.0-009688?style=flat-square&logo=fastapi)](main.py)
+[![Vector RAG](https://img.shields.io/badge/ChromaDB-Semantic%20Vector-purple?style=flat-square)](agents/fundamental_rag_agent.py)
+[![Architecture](https://img.shields.io/badge/Architecture-Market%20View%20%E2%89%A0%20Personal%20Action-orange?style=flat-square)](agents/orchestrator.py)
 
 ---
 
 ## 📑 Table of Contents
 
 1. [Problem Statement & Core Concept](#1-problem-statement--core-concept)
-2. [End-to-End System Architecture](#2-end-to-end-system-architecture)
-3. [Multi-Agent System & Core Engines](#3-multi-agent-system--core-engines)
-4. [Evidence-Grounded RAG Pipeline & Provenance](#4-evidence-grounded-rag-pipeline--provenance)
-5. [Benchmark Demonstration Scenarios](#5-benchmark-demonstration-scenarios)
-6. [Security, Resilience & Compliance](#6-security-resilience--compliance)
-7. [Production-Grade Authentication & Multi-User Isolation](#7-production-grade-authentication--multi-user-isolation)
-8. [Automated Test Suite (56/56 Passing)](#8-automated-test-suite-5656-passing)
-9. [Project Directory Structure](#9-project-directory-structure)
-10. [Quick Start & Execution](#10-quick-start--execution)
-11. [Compliance & Educational Disclaimer](#11-compliance--educational-disclaimer)
+2. [⏱️ 60-Second Evaluator Walkthrough](#2-️-60-second-evaluator-walkthrough)
+3. [End-to-End System Architecture](#3-end-to-end-system-architecture)
+4. [Multi-Agent System & Core Engines](#4-multi-agent-system--core-engines)
+5. [Evidence-Grounded RAG Pipeline & Provenance](#5-evidence-grounded-rag-pipeline--provenance)
+6. [Gemini GenAI → Deterministic Policy Guard Boundary](#6-gemini-genai--deterministic-policy-guard-boundary)
+7. [Benchmark Demonstration Scenarios](#7-benchmark-demonstration-scenarios)
+8. [Authentication Architecture & Multi-User Isolation](#8-authentication-architecture--multi-user-isolation)
+9. [Automated Test Suite (56/56 Passing)](#9-automated-test-suite-5656-passing)
+10. [Project Directory Structure](#10-project-directory-structure)
+11. [Quick Start & Execution](#11-quick-start--execution)
+12. [Compliance & Educational Disclaimer](#12-compliance--educational-disclaimer)
 
 ---
 
@@ -46,7 +47,33 @@ A strong market signal must **never** automatically become a `BUY CANDIDATE` for
 
 ---
 
-## 2. End-to-End System Architecture
+## 2. ⏱️ 60-Second Evaluator Walkthrough
+
+For hackathon judges and evaluators, experience the core innovations in under one minute:
+
+1. **Instant Sign-In (0–5s)**:
+   - Navigate to `http://localhost:8000/`.
+   - Click the **`⚡ Instant Demo Access`** button to log in immediately with pre-provisioned demo credentials.
+
+2. **Scenario A — Aligned Expansion (5–20s)**:
+   - View `TATAMOTORS`: Technical breakout + positive institutional sentiment + clean balance sheet ($0.62\times$ D/E cited from `[SEBI-Filing-TATAMOTORS-Q3: Page 12]`).
+   - Observe the **Two-Track Confidence Split**: Market Confidence ($85\%$) alongside Investor Decision Fit ($88\%$).
+
+3. **Scenario B — Anti-Majority Conflict Resolution (20–35s)**:
+   - Click `Scenario B (Conflict: XYZ)` or switch active ticker to `XYZ_CORP`.
+   - Observe that despite strong bullish momentum and positive chatter, the system **rejects a majority-voting trap**, extracts the $3.85\times$ debt breach from `[SEBI-Filing-XYZ-Q3: Page 14]`, and triggers a **High-Severity Devil's Advocate Challenge**.
+
+4. **Persona Divergence (35–45s)**:
+   - Switch Investor Persona to **Aggressive Gen-Z**:
+   - Notice that the **Market View remains 100% identical** (`HIGH_RISK_MOMENTUM`), but the **Personalized Advice adapts safely** from `AVOID-HIGH RISK` to `HOLD-WATCH (Cap < 5%)`.
+
+5. **AI Copilot & Audit Provenance (45–60s)**:
+   - Click the floating **AI Assistant** button in the bottom right and ask: *"What is the debt to equity ratio disclosed for XYZ Corp?"*
+   - Observe the real-time ChromaDB RAG vector response with exact page citations and provenance.
+
+---
+
+## 3. End-to-End System Architecture
 
 ```mermaid
 flowchart TD
@@ -59,14 +86,14 @@ flowchart TD
     C --> G
     F --> G
 
-    H[Investor Profile & Behavioral History] --> I[Risk & Profiling Agent]
+    H[Investor Profile & Behavioral History] --> I[Risk & Personalization Agent]
     G --> I
 
-    I --> J[Draft Market View & Decision]
+    I --> J[Draft Multi-Agent Synthesis]
     J --> K[Devil's Advocate Adversarial Challenge]
-    K --> L[Gemini GenAI Synthesis]
+    K --> L[Gemini GenAI LLM Synthesis]
 
-    L --> M[Pydantic Schema Validation]
+    L --> M[Deterministic Policy Guard Boundary]
     M --> N[Personalized Investment Decision]
 
     N --> O[5D Decision Twin]
@@ -77,38 +104,38 @@ flowchart TD
 
 ---
 
-## 3. Multi-Agent System & Core Engines
+## 4. Multi-Agent System & Core Engines
 
-### 3.1. Technical Analysis Agent (`agents/technical_agent.py`)
+### 4.1. Technical Analysis Agent (`agents/technical_agent.py`)
 - Calculates 14-period RSI, MACD signal crossover, 10-day rate of change (momentum), and volume anomaly z-scores over rolling 20-day distributions.
 - Calibrated to realistic market series ($RSI \in [45, 80]$).
 - Output: `TechnicalSignal` with strict mathematical attributions.
 
-### 3.2. Fundamental Vector RAG Agent (`agents/fundamental_rag_agent.py`)
+### 4.2. Fundamental Vector RAG Agent (`agents/fundamental_rag_agent.py`)
 - ChromaDB collection query with cosine semantic embeddings and metadata filtering (`where={"ticker": ticker}`).
 - Strict chunk citation tagging (e.g. `[SEBI-Filing-XYZ-Q3: Page 14]`).
 - **Null-Safe Solvency Evaluation**: Missing filings or missing debt are represented as `None` / `data_available=False`, never coerced to `0.0x`.
 - Filing freshness detector flags documents $> 12$ months old.
 - **Zero Hardcoded Truth**: All metrics and verdicts originate from retrieved evidence chunks with complete provenance objects.
 
-### 3.3. Sentiment & Flow Agent (`agents/sentiment_agent.py`)
+### 4.3. Sentiment & Flow Agent (`agents/sentiment_agent.py`)
 - Separates Foreign Institutional Investors (`fii_flow: INFLOW / OUTFLOW / NEUTRAL`) and Domestic Institutions (`dii_flow: INFLOW / OUTFLOW / NEUTRAL`).
 - Scans news headline sentiment scores and social chatter participation intensity.
 
-### 3.4. Risk & Personalization Agent (`agents/risk_agent.py`)
+### 4.4. Risk & Personalization Agent (`agents/risk_agent.py`)
 - Single-stock concentration ceilings (e.g. 15% max allocation).
 - Sector exposure aggregation (e.g., Automobile, IT, Infrastructure).
 - Persona debt penalties & volatility tolerance constraints.
 
-### 3.5. Devil's Advocate Adversarial Agent (`agents/devils_advocate_agent.py`)
+### 4.5. Devil's Advocate Adversarial Agent (`agents/devils_advocate_agent.py`)
 - Adversarial challenge pass that actively modifies confidence and recommendation.
 - Strictly constrained to re-weighing existing retrieved citations; **never fabricates evidence**.
 
-### 3.6. Behavioral Bias Mirror & Drift Engine (`profiling/`)
+### 4.6. Behavioral Bias Mirror & Drift Engine (`profiling/`)
 - Detects non-clinical behavioral biases: `MOMENTUM_CHASING`, `RECENCY_BIAS`, `FAMILIARITY_CONCENTRATION`.
 - Provides protective behavioral nudges without diagnostic jargon.
 
-### 3.7. Five-Dimension Decision Twin (`engine/decision_twin.py`)
+### 4.7. Five-Dimension Decision Twin (`engine/decision_twin.py`)
 Five separately scored dimensions evaluated side by side — **never averaged into a single collapsed score**:
 1. **Market Confidence** (Signal agreement)
 2. **Investor Decision Fit** (Mandate suitability)
@@ -116,17 +143,17 @@ Five separately scored dimensions evaluated side by side — **never averaged in
 4. **Thesis Health** (Stated assumption validity)
 5. **Behavioral Risk** (FOMO / drift intensity)
 
-### 3.8. Confidence Decomposition Engine (`utils/metrics.py`)
+### 4.8. Confidence Decomposition Engine (`utils/metrics.py`)
 $$\text{Composite Confidence} = 0.25 \cdot \text{Freshness} + 0.35 \cdot \text{Agreement} + 0.25 \cdot \text{Evidence} + 0.15 \cdot \text{Calibration}$$
 $$\sum w_i = 1.000$$
 
-### 3.9. AI Copilot Research Assistant (`main.py` - `/api/copilot/query`)
+### 4.9. AI Copilot Research Assistant (`main.py` - `/api/copilot/query`)
 - Interactive evidence-grounded chatbot embedded directly on the dashboard.
 - Queries ChromaDB vector database in real-time to answer investor queries with exact citation provenance and page-level references.
 
 ---
 
-## 4. Evidence-Grounded RAG Pipeline & Provenance
+## 5. Evidence-Grounded RAG Pipeline & Provenance
 
 ```
 SEBI Filing / Earnings Document
@@ -160,7 +187,33 @@ FundamentalSignal (Evidence-grounded verdict derivation)
 
 ---
 
-## 5. Benchmark Demonstration Scenarios
+## 6. Gemini GenAI → Deterministic Policy Guard Boundary
+
+To prevent LLM hallucination and ensure absolute adherence to retail investor protection rules, GenAI model outputs (Google Gemini) are **never trusted unconditionally**. Every LLM generation must pass through a strict four-stage **Deterministic Policy Guard Boundary**:
+
+```mermaid
+flowchart LR
+    A[Raw Multi-Agent Signals] --> B[Gemini GenAI LLM]
+    B --> C{Policy Guard Boundary}
+    C -->|1. Pydantic Schema Validation| D[Rejects Invalid JSON / Format]
+    C -->|2. Citation Verification Filter| E[Drops Unindexed Citations]
+    C -->|3. Anti-Majority Rule Engine| F[Forces Solvency Risk Overrides]
+    C -->|4. Non-Diagnostic Word Filter| G[Sanitizes Medical / Clinical Jargon]
+    C -->|All Guards Passed| H[Validated User Decision Output]
+    D -.->|On Failure / Timeout| I[Deterministic Fallback Synthesis]
+```
+
+1. **Pydantic Type Guard**: Strictly enforces the `SynthesizedOutput` schema. If the response contains malformed JSON or invalid types, the system instantly switches to deterministic mathematical synthesis.
+2. **Citation Provenance Guard**: Verifies that every source attribution in `source_attributions` exists verbatim in the retrieved ChromaDB vector chunks. Fabricated citation tags are rejected.
+3. **Anti-Majority Rule Engine**: If the Fundamental RAG Agent detects `CRITICAL_RISK` (e.g. debt $> 2.5\times$), the Policy Guard overrides any positive LLM output to guarantee an `AVOID` or `HOLD-WATCH` constraint.
+4. **Behavioral Language Guard (`utils/security.py`)**: Filters out diagnostic psychiatric terminology to ensure communications remain purely objective financial nudges.
+5. **Deterministic Fallback**: In offline, rate-limited, or mock modes, the system runs with zero external API dependencies, producing identical verifiable outputs.
+
+---
+
+## 7. Benchmark Demonstration Scenarios
+
+> **Data Provenance Clarification**: All scenario price series, order volumes, and corporate disclosures are simulated benchmark datasets (`data/corporate_filings/`) created specifically for the HACKVERSE 2026 educational evaluation.
 
 | Scenario | Ticker | Market Setup | Conservative Senior | Aggressive Gen-Z | Anti-Majority Resolution |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -171,38 +224,29 @@ FundamentalSignal (Evidence-grounded verdict derivation)
 
 ---
 
-## 6. Security, Resilience & Compliance
+## 8. Authentication Architecture & Multi-User Isolation
 
-- **Zero Hardcoded Secrets**: All Gemini API keys loaded from environment variables (`.env` gitignored).
-- **Graceful Fallback**: Gemini timeouts or offline states automatically execute deterministic synthesis (`fallback_used: True`). Zero HTTP 500 errors.
-- **Strict Citation Provenance**: Every cited source in reasoning traces originates from retrieved ChromaDB chunks.
-- **Demo Data Honesty**: Transparent labeling (`SIMULATED MARKET FEED: HEALTHY`, `INDEXED DEMO EVIDENCE`).
+The application features a decoupled, zero-trust session authentication layer designed with production-style security patterns:
 
----
-
-## 7. Production-Grade Authentication & Multi-User Isolation
-
-FinIntelligence AI implements **Zero-Trust Multi-User Isolation** with industry-standard cryptographic primitives:
-
-- **Password Security**: Argon2id hashing (`argon2-cffi`) with unique per-user salts. Passwords are never stored or returned in plaintext.
-- **Session Security**: Cryptographically signed JSON Web Tokens (PyJWT, HS256) with 60-minute expiration.
-- **Multi-User Isolation**: User identity (`current_user.id`) extracted strictly from verified JWT claims. Alice cannot view or overwrite Bob's private thesis, session telemetry, or risk profile.
-- **Brute Force Protection**: In-memory rate limiting locks login attempts for 5 minutes after 5 consecutive failures (HTTP 429).
-- **Security Headers**: Standard OWASP mitigation headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`).
+- **Password Security**: Argon2id password hashing (`argon2-cffi`) with unique per-user salts. Passwords are never stored, logged, or returned in plaintext.
+- **Session Security**: Cryptographically signed JSON Web Tokens (`PyJWT`, `HS256`) with a 60-minute expiration.
+- **Multi-User Isolation**: User identity (`current_user.id`) is extracted strictly from the validated Bearer token. Alice cannot view or mutate Bob's private investment theses, session evidence graphs, or risk preferences.
+- **Brute Force Defense**: In-memory rate limiting locks accounts for 5 minutes after 5 consecutive failed attempts (`HTTP 429 Too Many Requests`).
+- **Security Headers**: Injected OWASP security headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`).
 
 ### Authentication API Endpoints:
 | Method | Route | Auth Required | Description |
 | :--- | :--- | :---: | :--- |
-| `POST` | `/auth/register` | No | Register new investor account (email + min 8-char password) |
+| `POST` | `/auth/register` | No | Register investor account (`email` + min 8-char `password`) |
 | `POST` | `/auth/login` | No | Authenticate & receive Bearer JWT access token |
-| `POST` | `/auth/logout` | No | Invalidate client session token |
+| `POST` | `/auth/logout` | **Yes** | Invalidate client session token |
 | `GET` | `/auth/me` | **Yes** | Retrieve active user identity and profile metadata |
 | `GET` | `/api/profile` | **Yes** | Fetch authenticated user risk profile & concentration limits |
 | `PUT` | `/api/profile` | **Yes** | Update authenticated user risk preferences |
 
 ---
 
-## 8. Automated Test Suite (56/56 Passing)
+## 9. Automated Test Suite (56/56 Passing)
 
 ```bash
 python -m pytest -v tests/
@@ -275,7 +319,7 @@ tests/test_system.py::test_32_simulation_endpoint PASSED                 [100%]
 
 ---
 
-## 9. Project Directory Structure
+## 10. Project Directory Structure
 
 ```
 finintel-decision-engine/
@@ -294,7 +338,7 @@ finintel-decision-engine/
 │   ├── dependencies.py              # FastAPI Bearer auth dependencies
 │   └── models.py                    # Pydantic schemas for auth & profiles
 ├── data/
-│   └── corporate_filings/           # Real indexed SEBI disclosures & earnings
+│   └── corporate_filings/           # Indexed SEBI disclosures & earnings excerpts
 ├── engine/
 │   ├── change_digest.py             # What-changed snapshot delta engine
 │   ├── decision_twin.py             # 5-Dimensional independent Decision Twin
@@ -325,7 +369,7 @@ finintel-decision-engine/
 
 ---
 
-## 10. Quick Start & Execution
+## 11. Quick Start & Execution
 
 ### 1. Installation
 ```bash
@@ -340,10 +384,10 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 ### 3. Open Terminal Dashboard
-- **Dashboard UI**: **[http://localhost:8000/](http://localhost:8000/)** (or `/dashboard`)
-- **Interactive Physics View**: **[http://localhost:8000/antigravity](http://localhost:8000/antigravity)**
-- **Interactive Swagger API Docs**: **[http://localhost:8000/docs](http://localhost:8000/docs)**
-- **System Health Check**: **[http://localhost:8000/health](http://localhost:8000/health)**
+- **Dashboard UI**: `http://localhost:8000/` (or `/dashboard`)
+- **Interactive Physics View**: `http://localhost:8000/antigravity`
+- **Interactive Swagger API Docs**: `http://localhost:8000/docs`
+- **System Health Check**: `http://localhost:8000/health`
 
 ### 4. Instant Demo Credentials
 Click the **`⚡ Instant Demo Access`** button directly on the login screen, or sign in using:
@@ -352,7 +396,7 @@ Click the **`⚡ Instant Demo Access`** button directly on the login screen, or 
 
 ---
 
-## 11. Compliance & Educational Disclaimer
+## 12. Compliance & Educational Disclaimer
 
 > **RESEARCH & EDUCATIONAL PROTOTYPE ONLY**  
-> FinIntelligence AI is developed for academic evaluation at HACKVERSE 2026 (VIT Chennai). It does not provide financial advice, personalized portfolio management, or automated trade execution under SEBI (Investment Advisers) Regulations. All scenarios use indexed demonstration documents and simulated market feeds.
+> FinIntelligence AI is developed for academic evaluation at HACKVERSE 2026 (VIT Chennai). It does not provide financial advice, personalized portfolio management, or automated trade execution under SEBI (Investment Advisers) Regulations. All scenarios use simulated demonstration market feeds and indexed filing disclosures.
