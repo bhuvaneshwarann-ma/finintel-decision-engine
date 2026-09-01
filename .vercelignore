@@ -1,9 +1,17 @@
 .git
+.git/
+.vercel
+.vercel/
 .pytest_cache
+.pytest_cache/
 __pycache__
+__pycache__/
 *.pyc
 .env
+.env.local
+chroma_db
 chroma_db/
 auth.db
+tests
 tests/
 logs/*.jsonl
