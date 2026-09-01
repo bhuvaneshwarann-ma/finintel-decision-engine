@@ -118,10 +118,79 @@
     ::-webkit-scrollbar-thumb:hover { background: #334155; }
   </style>
 </head>
-<body class="min-h-screen flex antialiased selection:bg-sky-500 selection:text-black">
+<body class="min-h-screen bg-[#080c14] text-[#f1f5f9] antialiased selection:bg-sky-500 selection:text-black">
+
+  <!-- AUTHENTICATION GATE SCREEN (§16) -->
+  <div id="auth-gate" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#080c14]/95 backdrop-blur-xl p-4 overflow-y-auto">
+    <div class="w-full max-w-md bg-slate-900 border border-terminal-border rounded-xl shadow-2xl overflow-hidden p-6 sm:p-8 space-y-6">
+      
+      <!-- Brand Logo & Header -->
+      <div class="text-center space-y-2">
+        <div class="inline-flex h-12 w-12 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 items-center justify-center text-white shadow-lg shadow-sky-500/20 mb-1">
+          <i data-lucide="shield-check" class="w-6 h-6"></i>
+        </div>
+        <h2 class="text-xl font-extrabold text-white tracking-tight">FinIntelligence AI</h2>
+        <p class="text-xs text-slate-400 mono">Autonomous Financial Intelligence Terminal &bull; PS-01</p>
+      </div>
+
+      <!-- Auth Error Alert Banner (§21) -->
+      <div id="auth-error-box" class="hidden p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-start space-x-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
+        <span id="auth-error-msg">Error message</span>
+      </div>
+
+      <!-- Mode Tabs (Login vs Register) -->
+      <div class="grid grid-cols-2 bg-slate-950 p-1 rounded-lg border border-terminal-border text-xs font-semibold mono">
+        <button type="button" id="tab-btn-login" onclick="switchAuthMode('login')" class="py-2 rounded-md text-white bg-sky-600 transition-all text-center">Sign In</button>
+        <button type="button" id="tab-btn-register" onclick="switchAuthMode('register')" class="py-2 rounded-md text-slate-400 hover:text-white transition-all text-center">Create Account</button>
+      </div>
+
+      <!-- Auth Form -->
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-mono mb-1.5 font-medium">Investor Email Address</label>
+          <div class="relative">
+            <input type="email" id="auth-email" required placeholder="investor@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 mono text-xs" autocomplete="email" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-mono mb-1.5 font-medium">Password (Min. 8 characters)</label>
+          <div class="relative">
+            <input type="password" id="auth-password" required minlength="8" placeholder="••••••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 mono text-xs" autocomplete="current-password" />
+          </div>
+        </div>
+
+        <div id="auth-confirm-group" class="hidden">
+          <label class="block text-slate-300 font-mono mb-1.5 font-medium">Confirm Password</label>
+          <div class="relative">
+            <input type="password" id="auth-password-confirm" minlength="8" placeholder="••••••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 mono text-xs" autocomplete="new-password" />
+          </div>
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="w-full py-2.5 px-4 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-lg shadow-md shadow-sky-500/20 transition-all mono flex items-center justify-center space-x-2">
+          <span id="auth-btn-label">Access Terminal</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <!-- Quick Demo Account Button (For Instant Judging Review) -->
+      <div class="pt-2 border-t border-terminal-border text-center space-y-2">
+        <button type="button" onclick="quickDemoLogin()" class="w-full py-2 px-3 rounded bg-slate-950 hover:bg-slate-800 text-sky-400 border border-sky-500/30 hover:border-sky-500 mono text-[11px] font-semibold transition-all flex items-center justify-center space-x-1.5">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Instant Demo Access (investor@example.com)</span>
+        </button>
+        <p class="text-[10px] text-slate-500 mono">Secure Argon2 password hashing &bull; Signed JWT token &bull; SQLite auth</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER (Protected) -->
+  <div id="app-container" class="min-h-screen w-full flex antialiased hidden">
 
   <!-- LEFT SIDEBAR DASHBOARD NAVIGATION -->
-  <aside class="w-64 bg-slate-900 border-r border-terminal-border flex flex-col justify-between flex-shrink-0 z-50 h-screen">
+  <aside class="w-64 bg-slate-900 border-r border-terminal-border flex flex-col justify-between flex-shrink-0 z-40 h-screen">
     
     <div class="p-4 space-y-5 overflow-y-auto">
       
@@ -210,8 +279,23 @@
 
     </div>
 
-    <!-- Sidebar Bottom Actions -->
+    <!-- Sidebar Bottom Actions & Authenticated User Profile (§20) -->
     <div class="p-3 border-t border-terminal-border bg-slate-950/60 space-y-2">
+      <!-- Authenticated User Section -->
+      <div id="user-identity-card" class="p-2.5 bg-slate-900 border border-terminal-border rounded-lg space-y-1">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-1.5 overflow-hidden">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse"></span>
+            <span class="text-[10px] text-emerald-400 font-bold mono uppercase tracking-wider">Active Investor</span>
+          </div>
+          <button onclick="handleLogout()" title="Logout" class="p-1 rounded bg-slate-950 hover:bg-rose-950 hover:text-rose-400 text-slate-400 border border-terminal-border transition-colors">
+            <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+        <p id="user-email-display" class="text-xs text-white font-mono truncate font-semibold">investor@example.com</p>
+        <p id="user-risk-display" class="text-[10px] text-sky-400 mono">Profile: Conservative Senior</p>
+      </div>
+
       <button onclick="openThesisModal()" class="w-full px-3 py-2 rounded bg-slate-900 border border-terminal-border hover:border-slate-500 text-slate-300 hover:text-white mono text-xs font-semibold flex items-center justify-center gap-2 shadow-sm">
         <i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-sky-400"></i>
         <span>Record Thesis</span>
@@ -1041,6 +1125,8 @@
     </div>
   </div>
 
+  </div> <!-- /#app-container -->
+
   <!-- FLOATING CHATBOT TRIGGER BUTTON -->
   <div id="chatbot-trigger-container" class="fixed bottom-6 right-6 z-50 flex items-center space-x-3">
     <div id="chatbot-hint" class="bg-slate-900/90 backdrop-blur border border-sky-500/40 text-sky-200 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg hidden md:flex items-center space-x-2 animate-bounce">
@@ -1125,6 +1211,8 @@
 
   <!-- JAVASCRIPT APP LOGIC -->
   <script>
+    let authMode = 'login';
+    let currentUser = null;
     let currentTicker = "TATAMOTORS";
     let currentPersona = "conservative";
     let currentScenario = "aligned";
@@ -1140,6 +1228,214 @@
       'tab-sim': 'Risk Scenario Analysis',
       'tab-replay': 'Audit & Replay'
     };
+
+    // --- AUTHENTICATION CONTROLLER (§16, §17, §18, §19, §20) ---
+    function switchAuthMode(mode) {
+      authMode = mode;
+      const loginBtn = document.getElementById('tab-btn-login');
+      const regBtn = document.getElementById('tab-btn-register');
+      const confirmGroup = document.getElementById('auth-confirm-group');
+      const submitLabel = document.getElementById('auth-btn-label');
+      const errorBox = document.getElementById('auth-error-box');
+      errorBox.classList.add('hidden');
+
+      if (mode === 'login') {
+        loginBtn.className = "py-2 rounded-md text-white bg-sky-600 transition-all text-center";
+        regBtn.className = "py-2 rounded-md text-slate-400 hover:text-white transition-all text-center";
+        confirmGroup.classList.add('hidden');
+        submitLabel.textContent = "Access Terminal";
+      } else {
+        regBtn.className = "py-2 rounded-md text-white bg-sky-600 transition-all text-center";
+        loginBtn.className = "py-2 rounded-md text-slate-400 hover:text-white transition-all text-center";
+        confirmGroup.classList.remove('hidden');
+        submitLabel.textContent = "Create Investor Account";
+      }
+      lucide.createIcons();
+    }
+
+    function showAuthError(msg) {
+      const errorBox = document.getElementById('auth-error-box');
+      const errorMsg = document.getElementById('auth-error-msg');
+      errorMsg.textContent = msg;
+      errorBox.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    async function authFetch(url, options = {}) {
+      const token = sessionStorage.getItem('access_token');
+      const headers = options.headers || {};
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      if (!headers['Content-Type'] && options.body && typeof options.body === 'string') {
+        headers['Content-Type'] = 'application/json';
+      }
+      options.headers = headers;
+
+      const res = await fetch(url, options);
+      if (res.status === 401 && !url.includes('/auth/login') && !url.includes('/auth/register')) {
+        sessionStorage.removeItem('access_token');
+        showAuthGate("Session expired — please log in again.");
+        throw new Error("Authentication required");
+      }
+      return res;
+    }
+
+    function showAuthGate(msg = null) {
+      document.getElementById('auth-gate').classList.remove('hidden');
+      document.getElementById('app-container').classList.add('hidden');
+      if (msg) showAuthError(msg);
+      lucide.createIcons();
+    }
+
+    function showDashboard(user) {
+      currentUser = user;
+      document.getElementById('auth-gate').classList.add('hidden');
+      document.getElementById('app-container').classList.remove('hidden');
+      document.getElementById('user-email-display').textContent = user.email;
+      loadUserProfile();
+      triggerAnalysis();
+      lucide.createIcons();
+    }
+
+    async function checkAuthState() {
+      const token = sessionStorage.getItem('access_token');
+      if (!token) {
+        showAuthGate();
+        return;
+      }
+
+      try {
+        const res = await authFetch('/auth/me');
+        if (res.ok) {
+          const user = await res.json();
+          showDashboard(user);
+        } else {
+          showAuthGate();
+        }
+      } catch (e) {
+        showAuthGate();
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim();
+      const password = document.getElementById('auth-password').value;
+      const errorBox = document.getElementById('auth-error-box');
+      errorBox.classList.add('hidden');
+
+      if (authMode === 'register') {
+        const confirm = document.getElementById('auth-password-confirm').value;
+        if (password !== confirm) {
+          showAuthError("Passwords do not match. Please re-enter.");
+          return;
+        }
+        if (password.length < 8) {
+          showAuthError("Password must contain at least 8 characters.");
+          return;
+        }
+
+        try {
+          const regRes = await fetch('/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          if (!regRes.ok) {
+            const errData = await regRes.json();
+            showAuthError(errData.detail || "Registration failed.");
+            return;
+          }
+
+          // Auto-login after registration
+          await performLogin(email, password);
+        } catch (err) {
+          showAuthError("Server unavailable or network error.");
+        }
+      } else {
+        await performLogin(email, password);
+      }
+    }
+
+    async function performLogin(email, password) {
+      try {
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json();
+          showAuthError(errData.detail || "Invalid email or password.");
+          return;
+        }
+
+        const data = await res.json();
+        sessionStorage.setItem('access_token', data.access_token);
+        const meRes = await authFetch('/auth/me');
+        const user = await meRes.json();
+        showDashboard(user);
+      } catch (err) {
+        showAuthError("Server unavailable or connection error.");
+      }
+    }
+
+    async function quickDemoLogin() {
+      const demoEmail = "investor@example.com";
+      const demoPass = "DemoPassword123!";
+      document.getElementById('auth-email').value = demoEmail;
+      document.getElementById('auth-password').value = demoPass;
+      
+      // Attempt login, if not registered yet, auto-register then login
+      try {
+        const res = await fetch('/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: demoEmail, password: demoPass })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          sessionStorage.setItem('access_token', data.access_token);
+          const meRes = await authFetch('/auth/me');
+          showDashboard(await meRes.json());
+          return;
+        }
+      } catch (e) {}
+
+      // Register demo
+      try {
+        await fetch('/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: demoEmail, password: demoPass })
+        });
+        await performLogin(demoEmail, demoPass);
+      } catch (e) {
+        showAuthError("Unable to auto-provision demo account.");
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem('access_token');
+      currentUser = null;
+      fetch('/auth/logout', { method: 'POST' }).catch(() => {});
+      showAuthGate("Logged out successfully.");
+    }
+
+    async function loadUserProfile() {
+      try {
+        const res = await authFetch('/api/profile');
+        if (res.ok) {
+          const prof = await res.json();
+          currentPersona = prof.risk_profile || 'conservative';
+          document.getElementById('user-risk-display').textContent = `Profile: ${currentPersona === 'conservative' ? 'Conservative Senior' : 'Aggressive Gen-Z'}`;
+          setPersona(currentPersona, false);
+        }
+      } catch (e) {}
+    }
 
     function switchTab(tabId) {
       document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
@@ -1176,17 +1472,31 @@
       triggerAnalysis();
     }
 
-    function setPersona(persona) {
+    async function setPersona(persona, sync = true) {
       currentPersona = persona;
       const consBtn = document.getElementById('btn-persona-cons');
       const aggrBtn = document.getElementById('btn-persona-aggr');
       if (persona === 'conservative') {
         consBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-white bg-sky-600 text-center";
         aggrBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-slate-400 hover:text-white text-center";
+        const riskDisplay = document.getElementById('user-risk-display');
+        if (riskDisplay) riskDisplay.textContent = "Profile: Conservative Senior";
       } else {
         aggrBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-white bg-sky-600 text-center";
         consBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-slate-400 hover:text-white text-center";
+        const riskDisplay = document.getElementById('user-risk-display');
+        if (riskDisplay) riskDisplay.textContent = "Profile: Aggressive Gen-Z";
       }
+
+      if (sync) {
+        try {
+          await authFetch('/api/profile', {
+            method: 'PUT',
+            body: JSON.stringify({ risk_profile: persona })
+          });
+        } catch (e) {}
+      }
+
       triggerAnalysis();
     }
 
@@ -1217,9 +1527,8 @@
       statusMsg.textContent = `Evaluating multi-agent signals for ${currentTicker}...`;
 
       try {
-        const res = await fetch('/api/analyze', {
+        const res = await authFetch('/api/analyze', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ticker: currentTicker,
             persona: currentPersona,
@@ -1461,9 +1770,8 @@
       const reason = document.getElementById('modal-thesis-reason').value;
 
       try {
-        await fetch('/api/thesis', {
+        await authFetch('/api/thesis', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             ticker: currentTicker,
             stated_reasons: [reason],
@@ -1585,9 +1893,8 @@
       typing.classList.remove('hidden');
 
       try {
-        const response = await fetch('/api/copilot/query', {
+        const response = await authFetch('/api/copilot/query', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             question: question,
             ticker: currentTicker
@@ -1609,7 +1916,7 @@
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      triggerAnalysis();
+      checkAuthState();
     });
   </script>
 </body>

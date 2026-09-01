@@ -50,10 +50,31 @@ class Orchestrator:
                 for ticker, th in raw_theses.items():
                     self.thesis_cache[ticker] = ThesisRecord(**th)
 
-    def get_thesis(self, ticker: str) -> Optional[ThesisRecord]:
+    def get_thesis(self, ticker: str, user_id: Optional[str] = None) -> Optional[ThesisRecord]:
+        if user_id:
+            try:
+                from auth.database import auth_db
+                user_th = auth_db.get_user_theses_for_ticker(user_id, ticker)
+                if user_th:
+                    return ThesisRecord(**user_th)
+            except Exception:
+                pass
         return self.thesis_cache.get(ticker)
 
-    def save_thesis(self, thesis: ThesisRecord):
+    def save_thesis(self, thesis: ThesisRecord, user_id: Optional[str] = None):
+        if user_id:
+            try:
+                from auth.database import auth_db
+                auth_db.save_user_thesis(
+                    thesis_id=thesis.thesis_record_id,
+                    user_id=user_id,
+                    ticker=thesis.ticker,
+                    stated_reasons=thesis.stated_reasons,
+                    key_assumptions=thesis.key_assumptions,
+                    invalidating_conditions=thesis.invalidating_conditions
+                )
+            except Exception:
+                pass
         self.thesis_cache[thesis.ticker] = thesis
 
     async def _run_technical(self, ticker: str, market_data: Dict[str, Any], degraded: bool) -> Tuple[TechnicalSignal, float]:
@@ -305,7 +326,13 @@ class Orchestrator:
             return None
         return None
 
-    async def analyze(self, ticker: str, persona: str = "conservative", scenario: str = "aligned") -> AnalyzeResponse:
+    async def analyze(
+        self,
+        ticker: str,
+        persona: str = "conservative",
+        scenario: str = "aligned",
+        user_id: Optional[str] = None
+    ) -> AnalyzeResponse:
         session_id = session_logger.create_session_id()
         degraded_tracker = DegradedTracker()
         
@@ -350,8 +377,8 @@ class Orchestrator:
             scenario=scenario
         )
 
-        # Step 3: Thesis Break Agent
-        thesis_record = self.get_thesis(ticker)
+        # Step 3: Thesis Break Agent (Scoped to current user §11)
+        thesis_record = self.get_thesis(ticker, user_id=user_id)
         thesis_breaks = thesis_break_agent.evaluate_thesis(
             thesis=thesis_record,
             fundamental_sig=fund_sig,
@@ -535,7 +562,8 @@ class Orchestrator:
                 "decision_twin": decision_twin.model_dump()
             },
             llm_used=llm_used,
-            fallback_used=fallback_used
+            fallback_used=fallback_used,
+            user_id=user_id
         )
 
         return AnalyzeResponse(

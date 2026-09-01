@@ -15,6 +15,12 @@ AI_MODE = os.getenv("AI_MODE", "mock").lower()
 APP_ENV = os.getenv("APP_ENV", "development")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
+# Authentication Configuration (§5)
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+AUTH_DB_PATH = os.getenv("AUTH_DB_PATH", str(BASE_DIR / "auth.db"))
+
 # Whitelisted items for security & boundary validation
 VALID_TICKERS = ["TATAMOTORS", "INFOSYS", "XYZ_CORP"]
 VALID_PERSONAS = ["conservative", "aggressive"]

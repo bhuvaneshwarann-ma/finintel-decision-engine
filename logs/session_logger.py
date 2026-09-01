@@ -35,10 +35,16 @@ class SessionLogger:
         behavioral_flags_triggered_count: int,
         raw_result_payload: Dict[str, Any],
         llm_used: bool = False,
-        fallback_used: bool = False
+        fallback_used: bool = False,
+        user_id: Optional[str] = None
     ) -> Dict[str, Any]:
+        """
+        Logs session telemetry with optional user_id isolation (§12).
+        Never logs passwords, tokens, or raw secrets.
+        """
         log_entry = {
             "session_id": session_id,
+            "user_id": user_id,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "ticker": ticker,
             "persona": persona,

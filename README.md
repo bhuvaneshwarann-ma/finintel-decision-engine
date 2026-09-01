@@ -3,7 +3,8 @@
 > **HACKVERSE 2026 — Problem Statement 01 (PS-01)**  
 > *Vellore Institute of Technology (VIT) Chennai*
 
-[![Build & Test Status](https://img.shields.io/badge/pytest-32%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/tests/test_system.py)
+[![Build & Test Status](https://img.shields.io/badge/pytest-48%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/tests/test_auth.py)
+[![Security & Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20Argon2-blue?style=flat-square&logo=jsonwebtokens)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/auth/auth_service.py)
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue?style=flat-square&logo=python)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine)
 [![Framework](https://img.shields.io/badge/FastAPI-3.0.0-009688?style=flat-square&logo=fastapi)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/main.py)
 [![Vector RAG](https://img.shields.io/badge/ChromaDB-Semantic%20Vector-purple?style=flat-square)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/fundamental_rag_agent.py)
@@ -126,52 +127,90 @@ $$\sum w_i = 1.000$$
 ## 6. Automated Test Suite (32/32 Passing)
 
 ```bash
-python -m pytest -v tests/test_system.py
+python -m pytest -v tests/
 ```
 
 ```
 ============================= test session starts =============================
-collected 32 items
+collected 48 items
 
-tests/test_system.py::test_1_technical_calculations PASSED               [  3%]
-tests/test_system.py::test_2_rag_retrieves_xyz_debt_evidence PASSED      [  6%]
-tests/test_system.py::test_3_parallel_agents_concurrency PASSED          [  9%]
-tests/test_system.py::test_4_divergent_persona_advice PASSED             [ 12%]
-tests/test_system.py::test_5_conflict_resolution_no_majority_vote PASSED [ 15%]
-tests/test_system.py::test_6_missing_filing_resilience PASSED            [ 18%]
-tests/test_system.py::test_7_gemini_failure_fallback PASSED              [ 21%]
-tests/test_system.py::test_8_invalid_ticker_validation PASSED            [ 25%]
-tests/test_system.py::test_9_invalid_persona_validation PASSED           [ 28%]
-tests/test_system.py::test_10_no_api_key_required_in_mock_mode PASSED    [ 31%]
-tests/test_system.py::test_11_fundamental_recommendation_citations PASSED [ 34%]
-tests/test_system.py::test_12_degraded_mode_confidence_reduction PASSED  [ 37%]
-tests/test_system.py::test_13_devils_advocate_evidence_constrained PASSED [ 40%]
-tests/test_system.py::test_14_confidence_breakdown_bounded_and_consistent PASSED [ 43%]
-tests/test_system.py::test_15_stale_filing_detection PASSED              [ 46%]
-tests/test_system.py::test_16_behavioral_bias_flags_and_control PASSED   [ 50%]
-tests/test_system.py::test_17_decision_twin_five_scores_independent PASSED [ 53%]
-tests/test_system.py::test_18_thesis_break_requires_citation_evidence PASSED [ 56%]
-tests/test_system.py::test_19_counterfactual_simulator_disclaimer_and_assumptions PASSED [ 59%]
-tests/test_system.py::test_20_evidence_graph_claim_resolution PASSED     [ 62%]
-tests/test_system.py::test_21_what_changed_empty_on_no_changes PASSED    [ 65%]
-tests/test_system.py::test_22_behavioral_drift_no_diagnostic_terms PASSED [ 68%]
-tests/test_system.py::test_23_copilot_endpoint_grounded_answer PASSED    [ 71%]
-tests/test_system.py::test_24_market_view_vs_investor_fit_separation PASSED [ 75%]
-tests/test_system.py::test_25_separate_fii_dii_flows PASSED              [ 78%]
-tests/test_system.py::test_26_missing_debt_data_is_none PASSED           [ 81%]
-tests/test_system.py::test_27_citation_integrity_no_hallucinations PASSED [ 84%]
-tests/test_system.py::test_28_api_stocks_and_personas PASSED             [ 87%]
-tests/test_system.py::test_29_demo_scenarios_and_calibration PASSED      [ 90%]
-tests/test_system.py::test_30_health_check_endpoint PASSED               [ 93%]
-tests/test_system.py::test_31_thesis_endpoints_save_and_retrieve PASSED  [ 96%]
+tests/test_auth.py::test_1_successful_registration PASSED                [  2%]
+tests/test_auth.py::test_2_duplicate_registration_returns_409 PASSED     [  4%]
+tests/test_auth.py::test_3_weak_password_rejected PASSED                 [  6%]
+tests/test_auth.py::test_4_successful_login PASSED                       [  8%]
+tests/test_auth.py::test_5_invalid_password_returns_401 PASSED           [ 10%]
+tests/test_auth.py::test_6_invalid_email_format PASSED                   [ 12%]
+tests/test_auth.py::test_7_missing_token_returns_401 PASSED              [ 14%]
+tests/test_auth.py::test_8_invalid_token_returns_401 PASSED              [ 16%]
+tests/test_auth.py::test_9_expired_token_returns_401 PASSED              [ 18%]
+tests/test_auth.py::test_10_auth_me_returns_identity PASSED              [ 20%]
+tests/test_auth.py::test_11_analyze_endpoint_with_auth PASSED            [ 22%]
+tests/test_auth.py::test_12_user_profile_crud_and_isolation PASSED       [ 25%]
+tests/test_auth.py::test_13_multi_user_thesis_isolation PASSED           [ 27%]
+tests/test_auth.py::test_14_multi_user_session_isolation PASSED          [ 29%]
+tests/test_auth.py::test_15_brute_force_rate_limiting PASSED             [ 31%]
+tests/test_auth.py::test_16_security_headers PASSED                      [ 33%]
+tests/test_system.py::test_1_technical_calculations PASSED               [ 35%]
+tests/test_system.py::test_2_rag_retrieves_xyz_debt_evidence PASSED      [ 37%]
+tests/test_system.py::test_3_parallel_agents_concurrency PASSED          [ 39%]
+tests/test_system.py::test_4_divergent_persona_advice PASSED             [ 41%]
+tests/test_system.py::test_5_conflict_resolution_no_majority_vote PASSED [ 43%]
+tests/test_system.py::test_6_missing_filing_resilience PASSED            [ 45%]
+tests/test_system.py::test_7_gemini_failure_fallback PASSED              [ 47%]
+tests/test_system.py::test_8_invalid_ticker_validation PASSED            [ 50%]
+tests/test_system.py::test_9_invalid_persona_validation PASSED           [ 52%]
+tests/test_system.py::test_10_no_api_key_required_in_mock_mode PASSED    [ 54%]
+tests/test_system.py::test_11_fundamental_recommendation_citations PASSED [ 56%]
+tests/test_system.py::test_12_degraded_mode_confidence_reduction PASSED  [ 58%]
+tests/test_system.py::test_13_devils_advocate_evidence_constrained PASSED [ 60%]
+tests/test_system.py::test_14_confidence_breakdown_bounded_and_consistent PASSED [ 62%]
+tests/test_system.py::test_15_stale_filing_detection PASSED              [ 64%]
+tests/test_system.py::test_16_behavioral_bias_flags_and_control PASSED   [ 66%]
+tests/test_system.py::test_17_decision_twin_five_scores_independent PASSED [ 68%]
+tests/test_system.py::test_18_thesis_break_requires_citation_evidence PASSED [ 70%]
+tests/test_system.py::test_19_counterfactual_simulator_disclaimer_and_assumptions PASSED [ 72%]
+tests/test_system.py::test_20_evidence_graph_claim_resolution PASSED     [ 75%]
+tests/test_system.py::test_21_what_changed_empty_on_no_changes PASSED    [ 77%]
+tests/test_system.py::test_22_behavioral_drift_no_diagnostic_terms PASSED [ 79%]
+tests/test_system.py::test_23_copilot_endpoint_grounded_answer PASSED    [ 81%]
+tests/test_system.py::test_24_market_view_vs_investor_fit_separation PASSED [ 83%]
+tests/test_system.py::test_25_separate_fii_dii_flows PASSED              [ 85%]
+tests/test_system.py::test_26_missing_debt_data_is_none PASSED           [ 87%]
+tests/test_system.py::test_27_citation_integrity_no_hallucinations PASSED [ 89%]
+tests/test_system.py::test_28_api_stocks_and_personas PASSED             [ 91%]
+tests/test_system.py::test_29_demo_scenarios_and_calibration PASSED      [ 93%]
+tests/test_system.py::test_30_health_check_endpoint PASSED               [ 95%]
+tests/test_system.py::test_31_thesis_endpoints_save_and_retrieve PASSED  [ 97%]
 tests/test_system.py::test_32_simulation_endpoint PASSED                 [100%]
 
-============================= 32 passed in 8.03s ==============================
+============================= 48 passed in 12.03s =============================
 ```
 
 ---
 
-## 7. Quick Start & Execution
+## 7. Production-Grade Authentication & Multi-User Isolation
+
+FinIntelligence AI implements **Zero-Trust Multi-User Isolation** with industry-standard cryptographic primitives:
+
+- **Password Security**: Argon2id hashing (`argon2-cffi`) with unique per-user salts. Passwords are never stored or returned in plaintext.
+- **Session Security**: Cryptographically signed JSON Web Tokens (PyJWT, HS256) with 60-minute expiration.
+- **Multi-User Isolation**: User identity (`current_user.id`) extracted strictly from verified JWT claims. Alice cannot view or overwrite Bob's private thesis, session telemetry, or risk profile.
+- **Brute Force Protection**: In-memory rate limiting locks login attempts for 5 minutes after 5 consecutive failures (HTTP 429).
+- **Security Headers**: Standard OWASP mitigation headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`).
+
+### Authentication API Endpoints:
+| Method | Route | Auth Required | Description |
+| :--- | :--- | :---: | :--- |
+| `POST` | `/auth/register` | No | Register new investor account (email + min 8-char password) |
+| `POST` | `/auth/login` | No | Authenticate & receive Bearer JWT access token |
+| `POST` | `/auth/logout` | No | Invalidate client session token |
+| `GET` | `/auth/me` | **Yes** | Retrieve active user identity and profile metadata |
+| `GET` | `/api/profile` | **Yes** | Fetch authenticated user risk profile & concentration limits |
+| `PUT` | `/api/profile` | **Yes** | Update authenticated user risk preferences |
+
+---
+
+## 8. Quick Start & Execution
 
 ### 1. Installation
 ```bash

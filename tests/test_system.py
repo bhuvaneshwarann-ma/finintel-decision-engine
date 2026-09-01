@@ -2,9 +2,12 @@ import pytest
 import asyncio
 import time
 import json
+import uuid
 from httpx import AsyncClient, ASGITransport
 from main import app
 from config import AI_MODE, VALID_TICKERS, VALID_PERSONAS
+from auth.database import auth_db
+from auth.auth_service import auth_service
 from agents.technical_agent import technical_agent
 from agents.fundamental_rag_agent import fundamental_rag_agent
 from agents.sentiment_agent import sentiment_agent
@@ -29,6 +32,15 @@ from schemas import (
 @pytest.fixture
 def sample_market_data():
     return orchestrator.market_data_cache
+
+@pytest.fixture
+def auth_headers():
+    user_id = f"usr_test_{uuid.uuid4().hex[:8]}"
+    email = f"test_{uuid.uuid4().hex[:8]}@example.com"
+    pw_hash = auth_service.hash_password("Password123!")
+    auth_db.create_user(user_id=user_id, email=email, password_hash=pw_hash)
+    token, _ = auth_service.create_access_token(user_id, email)
+    return {"Authorization": f"Bearer {token}"}
 
 # ---------------------------------------------------------
 # Test 1: Technical calculations produce realistic non-100 RSI and valid indicators (§9 & §12)
@@ -104,14 +116,14 @@ async def test_5_conflict_resolution_no_majority_vote():
 # Test 6: Missing filing does not produce HTTP 500 (§12)
 # ---------------------------------------------------------
 @pytest.mark.asyncio
-async def test_6_missing_filing_resilience():
+async def test_6_missing_filing_resilience(auth_headers):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         response = await client.post("/api/analyze", json={
             "ticker": "TATAMOTORS",
             "persona": "conservative",
             "scenario": "degraded"
-        })
+        }, headers=auth_headers)
         assert response.status_code == 200
         data = response.json()
         assert data["degraded_status"]["degraded_data"] is True
@@ -130,26 +142,26 @@ async def test_7_gemini_failure_fallback():
 # Test 8: Invalid ticker rejected with HTTP 400 (§24)
 # ---------------------------------------------------------
 @pytest.mark.asyncio
-async def test_8_invalid_ticker_validation():
+async def test_8_invalid_ticker_validation(auth_headers):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         response = await client.post("/api/analyze", json={
             "ticker": "INVALID_CO",
             "persona": "conservative"
-        })
+        }, headers=auth_headers)
         assert response.status_code == 400
 
 # ---------------------------------------------------------
 # Test 9: Invalid persona rejected with HTTP 400 (§24)
 # ---------------------------------------------------------
 @pytest.mark.asyncio
-async def test_9_invalid_persona_validation():
+async def test_9_invalid_persona_validation(auth_headers):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         response = await client.post("/api/analyze", json={
             "ticker": "TATAMOTORS",
             "persona": "super_gambler"
-        })
+        }, headers=auth_headers)
         assert response.status_code == 400
 
 # ---------------------------------------------------------
@@ -390,13 +402,13 @@ def test_22_behavioral_drift_no_diagnostic_terms():
 # Test 23: Copilot query returns evidence-grounded answer (§23)
 # ---------------------------------------------------------
 @pytest.mark.asyncio
-async def test_23_copilot_endpoint_grounded_answer():
+async def test_23_copilot_endpoint_grounded_answer(auth_headers):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         response = await client.post("/api/copilot/query", json={
             "question": "What is the debt to equity ratio disclosed for XYZ Corp?",
             "ticker": "XYZ_CORP"
-        })
+        }, headers=auth_headers)
         assert response.status_code == 200
         data = response.json()
         assert data["grounded_in_rag"] is True
@@ -502,7 +514,7 @@ async def test_30_health_check_endpoint():
 # Test 31: Thesis creation and evaluation endpoint (§30)
 # ---------------------------------------------------------
 @pytest.mark.asyncio
-async def test_31_thesis_endpoints_save_and_retrieve():
+async def test_31_thesis_endpoints_save_and_retrieve(auth_headers):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         post_res = await client.post("/api/thesis", json={
@@ -510,11 +522,11 @@ async def test_31_thesis_endpoints_save_and_retrieve():
             "stated_reasons": ["EV leadership"],
             "key_assumptions": ["debt_to_equity stays below 1.0"],
             "invalidating_conditions": ["debt surge"]
-        })
+        }, headers=auth_headers)
         assert post_res.status_code == 200
         assert post_res.json()["status"] == "success"
         
-        get_res = await client.get("/api/thesis/TATAMOTORS")
+        get_res = await client.get("/api/thesis/TATAMOTORS", headers=auth_headers)
         assert get_res.status_code == 200
         assert get_res.json()["thesis"] is not None
 
@@ -522,14 +534,14 @@ async def test_31_thesis_endpoints_save_and_retrieve():
 # Test 32: Simulation API endpoint with multiplier (§17 & §30)
 # ---------------------------------------------------------
 @pytest.mark.asyncio
-async def test_32_simulation_endpoint():
+async def test_32_simulation_endpoint(auth_headers):
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as client:
         res = await client.post("/api/simulate", json={
             "ticker": "TATAMOTORS",
             "persona": "conservative",
             "position_size_multiplier": 2.0
-        })
+        }, headers=auth_headers)
         assert res.status_code == 200
         data = res.json()
         assert len(data["simulations"]) == 4
