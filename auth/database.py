@@ -51,6 +51,26 @@ class AuthDatabase:
                     FOREIGN KEY (user_id) REFERENCES users (id)
                 )
             """)
+            
+            # Auto-seed demo investor account for instant one-click terminal login
+            cursor.execute("SELECT id FROM users WHERE email = 'investor@example.com'")
+            if not cursor.fetchone():
+                try:
+                    from auth.auth_service import auth_service
+                    demo_hash = auth_service.hash_password("DemoPassword123!")
+                    demo_id = "usr_demo_investor"
+                    now_str = datetime.now(timezone.utc).isoformat()
+                    cursor.execute(
+                        "INSERT INTO users (id, email, password_hash, created_at, is_active, display_name) VALUES (?, 'investor@example.com', ?, ?, 1, 'Demo Investor')",
+                        (demo_id, demo_hash, now_str)
+                    )
+                    cursor.execute(
+                        "INSERT INTO user_profiles (user_id, risk_profile, portfolio_concentration, preferences_json) VALUES (?, 'conservative', 0.12, '{}')",
+                        (demo_id,)
+                    )
+                except Exception:
+                    pass
+
             conn.commit()
 
     # --- USER CRUD ---
