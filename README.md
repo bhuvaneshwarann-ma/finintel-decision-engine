@@ -3,13 +3,24 @@
 > **HACKVERSE 2026 — Problem Statement 01 (PS-01)**  
 > *Vellore Institute of Technology (VIT) Chennai*
 
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Production-black?style=flat-square&logo=vercel)](https://finintel-decision-engine.vercel.app)
 [![Build & Test Status](https://img.shields.io/badge/pytest-56%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](tests/test_rag_provenance.py)
 [![Security & Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20Argon2-blue?style=flat-square&logo=jsonwebtokens)](auth/auth_service.py)
 [![Evidence RAG](https://img.shields.io/badge/RAG-Zero%20Hardcoded%20Truth-success?style=flat-square&logo=diagramsdotnet)](agents/fundamental_rag_agent.py)
-[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue?style=flat-square&logo=python)](https://www.python.org/)
+[![Active Tickers](https://img.shields.io/badge/Realtime%20Tickers-8%20Active%20Stocks-indigo?style=flat-square)](main.py)
 [![Framework](https://img.shields.io/badge/FastAPI-3.0.0-009688?style=flat-square&logo=fastapi)](main.py)
-[![Vector RAG](https://img.shields.io/badge/ChromaDB-Semantic%20Vector-purple?style=flat-square)](agents/fundamental_rag_agent.py)
 [![Architecture](https://img.shields.io/badge/Architecture-Market%20View%20%E2%89%A0%20Personal%20Action-orange?style=flat-square)](agents/orchestrator.py)
+
+---
+
+## 🌐 Live Production & Quick Access Links
+
+| Environment | URL | Credentials |
+| :--- | :--- | :--- |
+| **🚀 Live Vercel Production** | **[https://finintel-decision-engine.vercel.app](https://finintel-decision-engine.vercel.app)** | Click `⚡ Instant Demo Access` *(or `investor@example.com` / `DemoPassword123!`)* |
+| **💻 Local Server** | `http://127.0.0.1:8000/` | Instant Demo Access Button |
+| **📚 Interactive Swagger Docs** | `https://finintel-decision-engine.vercel.app/docs` | Public API Explorer |
+| **🩺 Health Check Endpoint** | `https://finintel-decision-engine.vercel.app/health` | Live Status Monitor |
 
 ---
 
@@ -17,16 +28,18 @@
 
 1. [Problem Statement & Core Concept](#1-problem-statement--core-concept)
 2. [⏱️ 60-Second Evaluator Walkthrough](#2-️-60-second-evaluator-walkthrough)
-3. [End-to-End System Architecture](#3-end-to-end-system-architecture)
-4. [Multi-Agent System & Core Engines](#4-multi-agent-system--core-engines)
-5. [Evidence-Grounded RAG Pipeline & Provenance](#5-evidence-grounded-rag-pipeline--provenance)
-6. [Gemini GenAI → Deterministic Policy Guard Boundary](#6-gemini-genai--deterministic-policy-guard-boundary)
-7. [Benchmark Demonstration Scenarios](#7-benchmark-demonstration-scenarios)
-8. [Authentication Architecture & Multi-User Isolation](#8-authentication-architecture--multi-user-isolation)
-9. [Automated Test Suite (56/56 Passing)](#9-automated-test-suite-5656-passing)
-10. [Project Directory Structure](#10-project-directory-structure)
-11. [Quick Start & Execution](#11-quick-start--execution)
-12. [Compliance & Educational Disclaimer](#12-compliance--educational-disclaimer)
+3. [8 Real-Time Active Tickers & Coverage](#3-8-real-time-active-tickers--coverage)
+4. [End-to-End System Architecture](#4-end-to-end-system-architecture)
+5. [Multi-Agent System & Core Engines](#5-multi-agent-system--core-engines)
+6. [Evidence-Grounded RAG Pipeline & Provenance](#6-evidence-grounded-rag-pipeline--provenance)
+7. [Gemini GenAI → Deterministic Policy Guard Boundary](#7-gemini-genai--deterministic-policy-guard-boundary)
+8. [Benchmark Demonstration Scenarios](#8-benchmark-demonstration-scenarios)
+9. [Authentication Architecture & Multi-User Isolation](#9-authentication-architecture--multi-user-isolation)
+10. [Automated Test Suite (56/56 Passing)](#10-automated-test-suite-5656-passing)
+11. [Project Directory Structure](#11-project-directory-structure)
+12. [Quick Start & Execution](#12-quick-start--execution)
+13. [Vercel Serverless Architecture & Deployment](#13-vercel-serverless-architecture--deployment)
+14. [Compliance & Educational Disclaimer](#14-compliance--educational-disclaimer)
 
 ---
 
@@ -52,7 +65,7 @@ A strong market signal must **never** automatically become a `BUY CANDIDATE` for
 For hackathon judges and evaluators, experience the core innovations in under one minute:
 
 1. **Instant Sign-In (0–5s)**:
-   - Navigate to `http://localhost:8000/`.
+   - Navigate to [https://finintel-decision-engine.vercel.app](https://finintel-decision-engine.vercel.app).
    - Click the **`⚡ Instant Demo Access`** button to log in immediately with pre-provisioned demo credentials.
 
 2. **Scenario A — Aligned Expansion (5–20s)**:
@@ -68,12 +81,29 @@ For hackathon judges and evaluators, experience the core innovations in under on
    - Notice that the **Market View remains 100% identical** (`HIGH_RISK_MOMENTUM`), but the **Personalized Advice adapts safely** from `AVOID-HIGH RISK` to `HOLD-WATCH (Cap < 5%)`.
 
 5. **AI Copilot & Audit Provenance (45–60s)**:
-   - Click the floating **AI Assistant** button in the bottom right and ask: *"What is the debt to equity ratio disclosed for XYZ Corp?"*
+   - Click the floating **AI Assistant** button in the bottom right and ask: *"What is the debt to equity ratio disclosed for XYZ Corp?"* or *"Explain RSI & MACD"*.
    - Observe the real-time ChromaDB RAG vector response with exact page citations and provenance.
 
 ---
 
-## 3. End-to-End System Architecture
+## 3. 8 Real-Time Active Tickers & Coverage
+
+FinIntelligence AI features real-time price streaming micro-fluctuations, interactive search filtering, and full vector RAG regulatory disclosures across 8 major market instruments:
+
+| Ticker | Company Name | Sector | Baseline Price | Debt / Equity (RAG Citation) | Key Focus |
+| :--- | :--- | :--- | :---: | :---: | :--- |
+| **`TATAMOTORS`** | Tata Motors Limited | Automobile & EV | ₹1,115 | `0.62x` (`[SEBI-Filing-TATAMOTORS-Q3: Page 12]`) | EV Breakout & JLR Deleveraging |
+| **`INFOSYS`** | Infosys Limited | IT Services | ₹1,635 | `0.08x` (`[SEBI-Filing-INFOSYS-Q3: Page 8]`) | Large Deal TCV & Cloud Services |
+| **`XYZ_CORP`** | XYZ CleanPower Infra | Infrastructure | ₹635 | `3.85x` (`[SEBI-Filing-XYZ-Q3: Page 14]`) | High-Leverage Anti-Majority Trap |
+| **`RELIANCE`** | Reliance Industries | Energy & Retail | ₹2,980 | `0.38x` (`[SEBI-Filing-RELIANCE-Q3: Page 18]`) | 5G Monetization, Retail & New Energy |
+| **`HDFCBANK`** | HDFC Bank Limited | Banking & Financials| ₹1,650 | `0.85x` (`[SEBI-Filing-HDFCBANK-Q3: Page 15]`) | Deposit Mobilization & Low Net NPA |
+| **`TCS`** | Tata Consultancy | IT Consulting | ₹4,120 | `0.02x` (`[SEBI-Filing-TCS-Q3: Page 10]`) | Zero-Debt Fortress & 26% Margins |
+| **`BHARTIARTL`** | Bharti Airtel Limited | Telecommunications | ₹1,540 | `1.45x` (`[SEBI-Filing-BHARTIARTL-Q3: Page 16]`) | ARPU Expansion & 5G Rollout |
+| **`ITC`** | ITC Limited | FMCG & Diversified | ₹485 | `0.01x` (`[SEBI-Filing-ITC-Q3: Page 11]`) | Debt-Free FMCG & Hotel Demerger |
+
+---
+
+## 4. End-to-End System Architecture
 
 ```mermaid
 flowchart TD
@@ -104,38 +134,38 @@ flowchart TD
 
 ---
 
-## 4. Multi-Agent System & Core Engines
+## 5. Multi-Agent System & Core Engines
 
-### 4.1. Technical Analysis Agent (`agents/technical_agent.py`)
+### 5.1. Technical Analysis Agent (`agents/technical_agent.py`)
 - Calculates 14-period RSI, MACD signal crossover, 10-day rate of change (momentum), and volume anomaly z-scores over rolling 20-day distributions.
 - Calibrated to realistic market series ($RSI \in [45, 80]$).
 - Output: `TechnicalSignal` with strict mathematical attributions.
 
-### 4.2. Fundamental Vector RAG Agent (`agents/fundamental_rag_agent.py`)
+### 5.2. Fundamental Vector RAG Agent (`agents/fundamental_rag_agent.py`)
 - ChromaDB collection query with cosine semantic embeddings and metadata filtering (`where={"ticker": ticker}`).
 - Strict chunk citation tagging (e.g. `[SEBI-Filing-XYZ-Q3: Page 14]`).
 - **Null-Safe Solvency Evaluation**: Missing filings or missing debt are represented as `None` / `data_available=False`, never coerced to `0.0x`.
 - Filing freshness detector flags documents $> 12$ months old.
 - **Zero Hardcoded Truth**: All metrics and verdicts originate from retrieved evidence chunks with complete provenance objects.
 
-### 4.3. Sentiment & Flow Agent (`agents/sentiment_agent.py`)
+### 5.3. Sentiment & Flow Agent (`agents/sentiment_agent.py`)
 - Separates Foreign Institutional Investors (`fii_flow: INFLOW / OUTFLOW / NEUTRAL`) and Domestic Institutions (`dii_flow: INFLOW / OUTFLOW / NEUTRAL`).
 - Scans news headline sentiment scores and social chatter participation intensity.
 
-### 4.4. Risk & Personalization Agent (`agents/risk_agent.py`)
+### 5.4. Risk & Personalization Agent (`agents/risk_agent.py`)
 - Single-stock concentration ceilings (e.g. 15% max allocation).
 - Sector exposure aggregation (e.g., Automobile, IT, Infrastructure).
 - Persona debt penalties & volatility tolerance constraints.
 
-### 4.5. Devil's Advocate Adversarial Agent (`agents/devils_advocate_agent.py`)
+### 5.5. Devil's Advocate Adversarial Agent (`agents/devils_advocate_agent.py`)
 - Adversarial challenge pass that actively modifies confidence and recommendation.
 - Strictly constrained to re-weighing existing retrieved citations; **never fabricates evidence**.
 
-### 4.6. Behavioral Bias Mirror & Drift Engine (`profiling/`)
+### 5.6. Behavioral Bias Mirror & Drift Engine (`profiling/`)
 - Detects non-clinical behavioral biases: `MOMENTUM_CHASING`, `RECENCY_BIAS`, `FAMILIARITY_CONCENTRATION`.
 - Provides protective behavioral nudges without diagnostic jargon.
 
-### 4.7. Five-Dimension Decision Twin (`engine/decision_twin.py`)
+### 5.7. Five-Dimension Decision Twin (`engine/decision_twin.py`)
 Five separately scored dimensions evaluated side by side — **never averaged into a single collapsed score**:
 1. **Market Confidence** (Signal agreement)
 2. **Investor Decision Fit** (Mandate suitability)
@@ -143,17 +173,18 @@ Five separately scored dimensions evaluated side by side — **never averaged in
 4. **Thesis Health** (Stated assumption validity)
 5. **Behavioral Risk** (FOMO / drift intensity)
 
-### 4.8. Confidence Decomposition Engine (`utils/metrics.py`)
+### 5.8. Confidence Decomposition Engine (`utils/metrics.py`)
 $$\text{Composite Confidence} = 0.25 \cdot \text{Freshness} + 0.35 \cdot \text{Agreement} + 0.25 \cdot \text{Evidence} + 0.15 \cdot \text{Calibration}$$
 $$\sum w_i = 1.000$$
 
-### 4.9. AI Copilot Research Assistant (`main.py` - `/api/copilot/query`)
-- Interactive evidence-grounded chatbot embedded directly on the dashboard.
-- Queries ChromaDB vector database in real-time to answer investor queries with exact citation provenance and page-level references.
+### 5.9. AI Research Copilot & Investment Guide (`agents/copilot_engine.py`)
+- Interactive, multi-topic financial intelligence chatbot embedded in the terminal.
+- Answers questions on **any** stock, valuation ratio (P/E, D/E), technical indicator (RSI/MACD), or investment strategy (SIP, diversification, behavioral bias mitigation).
+- Prioritizes exact SEBI filing page citations when querying individual stocks.
 
 ---
 
-## 5. Evidence-Grounded RAG Pipeline & Provenance
+## 6. Evidence-Grounded RAG Pipeline & Provenance
 
 ```
 SEBI Filing / Earnings Document
@@ -187,7 +218,7 @@ FundamentalSignal (Evidence-grounded verdict derivation)
 
 ---
 
-## 6. Gemini GenAI → Deterministic Policy Guard Boundary
+## 7. Gemini GenAI → Deterministic Policy Guard Boundary
 
 To prevent LLM hallucination and ensure absolute adherence to retail investor protection rules, GenAI model outputs (Google Gemini) are **never trusted unconditionally**. Every LLM generation must pass through a strict four-stage **Deterministic Policy Guard Boundary**:
 
@@ -211,7 +242,7 @@ flowchart LR
 
 ---
 
-## 7. Benchmark Demonstration Scenarios
+## 8. Benchmark Demonstration Scenarios
 
 > **Data Provenance Clarification**: All scenario price series, order volumes, and corporate disclosures are simulated benchmark datasets (`data/corporate_filings/`) created specifically for the HACKVERSE 2026 educational evaluation.
 
@@ -224,12 +255,13 @@ flowchart LR
 
 ---
 
-## 8. Authentication Architecture & Multi-User Isolation
+## 9. Authentication Architecture & Multi-User Isolation
 
 The application features a decoupled, zero-trust session authentication layer designed with production-style security patterns:
 
 - **Password Security**: Argon2id password hashing (`argon2-cffi`) with unique per-user salts. Passwords are never stored, logged, or returned in plaintext.
 - **Session Security**: Cryptographically signed JSON Web Tokens (`PyJWT`, `HS256`) with a 60-minute expiration.
+- **Auto-Seeded Instant Demo Access**: Pre-seeded demo investor account (`investor@example.com` / `DemoPassword123!`) on startup for immediate 1-click evaluation.
 - **Multi-User Isolation**: User identity (`current_user.id`) is extracted strictly from the validated Bearer token. Alice cannot view or mutate Bob's private investment theses, session evidence graphs, or risk preferences.
 - **Brute Force Defense**: In-memory rate limiting locks accounts for 5 minutes after 5 consecutive failed attempts (`HTTP 429 Too Many Requests`).
 - **Security Headers**: Injected OWASP security headers (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`).
@@ -246,7 +278,7 @@ The application features a decoupled, zero-trust session authentication layer de
 
 ---
 
-## 9. Automated Test Suite (56/56 Passing)
+## 10. Automated Test Suite (56/56 Passing)
 
 ```bash
 python -m pytest -v tests/
@@ -314,16 +346,17 @@ tests/test_system.py::test_30_health_check_endpoint PASSED               [ 96%]
 tests/test_system.py::test_31_thesis_endpoints_save_and_retrieve PASSED  [ 98%]
 tests/test_system.py::test_32_simulation_endpoint PASSED                 [100%]
 
-============================= 56 passed in 15.19s =============================
+============================= 56 passed in 11.63s =============================
 ```
 
 ---
 
-## 10. Project Directory Structure
+## 11. Project Directory Structure
 
 ```
 finintel-decision-engine/
 ├── agents/
+│   ├── copilot_engine.py            # Financial research copilot & Q&A engine
 │   ├── counterfactual_simulator.py  # Scenario & shock simulation
 │   ├── devils_advocate_agent.py     # Adversarial stress tester
 │   ├── fundamental_rag_agent.py     # ChromaDB vector RAG with provenance
@@ -332,9 +365,11 @@ finintel-decision-engine/
 │   ├── sentiment_agent.py           # FII/DII flow separation & news sentiment
 │   ├── technical_agent.py           # RSI, MACD, momentum & volume anomalies
 │   └── thesis_break_agent.py        # Thesis invalidation monitoring
+├── api/
+│   └── index.py                     # Vercel serverless function entry point
 ├── auth/
 │   ├── auth_service.py              # Argon2 password hasher & PyJWT manager
-│   ├── database.py                  # SQLite isolated tables for users & theses
+│   ├── database.py                  # SQLite isolated tables with auto-seed
 │   ├── dependencies.py              # FastAPI Bearer auth dependencies
 │   └── models.py                    # Pydantic schemas for auth & profiles
 ├── data/
@@ -361,17 +396,18 @@ finintel-decision-engine/
 │   ├── filing_freshness.py          # 12-month filing staleness monitor
 │   ├── metrics.py                   # 4-factor confidence breakdown formula
 │   └── security.py                  # Input sanitizer & non-diagnostic filter
+├── vercel.json                      # Vercel serverless routing & build configuration
 ├── config.py                        # Centralized system configurations
 ├── main.py                          # FastAPI application & API router
-├── requirements.txt                 # Python dependencies
+├── requirements.txt                 # Optimized Python dependencies (<50MB)
 └── README.md                        # Documentation & verification report
 ```
 
 ---
 
-## 11. Quick Start & Execution
+## 12. Quick Start & Execution
 
-### 1. Installation
+### 1. Local Installation
 ```bash
 git clone https://github.com/bhuvaneshwarann-ma/finintel-decision-engine.git
 cd finintel-decision-engine
@@ -384,7 +420,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 ### 3. Open Terminal Dashboard
-- **Dashboard UI**: `http://localhost:8000/` (or `/dashboard`)
+- **Local Dashboard UI**: `http://localhost:8000/` (or `/dashboard`)
 - **Interactive Physics View**: `http://localhost:8000/antigravity`
 - **Interactive Swagger API Docs**: `http://localhost:8000/docs`
 - **System Health Check**: `http://localhost:8000/health`
@@ -396,7 +432,23 @@ Click the **`⚡ Instant Demo Access`** button directly on the login screen, or 
 
 ---
 
-## 12. Compliance & Educational Disclaimer
+## 13. Vercel Serverless Architecture & Deployment
+
+The application is deployed live on Vercel at **[https://finintel-decision-engine.vercel.app](https://finintel-decision-engine.vercel.app)**.
+
+### Key Serverless Engineering Optimizations:
+- **Lightweight Dependencies (<50MB)**: Streamlined `requirements.txt` to eliminate heavy C-extensions, reducing build bundle size from `520MB` to under `50MB` for rapid cold-start latency.
+- **Serverless Storage Virtualization**: When `VERCEL=1` is detected, SQLite (`auth.db`) and ChromaDB collections dynamically initialize in `/tmp` storage.
+- **Automated CI/CD**: Pushing commits to `main` on `bhuvaneshwarann-ma/finintel-decision-engine` triggers automatic Vercel production rebuilds.
+
+```bash
+# Manual production deploy via Vercel CLI
+npx vercel --prod
+```
+
+---
+
+## 14. Compliance & Educational Disclaimer
 
 > **RESEARCH & EDUCATIONAL PROTOTYPE ONLY**  
 > FinIntelligence AI is developed for academic evaluation at HACKVERSE 2026 (VIT Chennai). It does not provide financial advice, personalized portfolio management, or automated trade execution under SEBI (Investment Advisers) Regulations. All scenarios use simulated demonstration market feeds and indexed filing disclosures.
