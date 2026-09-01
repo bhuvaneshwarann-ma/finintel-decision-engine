@@ -120,6 +120,39 @@ async def get_stocks():
         })
     return {"stocks": stocks}
 
+@app.get("/api/tickers/live")
+async def get_live_tickers():
+    """
+    Returns real-time ticking prices with micro-fluctuations and market state for all active tickers.
+    """
+    import random, time
+    now_ts = int(time.time())
+    live_tickers = []
+    
+    for ticker in VALID_TICKERS:
+        m_data = orchestrator.market_data_cache.get(ticker, {})
+        base_close = m_data.get("price_series", [{}])[-1].get("close", 1000.0) if m_data.get("price_series") else 1000.0
+        
+        # Real-time micro-fluctuation simulation seeded dynamically by time window & ticker
+        seed = (now_ts // 2) + abs(hash(ticker)) % 10000
+        random.seed(seed)
+        delta_pct = (random.random() - 0.47) * 1.8  # Real-time dynamic variance
+        current_price = round(base_close * (1 + delta_pct / 100.0), 2)
+        change_amt = round(current_price - base_close, 2)
+        
+        live_tickers.append({
+            "ticker": ticker,
+            "name": m_data.get("name", ticker),
+            "sector": m_data.get("sector", "Equities"),
+            "base_close": base_close,
+            "current_price": current_price,
+            "change_pct": round(delta_pct, 2),
+            "change_amount": change_amt,
+            "is_positive": change_amt >= 0,
+            "volume": m_data.get("price_series", [{}])[-1].get("volume", 5000000)
+        })
+    return {"timestamp": datetime.now(timezone.utc).isoformat(), "tickers": live_tickers}
+
 @app.get("/api/personas")
 async def get_personas():
     return {"personas": list(PERSONA_PROFILES.values())}

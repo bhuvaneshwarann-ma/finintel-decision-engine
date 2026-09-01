@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: TCS
+DOCUMENT_ID: EARNINGS-TCS-Q3-2026
+DATE: 2026-01-16
+CITATION_TAG: [Earnings-TCS-Q3: Page 4]
+PAGE: 4
+EXTRACTED_EARNINGS_GROWTH: 0.08
+
+TATA CONSULTANCY SERVICES LIMITED - Q3 FY26 REVENUE UPDATE & OPERATIONAL HIGHLIGHTS
+Page 4: Revenue, Operating Margins, and Order Inflow
+Consolidated quarterly revenue grew by 8.4% YoY to INR 64,850 Crores.
+Operating margin expanded by 50 bps sequentially to 26.0%, industry-leading among global IT consultancies.
+Net profit after tax rose 8.2% YoY to INR 12,430 Crores.
+Deal pipeline Total Contract Value (TCV) achieved USD 8.1 billion, driven by cloud modernization and enterprise AI transformational engagements.
+Attrition in IT services moderated further to 11.5%.
+Interim dividend of INR 10 per share and special dividend of INR 18 per share announced.

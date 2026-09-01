@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: RELIANCE
+DOCUMENT_ID: EARNINGS-RELIANCE-Q3-2026
+DATE: 2026-01-25
+CITATION_TAG: [Earnings-RELIANCE-Q3: Page 5]
+PAGE: 5
+EXTRACTED_EARNINGS_GROWTH: 0.14
+
+RELIANCE INDUSTRIES LIMITED - Q3 FY26 FINANCIAL PERFORMANCE & REVENUE UPDATE
+Page 5: Segment Performance and Profitability Summary
+Consolidated quarterly revenue grew by 14.2% YoY to INR 248,500 Crores driven by strong consumer businesses growth.
+Consolidated quarterly EBITDA increased to INR 44,600 Crores with an EBITDA margin of 17.9%.
+Oil-to-Chemicals (O2C) segment maintained healthy refining margins despite global crude price volatility.
+Jio recorded net profit growth of 16.5% YoY, benefiting from higher data consumption per user (32 GB/month).
+Reliance Retail recorded revenue of INR 85,200 Crores, up 15.8% YoY with footfalls exceeding 280 million across India.
+Management maintains full-year guidance for accelerated digital services monetization and robust green energy commercialization.

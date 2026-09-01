@@ -1,0 +1,17 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: HDFCBANK
+DOCUMENT_ID: SEBI-Filing-HDFCBANK-Q3-2026
+DATE: 2026-01-20
+CITATION_TAG: [SEBI-Filing-HDFCBANK-Q3: Page 15]
+PAGE: 15
+EXTRACTED_DEBT_TO_EQUITY: 0.85
+
+HDFC BANK LIMITED - PILLAR 3 CAPITAL ADEQUACY & ASSET QUALITY DISCLOSURES
+Page 15: Solvency, Capital Adequacy (CRAR), and Asset Quality Report
+Total Capital Adequacy Ratio (CRAR) under Basel III guidelines stood robust at 19.4% against regulatory requirement of 11.5%.
+The bank's core Tier-1 capital ratio remains strong at 16.8%, providing ample buffer against credit cycle downturns.
+Gross Non-Performing Assets (GNPA) stood at 1.24% of gross advances, with Net NPA controlled at 0.31%.
+Provision Coverage Ratio (PCR) was reported at 74.8% without reliance on regulatory forbearance.
+Total deposits expanded by 16.2% YoY to INR 24,10,000 Crores, with CASA ratio sustaining at 37.6%.
+The bank's leverage ratio and financial debt-to-equity equivalent remains healthy at 0.85x tier-1 equity base.
+Zero regulatory penalties or supervisory interventions during the reporting period.

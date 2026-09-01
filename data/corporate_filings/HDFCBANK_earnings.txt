@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: HDFCBANK
+DOCUMENT_ID: EARNINGS-HDFCBANK-Q3-2026
+DATE: 2026-01-21
+CITATION_TAG: [Earnings-HDFCBANK-Q3: Page 7]
+PAGE: 7
+EXTRACTED_EARNINGS_GROWTH: 0.18
+
+HDFC BANK LIMITED - Q3 FY26 INVESTOR RESULTS & NET INTEREST INCOME UPDATE
+Page 7: Profitability and Lending Growth Metrics
+Net interest income (NII) grew by 15.4% YoY to INR 31,400 Crores with Net Interest Margin (NIM) stable at 3.65%.
+Net profit after tax grew by 18.2% YoY to INR 17,250 Crores, demonstrating smooth post-merger operational synergy.
+Advances grew 14.8% YoY led by retail mortgages, commercial banking, and auto loans.
+Branch network reached 8,950 branches across 3,900 cities, driving deep semi-urban deposit mobilization.
+Credit cost remained contained at 48 basis points.
+Management expects sustained loan book growth of 14-16% over the next fiscal cycle.

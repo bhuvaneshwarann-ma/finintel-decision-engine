@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: BHARTIARTL
+DOCUMENT_ID: EARNINGS-BHARTIARTL-Q3-2026
+DATE: 2026-01-29
+CITATION_TAG: [Earnings-BHARTIARTL-Q3: Page 6]
+PAGE: 6
+EXTRACTED_EARNINGS_GROWTH: 0.22
+
+BHARTI AIRTEL LIMITED - Q3 FY26 OPERATIONAL METRICS & FINANCIAL HIGHLIGHTS
+Page 6: ARPU Growth, 5G Network Rollout, and Segment Profitability
+Consolidated quarterly revenue grew by 16.4% YoY to INR 41,250 Crores.
+India Mobile ARPU increased to INR 234 per month compared to INR 208 in the prior year, driven by premiumization and 4G/5G conversions.
+Consolidated EBITDA margin stood at 53.2%, expanding 180 basis points YoY.
+Net profit after tax grew 22.4% YoY to INR 3,850 Crores.
+Airtel Business (B2B enterprise IoT and data center services) revenue expanded 14.8% YoY.
+5G network coverage now spans over 7,500 cities and towns across India.

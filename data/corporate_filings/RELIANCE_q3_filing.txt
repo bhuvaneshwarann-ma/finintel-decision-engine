@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: RELIANCE
+DOCUMENT_ID: SEBI-Filing-RELIANCE-Q3-2026
+DATE: 2026-01-24
+CITATION_TAG: [SEBI-Filing-RELIANCE-Q3: Page 18]
+PAGE: 18
+EXTRACTED_DEBT_TO_EQUITY: 0.38
+
+RELIANCE INDUSTRIES LIMITED - SEBI LODR REGULATORY DISCLOSURES Q3 FY26
+Page 18: Capital Allocation, Debt Trajectory, and Balance Sheet Solvency
+The consolidated net debt of the company remains well-controlled at INR 118,500 Crores against a tangible net worth exceeding INR 795,000 Crores.
+The debt-to-equity ratio currently stands comfortably at 0.38x, reflecting prudent deleveraging across oil-to-chemicals (O2C) and retail divisions.
+Jio Platforms subscriber base expanded to 488 million with ARPU rising to INR 198.5 driven by 5G tariff migration.
+Retail footprint grew to 18,900 operational stores across consumer electronics, fashion, and grocery.
+Capital expenditures in new energy gigafactories (solar PV, green hydrogen, and battery storage) are funded through strong operating cash flows of INR 38,200 Crores generated during the quarter.
+Auditors confirmed zero statutory defaults or covenant breaches.

@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: TCS
+DOCUMENT_ID: SEBI-Filing-TCS-Q3-2026
+DATE: 2026-01-15
+CITATION_TAG: [SEBI-Filing-TCS-Q3: Page 10]
+PAGE: 10
+EXTRACTED_DEBT_TO_EQUITY: 0.02
+
+TATA CONSULTANCY SERVICES LIMITED - SEBI DISCLOSURES & SOLVENCY REPORT
+Page 10: Cash Reserves, Capital Allocation, and Solvency Metrics
+TCS continues to operate with a fortress balance sheet characterized by near-zero debt.
+Total cash and liquid investments stood at INR 52,400 Crores as of December 31, 2025.
+The debt-to-equity ratio of the company currently stands at 0.02x, representing minor lease liabilities under Ind AS 116.
+Free cash flow generated during the quarter stood at INR 11,200 Crores, converting 94% of net profit into cash.
+Promoter holding by Tata Sons stands at 71.74% with zero pledged shares.
+No material contingent liabilities or regulatory disputes exist.

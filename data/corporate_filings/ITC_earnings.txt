@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: ITC
+DOCUMENT_ID: EARNINGS-ITC-Q3-2026
+DATE: 2026-01-23
+CITATION_TAG: [Earnings-ITC-Q3: Page 5]
+PAGE: 5
+EXTRACTED_EARNINGS_GROWTH: 0.11
+
+ITC LIMITED - Q3 FY26 SEGMENT FINANCIAL PERFORMANCE & REVENUE UPDATE
+Page 5: FMCG, Agribusiness, and Cigarettes Segment Results
+Gross revenue from operations stood at INR 19,800 Crores, up 9.5% YoY driven by robust FMCG-Others growth.
+Net profit after tax grew 11.2% YoY to INR 5,580 Crores.
+FMCG-Others segment revenue reached INR 5,650 Crores, up 12.8% YoY with EBITDA margins expanding to 11.4%.
+Agri-business revenue grew 14.5% supported by value-added agri exports and ITCMAARS digital platform expansion.
+Paperboards and Specialty Papers segment revenue remained steady with focus on sustainable packaging solutions.
+Declared interim dividend of INR 6.25 per share.

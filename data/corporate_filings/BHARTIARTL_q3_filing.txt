@@ -1,0 +1,15 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: BHARTIARTL
+DOCUMENT_ID: SEBI-Filing-BHARTIARTL-Q3-2026
+DATE: 2026-01-28
+CITATION_TAG: [SEBI-Filing-BHARTIARTL-Q3: Page 16]
+PAGE: 16
+EXTRACTED_DEBT_TO_EQUITY: 1.45
+
+BHARTI AIRTEL LIMITED - STATUTORY LODR FILING & INDEBTEDNESS SCHEDULE
+Page 16: Capital Structure, Spectrum Liabilities, and Leverage Management
+Consolidated net debt including deferred spectrum liabilities stood at INR 1,48,200 Crores.
+The debt-to-equity ratio of the company currently stands at 1.45x, moderating from 1.85x following sustained deleveraging and prepaid tariff revisions.
+Operating cash flow generated during the quarter rose to INR 21,400 Crores, fully funding ongoing 5G capex requirements.
+Promoter holding remains stable at 54.8% with zero share pledges.
+All statutory AGR dues and spectrum installments paid punctually with zero defaults.

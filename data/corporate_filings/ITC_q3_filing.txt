@@ -1,0 +1,16 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: ITC
+DOCUMENT_ID: SEBI-Filing-ITC-Q3-2026
+DATE: 2026-01-22
+CITATION_TAG: [SEBI-Filing-ITC-Q3: Page 11]
+PAGE: 11
+EXTRACTED_DEBT_TO_EQUITY: 0.01
+
+ITC LIMITED - SEBI LODR STATEMENT OF ASSETS & INDEBTEDNESS
+Page 11: Capital Structure, Cash Reserves, and Solvency Metrics
+ITC maintains an exceptionally strong debt-free balance sheet.
+Total cash, cash equivalents and treasury investments stood at INR 21,500 Crores as of December 31, 2025.
+The debt-to-equity ratio is 0.01x, representing negligible operational liabilities.
+Operating cash flow generated during the quarter stood at INR 5,450 Crores, funding dividend payouts and FMCG capacity expansions.
+Zero promoter pledge and pristine corporate governance record verified by statutory auditors.
+Demerger of Hotels business into separate listed entity completed smoothly as scheduled.

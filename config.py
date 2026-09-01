@@ -22,7 +22,10 @@ JWT_ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES
 AUTH_DB_PATH = os.getenv("AUTH_DB_PATH", str(BASE_DIR / "auth.db"))
 
 # Whitelisted items for security & boundary validation
-VALID_TICKERS = ["TATAMOTORS", "INFOSYS", "XYZ_CORP"]
+VALID_TICKERS = [
+    "TATAMOTORS", "INFOSYS", "XYZ_CORP",
+    "RELIANCE", "HDFCBANK", "TCS", "BHARTIARTL", "ITC"
+]
 VALID_PERSONAS = ["conservative", "aggressive"]
 VALID_SCENARIOS = ["aligned", "conflict", "degraded", "stale_behavioral"]
 
