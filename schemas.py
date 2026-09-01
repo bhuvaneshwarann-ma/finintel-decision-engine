@@ -20,17 +20,20 @@ class TechnicalSignal(BaseModel):
 class FundamentalSignal(BaseModel):
     ticker: str
     rag_citations: List[str]
-    debt_to_equity: float
-    earnings_growth: float
-    filing_verdict: str  # POSITIVE, NEUTRAL, CONCERNING, CRITICAL_RISK
+    debt_to_equity: Optional[float] = None  # None if filing/data is unavailable (§11)
+    earnings_growth: Optional[float] = None
+    filing_verdict: str  # POSITIVE, NEUTRAL, CONCERNING, CRITICAL_RISK, UNKNOWN
     confidence: float
     evidence: List[str]
+    data_available: bool = True
     degraded: bool = False
 
 class SentimentSignal(BaseModel):
     ticker: str
     news_sentiment: float  # -1.0 to +1.0
-    fii_flow_trend: str    # INFLOW, OUTFLOW, NEUTRAL
+    fii_flow: str = "NEUTRAL"  # INFLOW, OUTFLOW, NEUTRAL (§10)
+    dii_flow: str = "NEUTRAL"  # INFLOW, OUTFLOW, NEUTRAL (§10)
+    fii_flow_trend: str = "NEUTRAL"  # Preserved for backward compatibility
     social_chatter_score: float  # 0.0 to 1.0
     classification: str   # POSITIVE, NEUTRAL, NEGATIVE, HIGHLY_SPECULATIVE
     confidence: float
@@ -65,6 +68,7 @@ class DevilsAdvocateChallenge(BaseModel):
     counter_argument: str
     weakest_evidence_point: str
     severity: str  # LOW, MEDIUM, HIGH
+    confidence_adjustment: float = 0.0
 
 class ConfidenceBreakdown(BaseModel):
     data_freshness_score: float
@@ -77,15 +81,19 @@ class SynthesizedOutput(BaseModel):
     session_id: str
     ticker: str
     raw_signals: Dict[str, Any]
+    market_view: str  # Independent raw market signal (§5: BULLISH, NEUTRAL, BEARISH, HIGH_RISK_MOMENTUM)
     synthesized_verdict: str  # BUY CANDIDATE, HOLD-WATCH, REDUCE EXPOSURE, AVOID-HIGH RISK
     market_classification: str
     confidence: float
+    investor_fit_score: float = 0.5  # Independent investor suitability score (0.0 to 1.0)
     reasoning_trace: List[str]
     conflict_summary: Optional[str] = None
     source_attributions: List[str] = Field(default_factory=list)
     personalized_advice: str
     risk_profile: str
     degraded_data: bool = False
+    llm_used: bool = False
+    fallback_used: bool = False
     disclaimer: str
     devils_advocate_challenge: Optional[DevilsAdvocateChallenge] = None
     confidence_breakdown: ConfidenceBreakdown
@@ -130,7 +138,7 @@ class ScenarioSimulation(BaseModel):
     projected_portfolio_impact_pct: float
     projected_concentration_after: float
     narrative_explanation: str
-    simulation_disclaimer: str = "Simulated illustration based on demo data. Not a forecast or guarantee."
+    simulation_disclaimer: str = "Simulated illustration based on demo data. Not a price forecast or guarantee."
 
 class BehavioralDriftReport(BaseModel):
     declared_risk_profile: str
@@ -148,22 +156,31 @@ class EvidenceNode(BaseModel):
 class ChangeItem(BaseModel):
     category: str  # THESIS, RISK, MARKET
     description: str
-    citation_tag: Optional[str] = None
-    materiality: str  # LOW, MEDIUM, HIGH
 
 class ChangeDigest(BaseModel):
+    session_id: str
     ticker: str
-    since_session_id: Optional[str] = None
-    changed_items: List[ChangeItem] = Field(default_factory=list)
+    changes: List[ChangeItem] = Field(default_factory=list)
+
+class CopilotQueryRequest(BaseModel):
+    question: str
+    session_id: Optional[str] = None
+    ticker: Optional[str] = "TATAMOTORS"
+
+class CopilotQueryResponse(BaseModel):
+    answer: str
+    cited_sources: List[str] = Field(default_factory=list)
+    grounded_in_rag: bool = True
+    ai_mode: str = "mock"
 
 # ---------------------------------------------------------
-# API Request / Response Models (§10 & §18.10)
+# API Payloads
 # ---------------------------------------------------------
 
 class AnalyzeRequest(BaseModel):
     ticker: str
     persona: str = "conservative"
-    scenario: Optional[str] = "aligned"  # aligned, conflict, degraded, stale_behavioral
+    scenario: str = "aligned"
 
 class AnalyzeResponse(BaseModel):
     session_id: str
@@ -181,7 +198,7 @@ class AnalyzeResponse(BaseModel):
 
 class ThesisCreateRequest(BaseModel):
     ticker: str
-    user_id: str = "demo_user"
+    user_id: str = "demo_retail_user"
     stated_reasons: List[str]
     key_assumptions: List[str]
     invalidating_conditions: List[str]
@@ -189,4 +206,4 @@ class ThesisCreateRequest(BaseModel):
 class SimulationRequest(BaseModel):
     ticker: str
     persona: str = "conservative"
-    position_change_pct: Optional[float] = 0.0
+    position_size_multiplier: float = 1.0

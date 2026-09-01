@@ -2,11 +2,9 @@ from typing import List, Dict, Any
 from schemas import ScenarioSimulation, TechnicalSignal, FundamentalSignal, SentimentSignal
 from profiling.user_profile import get_persona_profile
 
-DISCLAIMER_TEXT = "Simulated illustration based on demo data. Not a forecast or guarantee."
-
 class CounterfactualSimulator:
     def __init__(self):
-        self.name = "CounterfactualSimulator"
+        self.name = "RiskScenarioSimulator"
 
     def simulate(
         self,
@@ -15,78 +13,91 @@ class CounterfactualSimulator:
         technical_sig: TechnicalSignal,
         fundamental_sig: FundamentalSignal,
         sentiment_sig: SentimentSignal,
-        thesis_broken_assumption: str = ""
+        multiplier: float = 1.0
     ) -> List[ScenarioSimulation]:
         """
-        Deterministically models Best, Base, Failure, and Thesis-Break scenarios.
-        Guarantees simulation_disclaimer is always populated on all scenarios (Test 19).
+        Generates deterministic risk scenario impact analysis across 4 defined states:
+        Best Case, Base Case, Failure Case, and Thesis-Break State.
         """
         profile = get_persona_profile(persona_id)
-        current_alloc = profile.get("portfolio", {}).get(ticker, 0.05)
+        portfolio = profile.get("portfolio", {})
+        base_alloc = portfolio.get(ticker, 0.05)
+        effective_alloc = min(0.50, base_alloc * multiplier)
 
-        results: List[ScenarioSimulation] = []
+        scenarios: List[ScenarioSimulation] = []
 
-        # 1. Best Scenario
-        best_price_move = 0.25 if technical_sig.classification in ["STRONG_BULLISH", "BULLISH"] else 0.12
-        impact_best = round(current_alloc * best_price_move * 100, 2)
-        conc_best = round((current_alloc * (1 + best_price_move)) / (1 + (current_alloc * best_price_move)), 3)
-        results.append(ScenarioSimulation(
-            ticker=ticker,
-            scenario_type="BEST",
-            assumption_changed="Technical momentum and revenue expansion persist at upper historical bounds (+25%).",
-            projected_portfolio_impact_pct=impact_best,
-            projected_concentration_after=conc_best,
-            narrative_explanation=f"If operational execution exceeds targets, portfolio gains approx +{impact_best}% with position concentration shifting to {conc_best*100:.1f}%.",
-            simulation_disclaimer=DISCLAIMER_TEXT
-        ))
-
-        # 2. Base Scenario
-        base_price_move = 0.04
-        impact_base = round(current_alloc * base_price_move * 100, 2)
-        conc_base = round(current_alloc, 3)
-        results.append(ScenarioSimulation(
-            ticker=ticker,
-            scenario_type="BASE",
-            assumption_changed="Current valuation multiples and earnings trajectory remain stable (+4%).",
-            projected_portfolio_impact_pct=impact_base,
-            projected_concentration_after=conc_base,
-            narrative_explanation=f"In a steady-state scenario, position yields +{impact_base}% portfolio contribution with stable concentration at {conc_base*100:.1f}%.",
-            simulation_disclaimer=DISCLAIMER_TEXT
-        ))
-
-        # 3. Failure Scenario
-        fail_assumption = "Macro slowdown or quarterly earnings miss triggers a 20% valuation compression."
-        fail_price_move = -0.20
-        impact_fail = round(current_alloc * fail_price_move * 100, 2)
-        conc_fail = round((current_alloc * (1 + fail_price_move)) / (1 + (current_alloc * fail_price_move)), 3)
-        results.append(ScenarioSimulation(
-            ticker=ticker,
-            scenario_type="FAILURE",
-            assumption_changed=fail_assumption,
-            projected_portfolio_impact_pct=impact_fail,
-            projected_concentration_after=conc_fail,
-            narrative_explanation=f"A standard adverse repricing produces a {impact_fail}% portfolio drag; concentration falls to {conc_fail*100:.1f}%.",
-            simulation_disclaimer=DISCLAIMER_TEXT
-        ))
-
-        # 4. Thesis-Break Scenario
-        tb_assumption = (
-            thesis_broken_assumption if thesis_broken_assumption 
-            else f"Debt distress / covenant breach materializes (Debt/Equity: {fundamental_sig.debt_to_equity:.2f}x)."
+        # 1. Best Case Scenario (Upside Momentum Continuation)
+        upside_return = 0.25
+        best_impact = effective_alloc * upside_return * 100
+        scenarios.append(
+            ScenarioSimulation(
+                ticker=ticker,
+                scenario_type="BEST",
+                assumption_changed="Bullish technical momentum & revenue catalysts sustain at upper forecast bound (+25%).",
+                projected_portfolio_impact_pct=round(best_impact, 2),
+                projected_concentration_after=round(effective_alloc * 1.25, 3),
+                narrative_explanation=(
+                    f"If favorable liquidity and earnings continuation hold, an effective allocation of "
+                    f"{effective_alloc*100:.1f}% contributes approximately +{best_impact:.2f}% to total portfolio return."
+                ),
+                simulation_disclaimer="Illustrative educational scenario based on demo parameters. Not a price forecast or guarantee."
+            )
         )
-        tb_price_move = -0.45 if fundamental_sig.debt_to_equity > 2.0 else -0.30
-        impact_tb = round(current_alloc * tb_price_move * 100, 2)
-        conc_tb = round((current_alloc * (1 + tb_price_move)) / (1 + (current_alloc * tb_price_move)), 3)
-        results.append(ScenarioSimulation(
-            ticker=ticker,
-            scenario_type="THESIS_BREAK",
-            assumption_changed=f"Thesis Invalidation: {tb_assumption}",
-            projected_portfolio_impact_pct=impact_tb,
-            projected_concentration_after=conc_tb,
-            narrative_explanation=f"If the stated thesis is invalidated by fundamental deterioration, severe downside risk (-45%) yields a {impact_tb}% portfolio hit.",
-            simulation_disclaimer=DISCLAIMER_TEXT
-        ))
 
-        return results
+        # 2. Base Case Scenario (Steady Multiples)
+        base_return = 0.04
+        base_impact = effective_alloc * base_return * 100
+        scenarios.append(
+            ScenarioSimulation(
+                ticker=ticker,
+                scenario_type="BASE",
+                assumption_changed="Current valuation multiples and operating margins remain stable (+4%).",
+                projected_portfolio_impact_pct=round(base_impact, 2),
+                projected_concentration_after=round(effective_alloc * 1.04, 3),
+                narrative_explanation=(
+                    f"Under neutral macro and baseline operating delivery, the simulated position provides "
+                    f"+{base_impact:.2f}% portfolio contribution."
+                ),
+                simulation_disclaimer="Illustrative educational scenario based on demo parameters. Not a price forecast or guarantee."
+            )
+        )
+
+        # 3. Failure Case Scenario (Cyclical Headwind / Earnings Miss)
+        downside_return = -0.20
+        fail_impact = effective_alloc * downside_return * 100
+        scenarios.append(
+            ScenarioSimulation(
+                ticker=ticker,
+                scenario_type="FAILURE",
+                assumption_changed="Sectoral slowdown or earnings miss induces a cyclical multiple compression (-20%).",
+                projected_portfolio_impact_pct=round(fail_impact, 2),
+                projected_concentration_after=round(effective_alloc * 0.80, 3),
+                narrative_explanation=(
+                    f"A standard adverse cyclical correction reduces position value, generating a "
+                    f"{fail_impact:.2f}% portfolio drawdown at {multiplier:.1f}x sizing."
+                ),
+                simulation_disclaimer="Illustrative educational scenario based on demo parameters. Not a price forecast or guarantee."
+            )
+        )
+
+        # 4. Thesis-Break Case Scenario (Severe Leverage Distress Materializes)
+        thesis_break_return = -0.45
+        tb_impact = effective_alloc * thesis_break_return * 100
+        scenarios.append(
+            ScenarioSimulation(
+                ticker=ticker,
+                scenario_type="THESIS_BREAK",
+                assumption_changed="Debt refinancing distress or core covenant breach materializes fully (-45%).",
+                projected_portfolio_impact_pct=round(tb_impact, 2),
+                projected_concentration_after=round(effective_alloc * 0.55, 3),
+                narrative_explanation=(
+                    f"Severe fundamental stress triggers capital impairment, creating a "
+                    f"{tb_impact:.2f}% portfolio loss at current sizing."
+                ),
+                simulation_disclaimer="Illustrative educational scenario based on demo parameters. Not a price forecast or guarantee."
+            )
+        )
+
+        return scenarios
 
 counterfactual_simulator = CounterfactualSimulator()

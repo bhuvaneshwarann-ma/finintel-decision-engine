@@ -8,12 +8,14 @@ class SentimentAgent:
     def analyze(self, ticker: str, market_data: Dict[str, Any], degraded_override: bool = False) -> SentimentSignal:
         """
         Calculates sentiment classification and metrics over news headlines,
-        social chatter, and institutional flow trends.
+        social chatter, and separate FII/DII institutional flow trends.
         """
         if degraded_override or not market_data:
             return SentimentSignal(
                 ticker=ticker,
                 news_sentiment=0.0,
+                fii_flow="NEUTRAL",
+                dii_flow="NEUTRAL",
                 fii_flow_trend="NEUTRAL",
                 social_chatter_score=0.5,
                 classification="NEUTRAL",
@@ -24,7 +26,8 @@ class SentimentAgent:
 
         headlines = market_data.get("news_headlines", [])
         social_score = market_data.get("social_chatter_score", 0.5)
-        fii_flow = market_data.get("fii_flow_trend", "NEUTRAL")
+        fii_flow = market_data.get("fii_flow", market_data.get("fii_flow_trend", "NEUTRAL"))
+        dii_flow = market_data.get("dii_flow", "NEUTRAL")
 
         # Compute average headline sentiment
         if headlines:
@@ -35,44 +38,50 @@ class SentimentAgent:
 
         reasons: List[str] = []
 
-        # Evaluate flow score
+        # 1. Evaluate FII / DII flows separately (§10)
         flow_weight = 0.0
-        if fii_flow == "INFLOW":
-            flow_weight = 0.3
-            reasons.append("Institutional FII/DII net data reflects continuous accumulation and positive liquidity support.")
-        elif fii_flow == "OUTFLOW":
-            flow_weight = -0.3
-            reasons.append("Institutional FII/DII net figures indicate distribution and capital outflows.")
+        if fii_flow == "INFLOW" and dii_flow == "INFLOW":
+            flow_weight = 0.35
+            reasons.append("Coordinated Institutional Accumulation: Both FII (+Inflow) and DII (+Inflow) reflect positive liquidity inflows.")
+        elif fii_flow == "INFLOW":
+            flow_weight = 0.25
+            reasons.append(f"Foreign Institutional Investors (FII) demonstrate net accumulation (+Inflow), while Domestic Institutions (DII) are {dii_flow}.")
+        elif dii_flow == "INFLOW":
+            flow_weight = 0.20
+            reasons.append(f"Domestic Institutions (DII) show net buying (+Inflow), while Foreign Institutions (FII) are {fii_flow}.")
+        elif fii_flow == "OUTFLOW" or dii_flow == "OUTFLOW":
+            flow_weight = -0.30
+            reasons.append(f"Institutional distribution observed (FII: {fii_flow}, DII: {dii_flow}).")
         else:
-            reasons.append("Institutional investment flows remain balanced with no distinct directional bias.")
+            reasons.append("Institutional flows (FII and DII) remain balanced without strong directional bias.")
 
-        # Evaluate headline score
+        # 2. Evaluate headline score
         if avg_headline_sent > 0.6:
-            reasons.append(f"Media coverage is strongly favorable (score: +{avg_headline_sent:.2f}) highlighting operational milestones.")
+            reasons.append(f"Media narrative is strongly constructive (+{avg_headline_sent:.2f}) highlighting operational milestones.")
         elif avg_headline_sent > 0.2:
-            reasons.append(f"Media narrative is moderately constructive (score: +{avg_headline_sent:.2f}).")
+            reasons.append(f"Media coverage is moderately positive (+{avg_headline_sent:.2f}).")
         elif avg_headline_sent < -0.2:
-            reasons.append(f"Media coverage displays negative tone (score: {avg_headline_sent:.2f}) focusing on headwinds.")
+            reasons.append(f"Media coverage displays negative tone ({avg_headline_sent:.2f}) focusing on balance sheet or operational headwinds.")
         else:
             reasons.append("Media mentions remain largely neutral with routine corporate reporting.")
 
-        # Evaluate social chatter
+        # 3. Evaluate social chatter
         if social_score > 0.8:
-            reasons.append(f"Social chatter intensity is very high ({social_score*100:.0f}%), signaling retail momentum focus.")
+            reasons.append(f"Social media chatter intensity is elevated ({social_score*100:.0f}%), signaling active retail participation.")
         elif social_score < 0.3:
-            reasons.append(f"Retail social interest is subdued ({social_score*100:.0f}%).")
+            reasons.append(f"Retail social volume is subdued ({social_score*100:.0f}%).")
 
         # Composite sentiment calculation
-        composite = (avg_headline_sent * 0.5) + flow_weight + ((social_score - 0.5) * 0.4)
+        composite = (avg_headline_sent * 0.45) + flow_weight + ((social_score - 0.5) * 0.35)
         composite = max(-1.0, min(1.0, composite))
 
-        if composite >= 0.45:
+        if composite >= 0.40:
             classification = "POSITIVE"
-            confidence = min(0.92, 0.68 + (composite * 0.25))
+            confidence = min(0.92, 0.70 + (composite * 0.22))
         elif composite >= 0.15:
             classification = "POSITIVE" if avg_headline_sent > 0.2 else "NEUTRAL"
             confidence = 0.72
-        elif composite <= -0.40:
+        elif composite <= -0.35:
             classification = "NEGATIVE"
             confidence = min(0.90, 0.70 + (abs(composite) * 0.20))
         elif composite <= -0.15:
@@ -85,6 +94,8 @@ class SentimentAgent:
         return SentimentSignal(
             ticker=ticker,
             news_sentiment=round(avg_headline_sent, 3),
+            fii_flow=fii_flow,
+            dii_flow=dii_flow,
             fii_flow_trend=fii_flow,
             social_chatter_score=round(social_score, 2),
             classification=classification,

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FinIntelligence AI — Research & Investment Decision Terminal</title>
-  <meta name="description" content="A professional multi-agent investment decision dashboard with a sleek sidebar layout.">
+  <meta name="description" content="A multi-agent autonomous financial intelligence system for retail investors (HACKVERSE 2026 PS-01).">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -132,7 +132,7 @@
         </div>
         <div>
           <div class="font-bold tracking-tight text-white text-sm">FinIntelligence AI</div>
-          <p class="text-[10px] text-terminal-muted mono">Multi-Agent Terminal</p>
+          <p class="text-[10px] text-terminal-muted mono">HACKVERSE 2026 (PS-01)</p>
         </div>
       </div>
 
@@ -142,7 +142,7 @@
         <div class="space-y-1 text-xs mono">
           <button onclick="selectTicker('TATAMOTORS')" id="btn-tata" class="ticker-btn w-full px-3 py-1.5 rounded font-semibold text-white bg-slate-800 border border-sky-500 flex justify-between items-center text-left">
             <span>TATAMOTORS</span>
-            <span class="text-market-bull font-bold">₹1,150</span>
+            <span class="text-market-bull font-bold">₹1,115</span>
           </button>
           <button onclick="selectTicker('INFOSYS')" id="btn-infy" class="ticker-btn w-full px-3 py-1.5 rounded font-semibold text-slate-400 hover:text-white bg-slate-950 border border-terminal-border flex justify-between items-center text-left">
             <span>INFOSYS</span>
@@ -150,7 +150,7 @@
           </button>
           <button onclick="selectTicker('XYZ_CORP')" id="btn-xyz" class="ticker-btn w-full px-3 py-1.5 rounded font-semibold text-slate-400 hover:text-white bg-slate-950 border border-terminal-border flex justify-between items-center text-left">
             <span>XYZ_CORP</span>
-            <span class="text-market-warning font-bold">₹640</span>
+            <span class="text-market-warning font-bold">₹635</span>
           </button>
         </div>
       </div>
@@ -199,7 +199,7 @@
 
         <button onclick="switchTab('tab-sim')" id="tabbtn-sim" class="sidebar-link">
           <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i>
-          <span>Stress Simulator</span>
+          <span>Risk Scenario Analysis</span>
         </button>
 
         <button onclick="switchTab('tab-replay')" id="tabbtn-replay" class="sidebar-link">
@@ -227,12 +227,12 @@
   <!-- MAIN CONTENT WRAPPER -->
   <div class="flex-1 flex flex-col h-screen overflow-y-auto">
     
-    <!-- TOP STATUS STRIP -->
+    <!-- TOP STATUS STRIP (Honest Demo Labeling §22) -->
     <div id="status-strip" class="bg-slate-950 border-b border-terminal-border px-6 py-2.5 text-xs mono flex-shrink-0">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center space-x-3">
           <span id="data-feed-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-            MARKET FEED: HEALTHY
+            SIMULATED MARKET FEED: HEALTHY
           </span>
           <span id="freshness-alert" class="hidden px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
             FILING FRESHNESS: STALE (19 MONTHS OLD)
@@ -241,14 +241,14 @@
             DATA DEGRADED: PARTIAL INPUT FEEDS UTILIZED
           </span>
           <span class="text-slate-400 text-[11px]" id="engine-status-msg">
-            Independent multi-agent evaluation ready.
+            Multi-agent vector RAG & synthesis ready.
           </span>
         </div>
         
         <div class="flex items-center space-x-4 text-terminal-muted text-[11px]">
           <span>View: <strong id="active-tab-title" class="text-sky-400">Overview & Verdict</strong></span>
           <span>Latency: <strong id="latency-tag" class="text-slate-300">18.4ms</strong></span>
-          <span>Audited Filings: <strong id="filing-count-tag" class="text-slate-300">7 SEBI Reports</strong></span>
+          <span>Corpus: <strong id="filing-count-tag" class="text-slate-300">Indexed Demo Evidence</strong></span>
         </div>
       </div>
     </div>
@@ -320,7 +320,12 @@
               
               <!-- Verdict Stance -->
               <div class="md:col-span-5 space-y-2">
-                <span class="text-[11px] font-bold text-terminal-muted uppercase tracking-wider mono">Synthesized Investment Verdict</span>
+                <div class="flex justify-between items-center">
+                  <span class="text-[11px] font-bold text-terminal-muted uppercase tracking-wider mono">Personalized Action</span>
+                  <span id="market-view-badge" class="text-[10px] mono px-2 py-0.5 rounded bg-slate-800 text-sky-300 border border-slate-700">
+                    MARKET: BULLISH
+                  </span>
+                </div>
                 <div class="flex items-baseline space-x-3">
                   <span id="verdict-display" class="text-3xl font-black mono text-white">HOLD-WATCH</span>
                   <span id="market-class-display" class="text-xs mono px-2 py-0.5 rounded bg-slate-800 text-sky-300 border border-slate-700">
@@ -332,10 +337,10 @@
                 </p>
               </div>
 
-              <!-- Confidence Decomposition (4 Sub-components summing to Composite) -->
+              <!-- Confidence Decomposition (4 Sub-components summing to Composite §16) -->
               <div class="md:col-span-7 space-y-2">
                 <div class="flex justify-between items-center text-xs mono">
-                  <span class="text-terminal-muted uppercase font-bold">Confidence Decomposition</span>
+                  <span class="text-terminal-muted uppercase font-bold">Confidence Decomposition (Weights Sum = 1.00)</span>
                   <span class="text-white font-bold">Composite: <span id="composite-conf-val" class="text-emerald-400">0.78</span></span>
                 </div>
 
@@ -363,14 +368,14 @@
                 </div>
 
                 <div class="p-2 bg-slate-950/60 rounded text-[10px] text-slate-400 mono flex items-center justify-between">
-                  <span>Formula: $\sum (w_i \cdot s_i)$ &bull; Calibrated over historical trials</span>
+                  <span>Formula: 0.25·Fresh + 0.35·Agree + 0.25·Evid + 0.15·Calib</span>
                   <span id="calib-score-tag" class="text-sky-400 font-bold">Ledger Active</span>
                 </div>
               </div>
 
             </div>
 
-            <!-- Two-Track Confidence Breakdown -->
+            <!-- Two-Track Confidence Breakdown (§5 Separation) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs mono">
               <div class="p-3 bg-slate-950 rounded border border-terminal-border">
                 <div class="flex justify-between items-center mb-1.5">
@@ -380,7 +385,7 @@
                 <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
                   <div id="bar-track-market" class="bg-sky-500 h-full" style="width: 75%"></div>
                 </div>
-                <div class="text-[10px] text-slate-500 mt-1">Raw technical + sentiment agreement</div>
+                <div class="text-[10px] text-slate-500 mt-1">Raw technical + sentiment agreement (Identical across personas)</div>
               </div>
 
               <div class="p-3 bg-slate-950 rounded border border-terminal-border">
@@ -391,12 +396,57 @@
                 <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
                   <div id="bar-track-fit" class="bg-emerald-500 h-full" style="width: 45%"></div>
                 </div>
-                <div class="text-[10px] text-slate-500 mt-1">Portfolio & persona risk constraints</div>
+                <div class="text-[10px] text-slate-500 mt-1">Portfolio & persona risk constraints (Diverges per investor)</div>
               </div>
             </div>
 
           </div>
 
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PROMINENT: "WHY THIS DECISION?" CARD (§19)  -->
+        <!-- ========================================== -->
+        <div class="terminal-panel p-4 space-y-3">
+          <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="help-circle" class="w-4 h-4 text-sky-400"></i>
+              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Why This Decision? — Step-by-Step Rationale</span>
+            </div>
+            <span class="text-[10px] text-slate-400 mono">Full Multi-Agent Trace</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs mono">
+            
+            <div class="p-3 bg-slate-950 rounded border border-terminal-border space-y-1">
+              <div class="text-[10px] text-sky-400 font-bold uppercase">What is happening?</div>
+              <p id="why-what" class="text-slate-300 text-[11px] leading-snug">
+                Technical breakout signals positive momentum with elevated volume activity.
+              </p>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded border border-terminal-border space-y-1">
+              <div class="text-[10px] text-indigo-400 font-bold uppercase">Why is it happening?</div>
+              <p id="why-why" class="text-slate-300 text-[11px] leading-snug">
+                Institutional accumulation and headline sentiment align with strong operational deliveries.
+              </p>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded border border-terminal-border space-y-1">
+              <div class="text-[10px] text-emerald-400 font-bold uppercase">What does it mean for you?</div>
+              <p id="why-meaning" class="text-slate-300 text-[11px] leading-snug">
+                Suitability depends on risk mandate; capital limits restrict over-allocation.
+              </p>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded border border-terminal-border space-y-1">
+              <div class="text-[10px] text-amber-400 font-bold uppercase">What evidence supports it?</div>
+              <div id="why-evidence" class="text-slate-300 text-[11px] leading-snug">
+                <span class="citation-tag">[SEBI-Filing-XYZ-Q3: Page 14]</span>
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -423,7 +473,7 @@
               <div class="grid grid-cols-2 gap-2 my-3 text-xs mono">
                 <div class="p-2 bg-slate-950 rounded border border-terminal-border">
                   <div class="text-[10px] text-terminal-muted">RSI (14)</div>
-                  <div id="tech-rsi-val" class="font-bold text-white text-sm">74.2</div>
+                  <div id="tech-rsi-val" class="font-bold text-white text-sm">66.4</div>
                 </div>
                 <div class="p-2 bg-slate-950 rounded border border-terminal-border">
                   <div class="text-[10px] text-terminal-muted">MACD Signal</div>
@@ -431,18 +481,18 @@
                 </div>
                 <div class="p-2 bg-slate-950 rounded border border-terminal-border">
                   <div class="text-[10px] text-terminal-muted">Momentum (10d)</div>
-                  <div id="tech-mom-val" class="font-bold text-white text-sm">+18.5%</div>
+                  <div id="tech-mom-val" class="font-bold text-white text-sm">+14.2%</div>
                 </div>
                 <div class="p-2 bg-slate-950 rounded border border-terminal-border">
                   <div class="text-[10px] text-terminal-muted">Vol Z-Score</div>
-                  <div id="tech-vol-val" class="font-bold text-sky-400 text-sm">+2.45</div>
+                  <div id="tech-vol-val" class="font-bold text-sky-400 text-sm">+1.79</div>
                 </div>
               </div>
 
               <div class="space-y-1">
                 <span class="text-[10px] text-terminal-muted mono uppercase font-bold">Calculation Attributions:</span>
                 <ul id="tech-reasons-list" class="space-y-1 list-disc list-inside text-[11px] text-slate-300">
-                  <li>RSI above centerline indicating upside momentum.</li>
+                  <li>RSI demonstrates healthy bullish momentum above centerline.</li>
                 </ul>
               </div>
             </div>
@@ -453,7 +503,7 @@
             </div>
           </div>
 
-          <!-- Sentiment Agent Panel -->
+          <!-- Sentiment Agent Panel (Separated FII / DII §10) -->
           <div id="card-sent-agent" class="terminal-panel p-4 space-y-3 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center pb-2 border-b border-terminal-border">
@@ -471,12 +521,17 @@
                   <div id="sent-headline-val" class="font-bold text-emerald-400 text-sm">+0.82</div>
                 </div>
                 <div class="p-2 bg-slate-950 rounded border border-terminal-border">
-                  <div class="text-[10px] text-terminal-muted">FII / DII Flow</div>
-                  <div id="sent-fii-val" class="font-bold text-sky-400 text-sm">INFLOW</div>
+                  <div class="text-[10px] text-terminal-muted">Social Chatter</div>
+                  <div id="sent-social-val" class="font-bold text-purple-400 text-sm">76%</div>
                 </div>
-                <div class="p-2 bg-slate-950 rounded border border-terminal-border col-span-2">
-                  <div class="text-[10px] text-terminal-muted">Retail Social Intensity</div>
-                  <div id="sent-social-val" class="font-bold text-purple-400 text-sm">88% (High Buzz)</div>
+                <!-- Separated FII & DII badges -->
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">FII Flow</div>
+                  <div id="sent-fii-val" class="font-bold text-sky-400 text-sm">↑ INFLOW</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">DII Flow</div>
+                  <div id="sent-dii-val" class="font-bold text-emerald-400 text-sm">↑ INFLOW</div>
                 </div>
               </div>
 
@@ -494,12 +549,12 @@
             </div>
           </div>
 
-          <!-- Fundamental RAG Agent Panel -->
+          <!-- Fundamental RAG Agent Panel (ChromaDB Vector & Null-safe §11) -->
           <div id="card-fund-agent" class="terminal-panel p-4 space-y-3 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center pb-2 border-b border-terminal-border">
                 <span class="text-xs font-bold text-white mono flex items-center gap-1.5">
-                  <i data-lucide="file-search" class="w-3.5 h-3.5 text-amber-400"></i> Fundamental RAG
+                  <i data-lucide="file-search" class="w-3.5 h-3.5 text-amber-400"></i> Fundamental Vector RAG
                 </span>
                 <span id="fund-class-badge" class="px-2 py-0.5 rounded text-[10px] mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">
                   CRITICAL_RISK
@@ -516,7 +571,7 @@
                   <div id="fund-growth-val" class="font-bold text-amber-400 text-sm">-12.0%</div>
                 </div>
                 <div class="p-2 bg-slate-950 rounded border border-terminal-border col-span-2">
-                  <div class="text-[10px] text-terminal-muted mb-0.5">Primary Grounding Citation</div>
+                  <div class="text-[10px] text-terminal-muted mb-0.5">Primary ChromaDB Grounding Citation</div>
                   <span id="fund-citations-val" class="citation-tag">[SEBI-Filing-XYZ-Q3: Page 14]</span>
                 </div>
               </div>
@@ -550,7 +605,7 @@
               <h2 class="text-sm font-bold text-white uppercase tracking-wider mono flex items-center gap-2">
                 <i data-lucide="columns" class="w-4 h-4 text-sky-400"></i> Five-Dimension Investment Decision Twin
               </h2>
-              <p class="text-xs text-terminal-muted mt-0.5">Five separately scored dimensions evaluated side by side — never collapsed into one blended number.</p>
+              <p class="text-xs text-terminal-muted mt-0.5">Five separately scored dimensions evaluated side by side — never collapsed into one blended number (§15).</p>
             </div>
             <span class="text-xs text-terminal-muted mono bg-slate-950 px-2.5 py-1 rounded border border-terminal-border">Strict Dimension Separation</span>
           </div>
@@ -636,7 +691,7 @@
           <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
             <div class="flex items-center space-x-2">
               <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
-              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Devil's Advocate Adversarial Challenge Sequence</span>
+              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Devil's Advocate Adversarial Challenge Sequence (§8)</span>
             </div>
             <span id="da-severity-badge" class="px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
               HIGH SEVERITY CHALLENGE
@@ -696,7 +751,7 @@
               <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
                 <div class="flex items-center space-x-2">
                   <i data-lucide="brain" class="w-4 h-4 text-emerald-400"></i>
-                  <span class="text-xs font-bold text-white mono uppercase tracking-wider">Behavioral Bias Mirror & Drift Engine</span>
+                  <span class="text-xs font-bold text-white mono uppercase tracking-wider">Behavioral Bias Mirror & Drift Engine (§13)</span>
                 </div>
                 <span id="drift-severity-badge" class="px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
                   MILD DRIFT
@@ -761,7 +816,7 @@
       </div>
 
       <!-- ========================================== -->
-      <!-- VIEW: STRESS SIMULATOR                     -->
+      <!-- VIEW: RISK SCENARIO ANALYSIS (§17)         -->
       <!-- ========================================== -->
       <div id="tab-sim" class="page-view space-y-4 hidden">
         
@@ -769,9 +824,11 @@
           <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
             <div class="flex items-center space-x-2">
               <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i>
-              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Deterministic Counterfactual Scenario Simulator</span>
+              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Risk Scenario Analysis</span>
             </div>
-            <span class="text-[10px] text-terminal-muted mono">Deterministic Arithmetic &bull; Not a Guarantee</span>
+            <span class="text-[10px] text-amber-400 mono font-semibold bg-amber-950/30 px-2 py-0.5 rounded border border-amber-800/40">
+              ILLUSTRATIVE SCENARIO • NOT A PRICE FORECAST
+            </span>
           </div>
 
           <!-- Multiplier Range Slider -->
@@ -783,12 +840,12 @@
             <input type="range" id="pos-mult-slider" min="0.5" max="4.0" step="0.5" value="1.0" class="w-full sm:w-80 accent-sky-500 cursor-pointer" oninput="updateSimulationMultiplier(this.value)">
           </div>
 
-          <!-- 4 Cards: Best / Base / Failure / Thesis-Break -->
+          <!-- 4 Cards: Upside Case / Base Case / Downside Case / Thesis-Break (§17) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs mono">
             
             <div class="p-4 bg-slate-950 rounded-lg border border-emerald-900/40 space-y-2">
               <div class="flex justify-between text-emerald-400 font-bold text-sm">
-                <span>BEST SCENARIO</span>
+                <span>UPSIDE CASE</span>
                 <span id="sim-best-impact">+1.25%</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">Momentum persists at upper bound (+25%).</p>
@@ -796,7 +853,7 @@
 
             <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-2">
               <div class="flex justify-between text-sky-400 font-bold text-sm">
-                <span>BASE SCENARIO</span>
+                <span>BASE CASE</span>
                 <span id="sim-base-impact">+0.20%</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">Multiples and margins remain steady.</p>
@@ -804,7 +861,7 @@
 
             <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-2">
               <div class="flex justify-between text-amber-400 font-bold text-sm">
-                <span>FAILURE SCENARIO</span>
+                <span>DOWNSIDE CASE</span>
                 <span id="sim-fail-impact">-1.00%</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">Adverse earnings miss (-20%).</p>
@@ -812,7 +869,7 @@
 
             <div class="p-4 bg-slate-950 rounded-lg border border-rose-900/40 space-y-2">
               <div class="flex justify-between text-rose-400 font-bold text-sm">
-                <span>THESIS-BREAK</span>
+                <span>THESIS BREAK</span>
                 <span id="sim-tb-impact">-2.25%</span>
               </div>
               <p class="text-xs text-slate-400 leading-relaxed">Debt distress materializes fully (-45%).</p>
@@ -821,7 +878,7 @@
           </div>
 
           <div class="text-[11px] text-terminal-muted mono text-center pt-2">
-            Simulated illustration for educational analysis. Projections assume historical parameter envelopes.
+            Illustrative educational scenario based on demo parameters. Not a price forecast, guarantee, or financial advice.
           </div>
         </div>
 
@@ -839,7 +896,7 @@
             <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
               <div class="flex items-center space-x-2">
                 <i data-lucide="network" class="w-4 h-4 text-sky-400"></i>
-                <span class="text-xs font-bold text-white mono uppercase tracking-wider">Evidence Provenance Graph</span>
+                <span class="text-xs font-bold text-white mono uppercase tracking-wider">Evidence Provenance Graph (§18)</span>
               </div>
               <span class="text-[10px] text-terminal-muted mono">Decision &rarr; Claim &rarr; Evidence &rarr; Document</span>
             </div>
@@ -915,7 +972,7 @@
 
     </main>
 
-    <!-- FOOTER TELEMETRY -->
+    <!-- FOOTER TELEMETRY (Honest Labels §22 & §27) -->
     <footer class="bg-slate-900 border-t border-terminal-border p-3 text-xs mono text-terminal-muted mt-auto flex-shrink-0">
       <div class="max-w-[1600px] mx-auto space-y-2">
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 text-[11px]">
@@ -940,13 +997,13 @@
             <div id="telem-conc-score" class="text-amber-400 font-bold">5.0% Weight</div>
           </div>
           <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
-            <div class="text-slate-500">DA Challenge</div>
-            <div id="telem-da-changed" class="text-emerald-400 font-bold">Active</div>
+            <div class="text-slate-500">LLM Mode</div>
+            <div id="telem-llm-mode" class="text-sky-400 font-bold">Deterministic Engine</div>
           </div>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-between text-[10px] text-slate-500 pt-1 border-t border-terminal-border">
-          <div>Research/education prototype for retail investors. No automated trade execution.</div>
+          <div>RESEARCH / EDUCATIONAL PROTOTYPE &bull; NOT FINANCIAL ADVICE &bull; NO AUTOMATED TRADE EXECUTION</div>
           <div>Calibration Index: <strong id="telem-calib-score" class="text-sky-400 font-bold">0.85</strong></div>
         </div>
       </div>
@@ -998,7 +1055,7 @@
       'tab-twin': 'Decision Twin',
       'tab-da': "Devil's Advocate",
       'tab-thesis': 'Thesis & Biases',
-      'tab-sim': 'Stress Simulator',
+      'tab-sim': 'Risk Scenario Analysis',
       'tab-replay': 'Audit & Replay'
     };
 
@@ -1018,12 +1075,12 @@
 
     const scrubberSteps = [
       { step: 1, title: "Technical Analysis Agent", stage: "Parallel Execution", desc: "Calculated 14-period RSI, MACD signal line crossovers, momentum, and volume anomaly z-scores from raw price/volume time series." },
-      { step: 2, title: "Fundamental RAG Ingestion & Freshness", stage: "Parallel Execution", desc: "Retrieved citation-tagged chunks from regulatory filings and verified document dates against the 12-month staleness threshold." },
-      { step: 3, title: "Sentiment & Flow Agent", stage: "Parallel Execution", desc: "Scored news headlines, social chatter intensity, and institutional FII/DII flow trends." },
-      { step: 4, title: "Investor Risk & Behavioral Profiling", stage: "Personalization Layer", desc: "Evaluated single-stock concentration limits, sector limits, and identified potential behavioral biases (FOMO, recency bias)." },
-      { step: 5, title: "Draft Multi-Agent Synthesis", stage: "Pass 1 Synthesis", desc: "Synthesized draft market classification, verdict, and initial confidence without majority-voting bias." },
+      { step: 2, title: "Fundamental RAG Ingestion & Freshness", stage: "Parallel Execution", desc: "Queried ChromaDB vector collection and verified filing dates against the 12-month staleness threshold." },
+      { step: 3, title: "Sentiment & Flow Agent", stage: "Parallel Execution", desc: "Scored news headlines, retail social chatter, and separate institutional FII/DII flow trends." },
+      { step: 4, title: "Investor Risk & Behavioral Profiling", stage: "Personalization Layer", desc: "Evaluated single-stock & sector concentration limits and flagged potential behavioral biases (FOMO, recency bias)." },
+      { step: 5, title: "Draft Multi-Agent Synthesis", stage: "Pass 1 Synthesis", desc: "Calculated independent Market View and initial draft verdict without majority-voting bias." },
       { step: 6, title: "Devil's Advocate Adversarial Pass", stage: "Adversarial Stress Test", desc: "Stress-tested the draft verdict strictly against already-cited filing disclosures to identify the weakest evidence assumption." },
-      { step: 7, title: "Final Synthesis & Decision Twin", stage: "Final Decision", desc: "Upheld or revised the verdict, computed 5-dimension Decision Twin, and generated evidence provenance graph." }
+      { step: 7, title: "Final Synthesis & Decision Twin", stage: "Final Decision", desc: "Calculated Investor Decision Fit, updated 5-dimension Decision Twin, and generated evidence provenance graph." }
     ];
 
     function selectTicker(ticker) {
@@ -1062,7 +1119,7 @@
         currentScenario = 'conflict';
         document.getElementById('scen-b').classList.add('border-sky-500', 'bg-slate-900');
       } else if (scenarioId === 'C') {
-        currentTicker = 'TATAMOTORS';
+        currentTicker = 'INFOSYS';
         currentScenario = 'degraded';
         document.getElementById('scen-c').classList.add('border-sky-500', 'bg-slate-900');
       } else if (scenarioId === 'D') {
@@ -1103,7 +1160,7 @@
       const agents = data.agent_outputs;
       const twin = data.decision_twin;
 
-      // Synthesized Verdict
+      // Synthesized Verdict & Market View
       const verdictEl = document.getElementById('verdict-display');
       verdictEl.textContent = synth.synthesized_verdict;
       if (synth.synthesized_verdict.includes('BUY')) {
@@ -1114,8 +1171,17 @@
         verdictEl.className = "text-3xl font-black mono text-market-warning";
       }
 
+      document.getElementById('market-view-badge').textContent = `MARKET VIEW: ${synth.market_view || 'BULLISH'}`;
       document.getElementById('market-class-display').textContent = synth.market_classification;
       document.getElementById('personalized-advice-display').textContent = synth.personalized_advice;
+
+      // "Why This Decision?" Card (§19)
+      document.getElementById('why-what').textContent = agents.technical.reasons[0] || 'Technical breakout signals momentum.';
+      document.getElementById('why-why').textContent = agents.sentiment.reasons[0] || 'Institutional liquidity and headline sentiment supportive.';
+      document.getElementById('why-meaning').textContent = synth.personalized_advice;
+      document.getElementById('why-evidence').innerHTML = synth.source_attributions.length > 0 
+        ? synth.source_attributions.map(c => `<span class="citation-tag">${c}</span>`).join(' ')
+        : '<span class="text-amber-400 font-mono text-[10px]">No verified filing citation (degraded mode)</span>';
 
       // Alerts
       const freshAlert = document.getElementById('freshness-alert');
@@ -1133,7 +1199,7 @@
         degAlert.classList.add('hidden');
       }
 
-      // Two-Track Confidence
+      // Two-Track Confidence (§5 Separation)
       const marketConfPct = Math.round(twin.market_confidence * 100);
       const fitPct = Math.round(twin.decision_fit * 100);
       document.getElementById('track-market-conf').textContent = `${marketConfPct}%`;
@@ -1178,21 +1244,33 @@
       document.getElementById('tech-conf-val').textContent = tech.confidence;
       document.getElementById('tech-reasons-list').innerHTML = tech.reasons.map(r => `<li>${r}</li>`).join('');
 
-      // Sentiment Agent
+      // Sentiment Agent (Separated FII / DII §10)
       const sent = agents.sentiment;
       document.getElementById('sent-class-badge').textContent = sent.classification;
       document.getElementById('sent-headline-val').textContent = `${sent.news_sentiment > 0 ? '+' : ''}${sent.news_sentiment}`;
-      document.getElementById('sent-fii-val').textContent = sent.fii_flow_trend;
-      document.getElementById('sent-social-val').textContent = `${Math.round(sent.social_chatter_score * 100)}% (${sent.social_chatter_score > 0.7 ? 'High Buzz' : 'Balanced'})`;
+      document.getElementById('sent-fii-val').textContent = sent.fii_flow === 'INFLOW' ? '↑ INFLOW' : (sent.fii_flow === 'OUTFLOW' ? '↓ OUTFLOW' : '→ NEUTRAL');
+      document.getElementById('sent-dii-val').textContent = sent.dii_flow === 'INFLOW' ? '↑ INFLOW' : (sent.dii_flow === 'OUTFLOW' ? '↓ OUTFLOW' : '→ NEUTRAL');
+      document.getElementById('sent-social-val').textContent = `${Math.round(sent.social_chatter_score * 100)}%`;
       document.getElementById('sent-lat-val').textContent = `${data.telemetry.agent_latencies_ms.SentimentAgent}ms`;
       document.getElementById('sent-conf-val').textContent = sent.confidence;
       document.getElementById('sent-reasons-list').innerHTML = sent.reasons.map(r => `<li>${r}</li>`).join('');
 
-      // Fundamental RAG Panel
+      // Fundamental RAG Panel (Null-Safe Debt Display §11)
       const fund = agents.fundamental;
       document.getElementById('fund-class-badge').textContent = fund.filing_verdict;
-      document.getElementById('fund-de-val').textContent = `${fund.debt_to_equity.toFixed(2)}x`;
-      document.getElementById('fund-growth-val').textContent = `${fund.earnings_growth > 0 ? '+' : ''}${(fund.earnings_growth * 100).toFixed(1)}%`;
+      if (fund.debt_to_equity !== null && fund.debt_to_equity !== undefined) {
+        document.getElementById('fund-de-val').textContent = `${fund.debt_to_equity.toFixed(2)}x`;
+      } else {
+        document.getElementById('fund-de-val').textContent = "N/A — filing unavailable";
+        document.getElementById('fund-de-val').className = "font-bold text-amber-400 text-xs";
+      }
+
+      if (fund.earnings_growth !== null && fund.earnings_growth !== undefined) {
+        document.getElementById('fund-growth-val').textContent = `${fund.earnings_growth > 0 ? '+' : ''}${(fund.earnings_growth * 100).toFixed(1)}%`;
+      } else {
+        document.getElementById('fund-growth-val').textContent = "N/A";
+      }
+
       document.getElementById('fund-citations-val').textContent = fund.rag_citations[0] || 'No citation tag';
       document.getElementById('fund-evidence-snippet').textContent = fund.evidence[0] || 'No verified filing excerpts.';
       document.getElementById('fund-lat-val').textContent = `${data.telemetry.agent_latencies_ms.FundamentalRAGAgent}ms`;
@@ -1257,6 +1335,7 @@
       document.getElementById('telem-parallel-lat').textContent = `${telem.agent_latencies_ms.ParallelGather} ms`;
       document.getElementById('telem-sources-count').textContent = `${telem.source_count} Documents`;
       document.getElementById('telem-conc-score').textContent = `${Math.round(telem.risk_concentration_score * 100)}% Weight`;
+      document.getElementById('telem-llm-mode').textContent = synth.llm_used ? 'Gemini 2.5 Live' : (synth.fallback_used ? 'Deterministic Fallback' : 'Deterministic Engine');
       document.getElementById('latency-tag').textContent = `${telem.total_latency_ms} ms`;
 
       updateSimulationMultiplier(baseMultiplier);

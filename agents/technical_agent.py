@@ -48,7 +48,6 @@ class TechnicalAgent:
         rsi = float(round(rsi, 2))
 
         # 2. MACD (Fast 12, Slow 26, Signal 9)
-        # Using exponential moving averages
         s_close = pd.Series(close)
         ema12 = s_close.ewm(span=12, adjust=False).mean()
         ema26 = s_close.ewm(span=26, adjust=False).mean()
@@ -82,11 +81,7 @@ class TechnicalAgent:
         else:
             vol_z = 0.0
 
-        # 5. Moving Average Relationship (SMA20 vs SMA50/SMA10)
-        sma20 = s_close.rolling(window=min(20, len(s_close)), min_periods=1).mean().iloc[-1]
-        current_p = close[-1]
-
-        # 6. Structured reasons & classification logic
+        # 5. Structured reasons & classification logic
         reasons: List[str] = []
         bullish_votes = 0
         bearish_votes = 0
@@ -98,58 +93,57 @@ class TechnicalAgent:
         elif rsi >= 55:
             reasons.append(f"RSI at {rsi} demonstrates healthy bullish momentum above centerline.")
             bullish_votes += 2
-        elif rsi < 30:
-            reasons.append(f"RSI at {rsi} signals oversold conditions with potential capitulation.")
+        elif rsi <= 30:
+            reasons.append(f"RSI at {rsi} is in oversold territory; potential stabilization watch.")
             bearish_votes += 1
         elif rsi <= 45:
-            reasons.append(f"RSI at {rsi} reflects lingering bearish pressure below centerline.")
+            reasons.append(f"RSI at {rsi} reflects defensive consolidation below centerline.")
             bearish_votes += 2
         else:
-            reasons.append(f"RSI at {rsi} is neutral within balanced trading range.")
+            reasons.append(f"RSI at {rsi} is balanced near neutral midpoint.")
 
         # MACD logic
         if macd_status == "BULLISH_CROSSOVER":
-            reasons.append(f"MACD line ({latest_macd:.2f}) trades above signal line ({latest_signal:.2f}), sustaining bullish divergence.")
+            reasons.append("MACD line resides above the 9-period signal line, confirming positive trend acceleration.")
             bullish_votes += 2
         elif macd_status == "BEARISH_CROSSOVER":
-            reasons.append(f"MACD line ({latest_macd:.2f}) crossed below signal line ({latest_signal:.2f}), confirming bearish momentum.")
+            reasons.append("MACD line crossed below signal line, indicating momentum deceleration.")
             bearish_votes += 2
         else:
-            reasons.append("MACD histogram indicates flat momentum without active crossover triggers.")
+            reasons.append("MACD histogram reflects balanced momentum without clear divergence.")
 
-        # Price vs SMA
-        if current_p > sma20:
-            reasons.append(f"Current price ({current_p}) maintains support above 20-period moving average ({sma20:.2f}).")
+        # Momentum & Volume
+        if momentum > 10.0:
+            reasons.append(f"10-period rate of change (+{momentum}%) indicates strong price expansion.")
             bullish_votes += 1
-        else:
-            reasons.append(f"Current price ({current_p}) trades below 20-period moving average ({sma20:.2f}).")
+        elif momentum < -5.0:
+            reasons.append(f"10-period rate of change ({momentum}%) indicates downward price drift.")
             bearish_votes += 1
 
-        # Volume z-score
-        if vol_z > 1.5:
-            reasons.append(f"Volume z-score of +{vol_z:.2f} confirms elevated institutional trading participation.")
-            if momentum > 0:
-                bullish_votes += 1
-            else:
-                bearish_votes += 1
+        if vol_z > 1.0:
+            reasons.append(f"Volume is {vol_z:.2f} standard deviations above its 20-day mean, indicating elevated trading activity.")
+            bullish_votes += 1
+        elif vol_z < -1.0:
+            reasons.append(f"Volume is {abs(vol_z):.2f} standard deviations below average, reflecting subdued turnover.")
+        else:
+            reasons.append(f"Trading volume resides within normal bounds ({vol_z:.2f} standard deviations).")
 
-        # Classification synthesis
-        net_score = bullish_votes - bearish_votes
-        if net_score >= 4:
+        # Final Classification
+        if bullish_votes >= 4 and bearish_votes == 0:
             classification = "STRONG_BULLISH"
-            confidence = min(0.95, 0.70 + 0.05 * net_score)
-        elif net_score >= 2:
+            conf = 0.88
+        elif bullish_votes >= 2 and bullish_votes > bearish_votes:
             classification = "BULLISH"
-            confidence = min(0.85, 0.65 + 0.05 * net_score)
-        elif net_score <= -4:
+            conf = 0.80
+        elif bearish_votes >= 4 and bullish_votes == 0:
             classification = "STRONG_BEARISH"
-            confidence = min(0.95, 0.70 + 0.05 * abs(net_score))
-        elif net_score <= -2:
+            conf = 0.85
+        elif bearish_votes >= 2 and bearish_votes > bullish_votes:
             classification = "BEARISH"
-            confidence = min(0.85, 0.65 + 0.05 * abs(net_score))
+            conf = 0.75
         else:
             classification = "NEUTRAL"
-            confidence = 0.60
+            conf = 0.65
 
         return TechnicalSignal(
             ticker=ticker,
@@ -158,7 +152,7 @@ class TechnicalAgent:
             momentum_score=momentum,
             volume_anomaly_score=vol_z,
             classification=classification,
-            confidence=round(confidence, 2),
+            confidence=conf,
             reasons=reasons,
             degraded=False
         )

@@ -19,7 +19,6 @@ class DecisionTwinEngine:
         Guarantees scores are independently calculated and never averaged into a single score (Test 17).
         """
         # 1. Market Confidence (Alignment between technical, sentiment, fundamentals)
-        # Agreement score between technical and sentiment vs fundamental
         align_score = 0.50
         if (technical_sig.classification in ["BULLISH", "STRONG_BULLISH"]) and (sentiment_sig.classification == "POSITIVE"):
             align_score = 0.85 if fundamental_sig.filing_verdict == "POSITIVE" else 0.45
@@ -36,18 +35,20 @@ class DecisionTwinEngine:
         # Conservative strongly penalizes debt & high risk score; Aggressive tolerates higher momentum
         if persona == "conservative":
             fit_score = 1.0 - risk_assessment.risk_score
-            if fundamental_sig.debt_to_equity > 1.2:
+            if fundamental_sig.debt_to_equity is not None and fundamental_sig.debt_to_equity > 1.2:
                 fit_score = max(0.15, fit_score - 0.40)
+            elif not fundamental_sig.data_available:
+                fit_score = max(0.20, fit_score - 0.30)
         else:
             fit_score = 0.90 if technical_sig.classification in ["STRONG_BULLISH", "BULLISH"] else 0.60
-            if fundamental_sig.debt_to_equity > 3.0:
+            if fundamental_sig.debt_to_equity is not None and fundamental_sig.debt_to_equity > 3.0:
                 fit_score = max(0.30, fit_score - 0.30)
         decision_fit = round(float(fit_score), 2)
 
         # 3. Evidence Quality (Freshness and citation density)
         if filing_warning:
             ev_quality = 0.40  # Stale evidence
-        elif fundamental_sig.degraded:
+        elif fundamental_sig.degraded or not fundamental_sig.data_available:
             ev_quality = 0.20  # Missing evidence
         elif len(fundamental_sig.rag_citations) >= 2:
             ev_quality = 0.95

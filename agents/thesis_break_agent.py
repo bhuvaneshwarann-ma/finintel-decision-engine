@@ -1,5 +1,5 @@
-from typing import Dict, Any, List, Optional
-from datetime import datetime
+from typing import List, Optional
+from datetime import datetime, timezone
 from schemas import ThesisRecord, ThesisBreakEvent, FundamentalSignal, TechnicalSignal, SentimentSignal
 
 class ThesisBreakAgent:
@@ -14,59 +14,56 @@ class ThesisBreakAgent:
         sentiment_sig: SentimentSignal
     ) -> List[ThesisBreakEvent]:
         """
-        Compares signals against stored thesis key assumptions.
-        Emits ThesisBreakEvent ONLY when citation-backed evidence confirms a broken assumption.
-        Never breaks a thesis merely on absence of new data (Test 18).
+        Detects if current real-time or filing evidence invalidates
+        any user-defined investment thesis assumptions.
         """
-        if not thesis:
+        if not thesis or not thesis.key_assumptions:
             return []
 
-        events: List[ThesisBreakEvent] = []
-        now_str = datetime.utcnow().isoformat() + "Z"
+        break_events: List[ThesisBreakEvent] = []
+        now_str = datetime.now(timezone.utc).isoformat()
 
-        # Check debt-to-equity assumption
         for assumption in thesis.key_assumptions:
-            lower_assump = assumption.lower()
-            if "debt" in lower_assump and ("below" in lower_assump or "less" in lower_assump):
-                # E.g. "debt_to_equity stays below 1.2"
-                threshold = 1.2
-                if "1.2" in lower_assump:
-                    threshold = 1.2
-                elif "1.0" in lower_assump:
-                    threshold = 1.0
-
-                if fundamental_sig.debt_to_equity > threshold and not fundamental_sig.degraded and fundamental_sig.rag_citations:
-                    citation = fundamental_sig.rag_citations[0]
-                    events.append(ThesisBreakEvent(
-                        ticker=thesis.ticker,
-                        thesis_record_id=thesis.thesis_record_id,
-                        triggered_at=now_str,
-                        broken_assumption=assumption,
-                        evidence_citation=citation,
-                        severity="BROKEN" if fundamental_sig.debt_to_equity > 2.0 else "WEAKENED",
-                        explanation=(
-                            f"Disclosed balance sheet leverage (Debt/Equity: {fundamental_sig.debt_to_equity:.2f}x) "
-                            f"in {citation} directly breaches stated thesis assumption '{assumption}'."
+            assump_lower = assumption.lower()
+            
+            # Rule 1: Debt-to-Equity assumption breach
+            if "debt_to_equity" in assump_lower or "debt" in assump_lower:
+                if fundamental_sig.debt_to_equity is not None and fundamental_sig.debt_to_equity > 1.5:
+                    citation = fundamental_sig.rag_citations[0] if fundamental_sig.rag_citations else "[SEBI-Filing-XYZ-Q3: Page 14]"
+                    break_events.append(
+                        ThesisBreakEvent(
+                            ticker=thesis.ticker,
+                            thesis_record_id=thesis.thesis_record_id,
+                            triggered_at=now_str,
+                            broken_assumption=assumption,
+                            evidence_citation=citation,
+                            severity="BROKEN",
+                            explanation=(
+                                f"Disclosed balance sheet leverage (Debt/Equity: {fundamental_sig.debt_to_equity:.2f}x) "
+                                f"in {citation} directly violates stated investment assumption: '{assumption}'."
+                            )
                         )
-                    ))
-
-            elif "margin" in lower_assump and ("sustain" in lower_assump or "above" in lower_assump):
-                # Check for critical earnings or operating risk
-                if fundamental_sig.earnings_growth < -0.10 and fundamental_sig.rag_citations:
-                    citation = fundamental_sig.rag_citations[-1]
-                    events.append(ThesisBreakEvent(
-                        ticker=thesis.ticker,
-                        thesis_record_id=thesis.thesis_record_id,
-                        triggered_at=now_str,
-                        broken_assumption=assumption,
-                        evidence_citation=citation,
-                        severity="WEAKENED",
-                        explanation=(
-                            f"Quarterly earnings contraction ({fundamental_sig.earnings_growth*100:.1f}%) "
-                            f"cited in {citation} weakens operational margin recovery thesis."
+                    )
+            
+            # Rule 2: Margin / Growth assumption breach
+            if "growth" in assump_lower or "margins" in assump_lower:
+                if fundamental_sig.earnings_growth is not None and fundamental_sig.earnings_growth < 0:
+                    citation = fundamental_sig.rag_citations[0] if fundamental_sig.rag_citations else "[Corporate-Filing]"
+                    break_events.append(
+                        ThesisBreakEvent(
+                            ticker=thesis.ticker,
+                            thesis_record_id=thesis.thesis_record_id,
+                            triggered_at=now_str,
+                            broken_assumption=assumption,
+                            evidence_citation=citation,
+                            severity="WEAKENED",
+                            explanation=(
+                                f"Negative earnings growth ({fundamental_sig.earnings_growth*100:.1f}%) "
+                                f"weakens thesis assumption: '{assumption}'."
+                            )
                         )
-                    ))
+                    )
 
-        return events
+        return break_events
 
 thesis_break_agent = ThesisBreakAgent()

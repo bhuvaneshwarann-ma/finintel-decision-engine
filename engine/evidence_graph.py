@@ -1,8 +1,8 @@
-from typing import List, Dict, Any, Optional
-from schemas import EvidenceNode, SynthesizedOutput
+from typing import List, Dict, Any, Optional, Union
+from schemas import EvidenceNode, SynthesizedOutput, FundamentalSignal
 
 class EvidenceGraphEngine:
-    def build_graph(self, synthesis: SynthesizedOutput, fundamental_evidence: List[str]) -> List[EvidenceNode]:
+    def build_graph(self, synthesis: SynthesizedOutput, fundamental_evidence: Union[List[str], FundamentalSignal]) -> List[EvidenceNode]:
         """
         Builds connected tree/graph: DECISION -> CLAIM -> EVIDENCE -> DOCUMENT.
         Guarantees that claims with available citations link to EVIDENCE nodes with citation_tags,
@@ -20,8 +20,8 @@ class EvidenceGraphEngine:
             parent_node_id=None
         ))
 
-        # 2. Claim Nodes (from reasoning trace / signals)
-        raw = synthesis.raw_signals
+        # 2. Claim Nodes
+        raw = synthesis.raw_signals or {}
         tech_claim_id = f"node_claim_tech_{synthesis.session_id}"
         tech_class = raw.get("technical", {}).get("classification", "NEUTRAL")
         nodes.append(EvidenceNode(
@@ -37,7 +37,7 @@ class EvidenceGraphEngine:
         nodes.append(EvidenceNode(
             node_id=fund_claim_id,
             node_type="CLAIM",
-            label=f"Fundamental Solvency & Solvency: {fund_verdict}",
+            label=f"Fundamental Solvency: {fund_verdict}",
             citation_tag=None,
             parent_node_id=decision_node_id
         ))
@@ -53,14 +53,21 @@ class EvidenceGraphEngine:
         ))
 
         # 3. Evidence & Document Nodes for Fundamental Claims
-        citations = synthesis.source_attributions
+        citations = list(synthesis.source_attributions or [])
+        ev_list = []
+        if isinstance(fundamental_evidence, FundamentalSignal):
+            if not citations:
+                citations = list(fundamental_evidence.rag_citations)
+            ev_list = fundamental_evidence.evidence
+        elif isinstance(fundamental_evidence, list):
+            ev_list = fundamental_evidence
+
         if citations:
             for idx, cit in enumerate(citations):
                 ev_id = f"node_ev_{synthesis.session_id}_{idx}"
                 doc_id = f"node_doc_{synthesis.session_id}_{idx}"
                 
-                # Matched evidence text
-                ev_text = fundamental_evidence[idx] if idx < len(fundamental_evidence) else f"Disclosed in {cit}"
+                ev_text = ev_list[idx] if idx < len(ev_list) else f"Disclosed in {cit}"
                 nodes.append(EvidenceNode(
                     node_id=ev_id,
                     node_type="EVIDENCE",
@@ -76,7 +83,6 @@ class EvidenceGraphEngine:
                     parent_node_id=ev_id
                 ))
         else:
-            # Explicitly uncited evidence marker
             nodes.append(EvidenceNode(
                 node_id=f"node_ev_uncited_{synthesis.session_id}",
                 node_type="EVIDENCE",
