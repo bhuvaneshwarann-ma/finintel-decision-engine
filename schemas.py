@@ -22,11 +22,12 @@ class FundamentalSignal(BaseModel):
     rag_citations: List[str]
     debt_to_equity: Optional[float] = None  # None if filing/data is unavailable (§11)
     earnings_growth: Optional[float] = None
-    filing_verdict: str  # POSITIVE, NEUTRAL, CONCERNING, CRITICAL_RISK, UNKNOWN
+    filing_verdict: str  # POSITIVE, NEUTRAL, CONCERNING, CRITICAL_RISK, UNKNOWN, INSUFFICIENT_EVIDENCE
     confidence: float
     evidence: List[str]
     data_available: bool = True
     degraded: bool = False
+    evidence_provenance: Optional[Dict[str, Any]] = None
 
 class SentimentSignal(BaseModel):
     ticker: str
