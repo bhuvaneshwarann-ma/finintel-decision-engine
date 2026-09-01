@@ -34,7 +34,7 @@ app = FastAPI(
     version="3.0.0"
 )
 
-# Standard developer and local demo CORS configuration (§26)
+# Standard developer and local demo CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -306,12 +306,58 @@ async def get_what_changed(ticker: str):
 @app.post("/api/copilot/query", response_model=CopilotQueryResponse)
 async def query_copilot(request: CopilotQueryRequest):
     """
-    Evidence-Grounded Research Copilot (§23).
-    Queries ChromaDB RAG store and answers grounded strictly in retrieved filings.
+    Evidence-Grounded Research Copilot & Friendly Website Guide.
+    Answers questions about how to use the terminal features, multi-agent logic, or stock filings.
     """
+    q_lower = request.question.lower().strip()
     ticker = validate_ticker(request.ticker or "TATAMOTORS")
     from agents.fundamental_rag_agent import fundamental_rag_agent
-    
+
+    # 1. System & Website Feature Guide Responses
+    if any(k in q_lower for k in ["what is this website", "how to use", "guide", "what does this do", "features", "website", "finintel"]):
+        ans = (
+            "👋 **Welcome to FinIntelligence AI!**\n\n"
+            "This is an autonomous multi-agent financial intelligence terminal designed for Indian retail investors.\n\n"
+            "**Key Features you can explore:**\n"
+            "1. **Overview & Verdict**: Shows synthesized investment decisions and separates raw **Market View** from personalized **Investor Fit**.\n"
+            "2. **Agent Signals**: Inspect specialized Technical, Sentiment (with separate FII/DII flows), and Fundamental Vector RAG agents.\n"
+            "3. **Decision Twin (5D)**: 5 independently scored dimensions evaluated side by side without collapsing.\n"
+            "4. **Devil's Advocate**: 3-step adversarial challenge that stress-tests draft recommendations.\n"
+            "5. **Thesis & Biases**: Behavioral bias mirror detecting FOMO/recency bias + investment thesis tracker.\n"
+            "6. **Risk Scenario Analysis**: Illustrative stress simulations across Upside, Base, Downside, and Thesis Break states.\n"
+            "7. **Audit & Replay**: Complete Evidence Provenance tree and 7-stage Reasoning Replay Scrubber."
+        )
+        return CopilotQueryResponse(answer=ans, cited_sources=["[Terminal-Architecture: System Guide]"], grounded_in_rag=True, ai_mode="guide_mode")
+
+    if any(k in q_lower for k in ["devil's advocate", "devils advocate", "adversarial"]):
+        ans = (
+            "🛡️ **Devil's Advocate Agent**: A dedicated adversarial agent that takes the draft recommendation and tries to break it! "
+            "It is strictly evidence-constrained and searches for weak assumptions (like undisclosed debt leverage or overbought RSI). "
+            "If it finds material risk, it actively adjusts confidence and can revise a BUY into an AVOID."
+        )
+        return CopilotQueryResponse(answer=ans, cited_sources=["[Agents: DevilsAdvocateAgent]"], grounded_in_rag=True, ai_mode="guide_mode")
+
+    if any(k in q_lower for k in ["decision twin", "5d", "five dimension"]):
+        ans = (
+            "📊 **Decision Twin (5D)**: Evaluates 5 independent dimensions side by side without averaging them:\n"
+            "• **Market Confidence**: Multi-agent signal alignment.\n"
+            "• **Investor Decision Fit**: Suitability for your risk profile & concentration limits.\n"
+            "• **Evidence Quality**: Freshness and citation density in filings.\n"
+            "• **Thesis Health**: Status of your stated investment assumptions.\n"
+            "• **Behavioral Risk**: Protection against FOMO and recency bias."
+        )
+        return CopilotQueryResponse(answer=ans, cited_sources=["[Engine: DecisionTwin]"], grounded_in_rag=True, ai_mode="guide_mode")
+
+    if any(k in q_lower for k in ["conservative", "aggressive", "persona"]):
+        ans = (
+            "👤 **Investor Personas**: FinIntelligence AI maintains the fundamental law that `Market View != Personal Action`. "
+            "For the exact same stock, a **Conservative Senior** (strict capital preservation, 15% max allocation, low debt tolerance) "
+            "receives a protective AVOID/HOLD, while an **Aggressive Gen-Z** (tactical growth, higher volatility tolerance) "
+            "receives a WATCH or tactical sizing with stop-loss."
+        )
+        return CopilotQueryResponse(answer=ans, cited_sources=["[Profiling: Persona Engine]"], grounded_in_rag=True, ai_mode="guide_mode")
+
+    # 2. Evidence Grounded RAG Search for Stock Specific Inquiries
     retrieved = fundamental_rag_agent.retrieve(query=request.question, ticker=ticker, top_k=2)
     citations = [r["citation_tag"] for r in retrieved]
     evidence_text = "\n".join([r["text"] for r in retrieved])
@@ -331,7 +377,7 @@ async def query_copilot(request: CopilotQueryRequest):
             client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
             prompt = (
                 f"You are the Evidence-Grounded Research Copilot for FinIntelligence AI.\n"
-                f"Answer the user's question using ONLY the retrieved corporate filing disclosures below.\n"
+                f"Answer the user's question friendly and clearly using ONLY the retrieved corporate filing disclosures below.\n"
                 f"Question: {request.question}\n"
                 f"Retrieved Excerpts:\n{evidence_text}\n"
                 f"Citation Tags: {citations}\n"
@@ -349,7 +395,7 @@ async def query_copilot(request: CopilotQueryRequest):
             pass
 
     # Deterministic evidence grounded answer
-    ans = f"Based on retrieved filing disclosures in {', '.join(citations)}: {retrieved[0]['text'][:280]}..."
+    ans = f"Based on retrieved filing disclosures in {', '.join(citations)}:\n\n{retrieved[0]['text'][:300]}..."
     return CopilotQueryResponse(
         answer=ans,
         cited_sources=citations,

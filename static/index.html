@@ -1041,6 +1041,88 @@
     </div>
   </div>
 
+  <!-- FLOATING CHATBOT TRIGGER BUTTON -->
+  <div id="chatbot-trigger-container" class="fixed bottom-6 right-6 z-50 flex items-center space-x-3">
+    <div id="chatbot-hint" class="bg-slate-900/90 backdrop-blur border border-sky-500/40 text-sky-200 px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg hidden md:flex items-center space-x-2 animate-bounce">
+      <span>✨ Need help or info? Chat with AI!</span>
+    </div>
+    <button onclick="toggleChatbot()" id="chatbot-btn" class="relative group p-3.5 rounded-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-xl shadow-sky-500/25 transition-all duration-300 hover:scale-110 flex items-center justify-center focus:outline-none">
+      <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+      </span>
+      <i data-lucide="bot-message-square" class="w-6 h-6"></i>
+    </button>
+  </div>
+
+  <!-- FLOATING CHATBOT DRAWER / MODAL -->
+  <div id="chatbot-drawer" class="fixed bottom-20 right-6 z-50 w-[420px] max-w-[94vw] h-[580px] max-h-[82vh] terminal-panel border border-sky-500/30 rounded-xl shadow-2xl flex flex-col hidden overflow-hidden backdrop-blur-xl bg-slate-950/95 transition-all duration-300">
+    <!-- Chat Header -->
+    <div class="px-4 py-3 bg-slate-900 border-b border-terminal-border flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-1.5">
+            <h4 class="text-xs font-bold text-white tracking-wide">FinIntel AI Assistant</h4>
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          </div>
+          <p class="text-[10px] text-slate-400 mono">Terminal Guide & RAG Evidence</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-1">
+        <button onclick="clearChat()" title="Clear history" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 text-xs">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+        <button onclick="toggleChatbot()" class="p-1.5 text-slate-400 hover:text-white rounded hover:bg-slate-800 text-xs">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Prompt Suggestions Chips -->
+    <div class="p-2.5 bg-slate-900/50 border-b border-slate-800/80 overflow-x-auto flex space-x-1.5 no-scrollbar">
+      <button onclick="quickAsk('What is this website and how do I use it?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🚀 Website Guide</button>
+      <button onclick="quickAsk('How does Devil\'s Advocate work?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🛡️ Devil's Advocate</button>
+      <button onclick="quickAsk('Explain the Decision Twin (5D) scores')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">📊 Decision Twin</button>
+      <button onclick="quickAsk('What is the debt to equity ratio disclosed for ' + currentTicker + '?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">📑 Filing Evidence</button>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs leading-relaxed">
+      <!-- Initial Friendly Greeting -->
+      <div class="flex items-start space-x-2.5">
+        <div class="w-6 h-6 rounded-full bg-sky-600 flex-shrink-0 flex items-center justify-center text-white mt-0.5">
+          <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl rounded-tl-none p-3 text-slate-200 shadow-sm max-w-[85%] space-y-2">
+          <p>👋 <strong>Hello! I'm your FinIntelligence AI Assistant.</strong></p>
+          <p class="text-slate-300">I can help you navigate this terminal, explain multi-agent calculations, or retrieve verified corporate filing disclosures for any stock.</p>
+          <p class="text-[11px] text-sky-400 font-mono">💡 Click any suggestion chip above or ask me your question below!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Typing Indicator -->
+    <div id="chat-typing" class="px-4 py-1.5 bg-slate-950 text-[11px] text-slate-400 mono flex items-center space-x-2 hidden">
+      <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse"></span>
+      <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse delay-75"></span>
+      <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse delay-150"></span>
+      <span>Querying ChromaDB & analyzing evidence...</span>
+    </div>
+
+    <!-- Chat Input Area -->
+    <div class="p-3 bg-slate-900 border-t border-terminal-border">
+      <form onsubmit="handleChatSubmit(event)" class="flex items-center space-x-2">
+        <input type="text" id="chat-input" placeholder="Ask about features, agents, or stocks..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-sky-500" autocomplete="off" />
+        <button type="submit" id="chat-send-btn" class="px-3 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition-colors flex items-center justify-center font-bold">
+          <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- JAVASCRIPT APP LOGIC -->
   <script>
     let currentTicker = "TATAMOTORS";
@@ -1393,6 +1475,135 @@
         triggerAnalysis();
       } catch (e) {
         alert('Error recording thesis: ' + e.message);
+      }
+    }
+
+    // --- CHATBOT CONTROLLER ---
+    function toggleChatbot() {
+      const drawer = document.getElementById('chatbot-drawer');
+      const hint = document.getElementById('chatbot-hint');
+      const isHidden = drawer.classList.contains('hidden');
+      if (isHidden) {
+        drawer.classList.remove('hidden');
+        if (hint) hint.classList.add('hidden');
+        setTimeout(() => document.getElementById('chat-input').focus(), 100);
+      } else {
+        drawer.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function clearChat() {
+      const container = document.getElementById('chat-messages');
+      container.innerHTML = `
+        <div class="flex items-start space-x-2.5">
+          <div class="w-6 h-6 rounded-full bg-sky-600 flex-shrink-0 flex items-center justify-center text-white mt-0.5">
+            <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl rounded-tl-none p-3 text-slate-200 shadow-sm max-w-[85%] space-y-2">
+            <p>👋 <strong>Chat history cleared!</strong></p>
+            <p class="text-slate-300">How can I assist you with FinIntelligence AI today?</p>
+          </div>
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function quickAsk(queryText) {
+      document.getElementById('chat-input').value = queryText;
+      sendChatMessage(queryText);
+    }
+
+    function handleChatSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      sendChatMessage(text);
+    }
+
+    function renderChatMarkdown(raw) {
+      if (!raw) return '';
+      let formatted = raw
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`([^`]+)`/g, '<code class="px-1.5 py-0.5 bg-slate-950 rounded text-sky-300 font-mono text-[11px]">$1</code>')
+        .replace(/\[([^\]]+)\]/g, '<span class="citation-tag">$1</span>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+      return formatted;
+    }
+
+    function appendMessage(role, text, citations = []) {
+      const container = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = role === 'user' ? 'flex items-start justify-end space-x-2.5' : 'flex items-start space-x-2.5';
+
+      let citationsHtml = '';
+      if (citations && citations.length > 0) {
+        citationsHtml = `
+          <div class="pt-2 mt-2 border-t border-slate-800/80 flex flex-wrap gap-1 items-center">
+            <span class="text-[10px] text-slate-400 font-mono">Sources:</span>
+            ${citations.map(c => `<span class="citation-tag text-[9px]">${c}</span>`).join('')}
+          </div>
+        `;
+      }
+
+      if (role === 'user') {
+        msgDiv.innerHTML = `
+          <div class="bg-sky-600 text-white rounded-xl rounded-tr-none p-3 shadow-sm max-w-[85%]">
+            <p>${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
+          </div>
+          <div class="w-6 h-6 rounded-full bg-slate-700 flex-shrink-0 flex items-center justify-center text-slate-200 mt-0.5">
+            <i data-lucide="user" class="w-3.5 h-3.5"></i>
+          </div>
+        `;
+      } else {
+        msgDiv.innerHTML = `
+          <div class="w-6 h-6 rounded-full bg-sky-600 flex-shrink-0 flex items-center justify-center text-white mt-0.5">
+            <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+          </div>
+          <div class="bg-slate-900 border border-slate-800 rounded-xl rounded-tl-none p-3 text-slate-200 shadow-sm max-w-[85%] space-y-1.5">
+            <div>${renderChatMarkdown(text)}</div>
+            ${citationsHtml}
+          </div>
+        `;
+      }
+
+      container.appendChild(msgDiv);
+      container.scrollTop = container.scrollHeight;
+      lucide.createIcons();
+    }
+
+    async function sendChatMessage(question) {
+      appendMessage('user', question);
+      const typing = document.getElementById('chat-typing');
+      typing.classList.remove('hidden');
+
+      try {
+        const response = await fetch('/api/copilot/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            question: question,
+            ticker: currentTicker
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        typing.classList.add('hidden');
+        appendMessage('assistant', data.answer, data.cited_sources);
+      } catch (err) {
+        typing.classList.add('hidden');
+        appendMessage('assistant', `⚠️ **Connection Error**: Unable to reach research engine (${err.message}). Please check backend status.`);
       }
     }
 
