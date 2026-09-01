@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinIntelligence AI — Research & Investment Decision Terminal</title>
+  <meta name="description" content="A professional multi-agent investment decision dashboard with a sleek sidebar layout.">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          },
+          colors: {
+            terminal: {
+              bg: '#080c14',
+              surface: '#0f172a',
+              surfaceAlt: '#131e33',
+              border: '#1e293b',
+              borderFocus: '#38bdf8',
+              muted: '#64748b',
+              text: '#f1f5f9'
+            },
+            market: {
+              bull: '#10b981',
+              bear: '#f43f5e',
+              warning: '#f59e0b',
+              info: '#38bdf8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background-color: #080c14;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    
+    .terminal-panel {
+      background-color: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+    }
+    .terminal-panel-alt {
+      background-color: #131e33;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+    }
+
+    /* Citation Badge Standard */
+    .citation-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      background-color: #1e1b4b;
+      color: #a5b4fc;
+      border: 1px solid #3730a3;
+    }
+
+    /* Sidebar Navigation Links */
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+    }
+    .sidebar-link:hover {
+      color: #ffffff;
+      background-color: #1e293b;
+    }
+    .sidebar-link-active {
+      color: #38bdf8 !important;
+      background-color: #0f172a !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.12);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #080c14; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+</head>
+<body class="min-h-screen flex antialiased selection:bg-sky-500 selection:text-black">
+
+  <!-- LEFT SIDEBAR DASHBOARD NAVIGATION -->
+  <aside class="w-64 bg-slate-900 border-r border-terminal-border flex flex-col justify-between flex-shrink-0 z-50 h-screen">
+    
+    <div class="p-4 space-y-5 overflow-y-auto">
+      
+      <!-- Brand Header -->
+      <div class="flex items-center space-x-3 pb-3 border-b border-terminal-border">
+        <div class="h-8 w-8 rounded bg-sky-500 flex items-center justify-center text-slate-950 font-black">
+          <i data-lucide="activity" class="w-4 h-4 text-slate-950"></i>
+        </div>
+        <div>
+          <div class="font-bold tracking-tight text-white text-sm">FinIntelligence AI</div>
+          <p class="text-[10px] text-terminal-muted mono">Multi-Agent Terminal</p>
+        </div>
+      </div>
+
+      <!-- Ticker Switcher -->
+      <div class="space-y-1.5">
+        <span class="text-[10px] text-terminal-muted mono uppercase font-bold tracking-wider">Active Ticker:</span>
+        <div class="space-y-1 text-xs mono">
+          <button onclick="selectTicker('TATAMOTORS')" id="btn-tata" class="ticker-btn w-full px-3 py-1.5 rounded font-semibold text-white bg-slate-800 border border-sky-500 flex justify-between items-center text-left">
+            <span>TATAMOTORS</span>
+            <span class="text-market-bull font-bold">₹1,150</span>
+          </button>
+          <button onclick="selectTicker('INFOSYS')" id="btn-infy" class="ticker-btn w-full px-3 py-1.5 rounded font-semibold text-slate-400 hover:text-white bg-slate-950 border border-terminal-border flex justify-between items-center text-left">
+            <span>INFOSYS</span>
+            <span class="text-slate-400 font-bold">₹1,635</span>
+          </button>
+          <button onclick="selectTicker('XYZ_CORP')" id="btn-xyz" class="ticker-btn w-full px-3 py-1.5 rounded font-semibold text-slate-400 hover:text-white bg-slate-950 border border-terminal-border flex justify-between items-center text-left">
+            <span>XYZ_CORP</span>
+            <span class="text-market-warning font-bold">₹640</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Investor Persona Switcher -->
+      <div class="space-y-1.5">
+        <span class="text-[10px] text-terminal-muted mono uppercase font-bold tracking-wider">Investor Persona:</span>
+        <div class="grid grid-cols-2 gap-1 bg-slate-950 p-1 rounded border border-terminal-border text-xs mono">
+          <button onclick="setPersona('conservative')" id="btn-persona-cons" class="persona-btn px-2 py-1 rounded font-semibold text-white bg-sky-600 text-center">
+            Conservative
+          </button>
+          <button onclick="setPersona('aggressive')" id="btn-persona-aggr" class="persona-btn px-2 py-1 rounded font-semibold text-slate-400 hover:text-white text-center">
+            Aggressive
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation Views -->
+      <div class="space-y-1 pt-2 border-t border-terminal-border">
+        <span class="text-[10px] text-terminal-muted mono uppercase font-bold tracking-wider px-1">Navigation Views:</span>
+        
+        <button onclick="switchTab('tab-overview')" id="tabbtn-overview" class="sidebar-link sidebar-link-active">
+          <i data-lucide="layout-dashboard" class="w-4 h-4 text-sky-400"></i>
+          <span>Overview & Verdict</span>
+        </button>
+
+        <button onclick="switchTab('tab-agents')" id="tabbtn-agents" class="sidebar-link">
+          <i data-lucide="cpu" class="w-4 h-4 text-indigo-400"></i>
+          <span>Agent Signals</span>
+        </button>
+
+        <button onclick="switchTab('tab-twin')" id="tabbtn-twin" class="sidebar-link">
+          <i data-lucide="columns" class="w-4 h-4 text-emerald-400"></i>
+          <span>Decision Twin</span>
+        </button>
+
+        <button onclick="switchTab('tab-da')" id="tabbtn-da" class="sidebar-link">
+          <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
+          <span>Devil's Advocate</span>
+        </button>
+
+        <button onclick="switchTab('tab-thesis')" id="tabbtn-thesis" class="sidebar-link">
+          <i data-lucide="brain" class="w-4 h-4 text-rose-400"></i>
+          <span>Thesis & Biases</span>
+        </button>
+
+        <button onclick="switchTab('tab-sim')" id="tabbtn-sim" class="sidebar-link">
+          <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i>
+          <span>Stress Simulator</span>
+        </button>
+
+        <button onclick="switchTab('tab-replay')" id="tabbtn-replay" class="sidebar-link">
+          <i data-lucide="fast-forward" class="w-4 h-4 text-teal-400"></i>
+          <span>Audit & Replay</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Sidebar Bottom Actions -->
+    <div class="p-3 border-t border-terminal-border bg-slate-950/60 space-y-2">
+      <button onclick="openThesisModal()" class="w-full px-3 py-2 rounded bg-slate-900 border border-terminal-border hover:border-slate-500 text-slate-300 hover:text-white mono text-xs font-semibold flex items-center justify-center gap-2 shadow-sm">
+        <i data-lucide="bookmark-plus" class="w-3.5 h-3.5 text-sky-400"></i>
+        <span>Record Thesis</span>
+      </button>
+      <a href="/docs" target="_blank" class="w-full px-3 py-2 rounded bg-slate-900 border border-terminal-border hover:border-slate-500 text-slate-300 hover:text-white mono text-xs font-semibold flex items-center justify-center gap-2 shadow-sm">
+        <i data-lucide="file-text" class="w-3.5 h-3.5 text-slate-400"></i>
+        <span>API Documentation</span>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- MAIN CONTENT WRAPPER -->
+  <div class="flex-1 flex flex-col h-screen overflow-y-auto">
+    
+    <!-- TOP STATUS STRIP -->
+    <div id="status-strip" class="bg-slate-950 border-b border-terminal-border px-6 py-2.5 text-xs mono flex-shrink-0">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center space-x-3">
+          <span id="data-feed-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            MARKET FEED: HEALTHY
+          </span>
+          <span id="freshness-alert" class="hidden px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+            FILING FRESHNESS: STALE (19 MONTHS OLD)
+          </span>
+          <span id="degraded-alert" class="hidden px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">
+            DATA DEGRADED: PARTIAL INPUT FEEDS UTILIZED
+          </span>
+          <span class="text-slate-400 text-[11px]" id="engine-status-msg">
+            Independent multi-agent evaluation ready.
+          </span>
+        </div>
+        
+        <div class="flex items-center space-x-4 text-terminal-muted text-[11px]">
+          <span>View: <strong id="active-tab-title" class="text-sky-400">Overview & Verdict</strong></span>
+          <span>Latency: <strong id="latency-tag" class="text-slate-300">18.4ms</strong></span>
+          <span>Audited Filings: <strong id="filing-count-tag" class="text-slate-300">7 SEBI Reports</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DYNAMIC TABBED PAGE CONTENT -->
+    <main class="flex-1 p-6 space-y-4">
+
+      <!-- ========================================== -->
+      <!-- VIEW: OVERVIEW & VERDICT                   -->
+      <!-- ========================================== -->
+      <div id="tab-overview" class="page-view space-y-4">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          
+          <!-- Interactive Scenarios (4 cols) -->
+          <div class="lg:col-span-4 terminal-panel p-4 flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+                <span class="text-xs font-bold text-slate-300 uppercase tracking-wider mono flex items-center gap-1.5">
+                  <i data-lucide="play-circle" class="w-3.5 h-3.5 text-sky-400"></i> Interactive Scenarios
+                </span>
+                <span class="text-[10px] text-amber-400 mono bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/60 font-semibold">Demo Ready</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 mt-3">
+                <button onclick="runScenario('A')" id="scen-a" class="scen-btn text-left p-2.5 rounded border border-terminal-border bg-slate-950 hover:border-slate-600 transition-all">
+                  <div class="flex justify-between items-center text-xs font-bold text-white mono">
+                    <span>Scenario A</span>
+                    <span class="text-[10px] text-emerald-400 font-normal">TATA</span>
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1 leading-snug">Aligned Bullish breakout + healthy deleveraging.</p>
+                </button>
+
+                <button onclick="runScenario('B')" id="scen-b" class="scen-btn text-left p-2.5 rounded border border-terminal-border bg-slate-950 hover:border-slate-600 transition-all">
+                  <div class="flex justify-between items-center text-xs font-bold text-white mono">
+                    <span>Scenario B</span>
+                    <span class="text-[10px] text-amber-400 font-normal">XYZ</span>
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1 leading-snug">Conflicting signals. No majority voting bias.</p>
+                </button>
+
+                <button onclick="runScenario('C')" id="scen-c" class="scen-btn text-left p-2.5 rounded border border-terminal-border bg-slate-950 hover:border-slate-600 transition-all">
+                  <div class="flex justify-between items-center text-xs font-bold text-white mono">
+                    <span>Scenario C</span>
+                    <span class="text-[10px] text-sky-400 font-normal">ANY</span>
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1 leading-snug">Degraded feeds with reduced confidence floor.</p>
+                </button>
+
+                <button onclick="runScenario('D')" id="scen-d" class="scen-btn text-left p-2.5 rounded border border-amber-600/60 bg-slate-950 hover:border-amber-500 transition-all">
+                  <div class="flex justify-between items-center text-xs font-bold text-amber-300 mono">
+                    <span>Scenario D</span>
+                    <span class="text-[10px] text-amber-400 font-bold">LEAD DEMO</span>
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1 leading-snug">Stale filing + Momentum chasing + DA challenge.</p>
+                </button>
+              </div>
+            </div>
+
+            <button onclick="triggerAnalysis()" class="w-full py-2.5 px-4 rounded bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs mono flex items-center justify-center gap-2 transition-all shadow-md">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Run Parallel Analysis Pass
+            </button>
+          </div>
+
+          <!-- Synthesized Recommendation & Confidence Decomposition (8 cols) -->
+          <div class="lg:col-span-8 terminal-panel p-4 space-y-4">
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 pb-4 border-b border-terminal-border items-start">
+              
+              <!-- Verdict Stance -->
+              <div class="md:col-span-5 space-y-2">
+                <span class="text-[11px] font-bold text-terminal-muted uppercase tracking-wider mono">Synthesized Investment Verdict</span>
+                <div class="flex items-baseline space-x-3">
+                  <span id="verdict-display" class="text-3xl font-black mono text-white">HOLD-WATCH</span>
+                  <span id="market-class-display" class="text-xs mono px-2 py-0.5 rounded bg-slate-800 text-sky-300 border border-slate-700">
+                    NEUTRAL_BALANCED
+                  </span>
+                </div>
+                <p id="personalized-advice-display" class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-2.5 rounded border border-terminal-border">
+                  Select stock or scenario above to evaluate evidence-grounded intelligence.
+                </p>
+              </div>
+
+              <!-- Confidence Decomposition (4 Sub-components summing to Composite) -->
+              <div class="md:col-span-7 space-y-2">
+                <div class="flex justify-between items-center text-xs mono">
+                  <span class="text-terminal-muted uppercase font-bold">Confidence Decomposition</span>
+                  <span class="text-white font-bold">Composite: <span id="composite-conf-val" class="text-emerald-400">0.78</span></span>
+                </div>
+
+                <div class="grid grid-cols-4 gap-2 text-center text-xs mono">
+                  <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                    <div class="text-[10px] text-terminal-muted">Freshness</div>
+                    <div id="score-freshness" class="text-sky-300 font-bold text-xs mt-0.5">0.95</div>
+                    <div class="text-[9px] text-slate-500">25% wt</div>
+                  </div>
+                  <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                    <div class="text-[10px] text-terminal-muted">Agreement</div>
+                    <div id="score-agreement" class="text-emerald-300 font-bold text-xs mt-0.5">0.85</div>
+                    <div class="text-[9px] text-slate-500">35% wt</div>
+                  </div>
+                  <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                    <div class="text-[10px] text-terminal-muted">Evidence</div>
+                    <div id="score-evidence" class="text-amber-300 font-bold text-xs mt-0.5">0.90</div>
+                    <div class="text-[9px] text-slate-500">25% wt</div>
+                  </div>
+                  <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                    <div class="text-[10px] text-terminal-muted">Calibration</div>
+                    <div id="score-calibration" class="text-purple-300 font-bold text-xs mt-0.5">0.85</div>
+                    <div class="text-[9px] text-slate-500">15% wt</div>
+                  </div>
+                </div>
+
+                <div class="p-2 bg-slate-950/60 rounded text-[10px] text-slate-400 mono flex items-center justify-between">
+                  <span>Formula: $\sum (w_i \cdot s_i)$ &bull; Calibrated over historical trials</span>
+                  <span id="calib-score-tag" class="text-sky-400 font-bold">Ledger Active</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Two-Track Confidence Breakdown -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs mono">
+              <div class="p-3 bg-slate-950 rounded border border-terminal-border">
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-terminal-muted">Market Signal Confidence:</span>
+                  <span id="track-market-conf" class="font-bold text-sky-400 text-sm">75%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                  <div id="bar-track-market" class="bg-sky-500 h-full" style="width: 75%"></div>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-1">Raw technical + sentiment agreement</div>
+              </div>
+
+              <div class="p-3 bg-slate-950 rounded border border-terminal-border">
+                <div class="flex justify-between items-center mb-1.5">
+                  <span class="text-terminal-muted">Investor Decision Fit:</span>
+                  <span id="track-decision-fit" class="font-bold text-emerald-400 text-sm">45%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                  <div id="bar-track-fit" class="bg-emerald-500 h-full" style="width: 45%"></div>
+                </div>
+                <div class="text-[10px] text-slate-500 mt-1">Portfolio & persona risk constraints</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: AGENT SIGNALS                        -->
+      <!-- ========================================== -->
+      <div id="tab-agents" class="page-view space-y-4 hidden">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          
+          <!-- Technical Agent Panel -->
+          <div id="card-tech-agent" class="terminal-panel p-4 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center pb-2 border-b border-terminal-border">
+                <span class="text-xs font-bold text-white mono flex items-center gap-1.5">
+                  <i data-lucide="trending-up" class="w-3.5 h-3.5 text-sky-400"></i> Technical Agent
+                </span>
+                <span id="tech-class-badge" class="px-2 py-0.5 rounded text-[10px] mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  STRONG_BULLISH
+                </span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 my-3 text-xs mono">
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">RSI (14)</div>
+                  <div id="tech-rsi-val" class="font-bold text-white text-sm">74.2</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">MACD Signal</div>
+                  <div id="tech-macd-val" class="font-bold text-emerald-400 text-sm truncate">BULLISH</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">Momentum (10d)</div>
+                  <div id="tech-mom-val" class="font-bold text-white text-sm">+18.5%</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">Vol Z-Score</div>
+                  <div id="tech-vol-val" class="font-bold text-sky-400 text-sm">+2.45</div>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-[10px] text-terminal-muted mono uppercase font-bold">Calculation Attributions:</span>
+                <ul id="tech-reasons-list" class="space-y-1 list-disc list-inside text-[11px] text-slate-300">
+                  <li>RSI above centerline indicating upside momentum.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-terminal-border flex justify-between text-[10px] mono text-slate-500">
+              <span>Latency: <span id="tech-lat-val" class="text-slate-300">12ms</span></span>
+              <span>Confidence: <span id="tech-conf-val" class="text-slate-300">0.85</span></span>
+            </div>
+          </div>
+
+          <!-- Sentiment Agent Panel -->
+          <div id="card-sent-agent" class="terminal-panel p-4 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center pb-2 border-b border-terminal-border">
+                <span class="text-xs font-bold text-white mono flex items-center gap-1.5">
+                  <i data-lucide="message-square" class="w-3.5 h-3.5 text-indigo-400"></i> Sentiment Agent
+                </span>
+                <span id="sent-class-badge" class="px-2 py-0.5 rounded text-[10px] mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  POSITIVE
+                </span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 my-3 text-xs mono">
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">Headline Score</div>
+                  <div id="sent-headline-val" class="font-bold text-emerald-400 text-sm">+0.82</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">FII / DII Flow</div>
+                  <div id="sent-fii-val" class="font-bold text-sky-400 text-sm">INFLOW</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border col-span-2">
+                  <div class="text-[10px] text-terminal-muted">Retail Social Intensity</div>
+                  <div id="sent-social-val" class="font-bold text-purple-400 text-sm">88% (High Buzz)</div>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-[10px] text-terminal-muted mono uppercase font-bold">News & Flow Insights:</span>
+                <ul id="sent-reasons-list" class="space-y-1 list-disc list-inside text-[11px] text-slate-300">
+                  <li>Institutional accumulation and positive press volume.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-terminal-border flex justify-between text-[10px] mono text-slate-500">
+              <span>Latency: <span id="sent-lat-val" class="text-slate-300">14ms</span></span>
+              <span>Confidence: <span id="sent-conf-val" class="text-slate-300">0.80</span></span>
+            </div>
+          </div>
+
+          <!-- Fundamental RAG Agent Panel -->
+          <div id="card-fund-agent" class="terminal-panel p-4 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center pb-2 border-b border-terminal-border">
+                <span class="text-xs font-bold text-white mono flex items-center gap-1.5">
+                  <i data-lucide="file-search" class="w-3.5 h-3.5 text-amber-400"></i> Fundamental RAG
+                </span>
+                <span id="fund-class-badge" class="px-2 py-0.5 rounded text-[10px] mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">
+                  CRITICAL_RISK
+                </span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 my-3 text-xs mono">
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">Debt / Equity</div>
+                  <div id="fund-de-val" class="font-bold text-rose-400 text-sm">3.85x</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border">
+                  <div class="text-[10px] text-terminal-muted">Earnings Growth</div>
+                  <div id="fund-growth-val" class="font-bold text-amber-400 text-sm">-12.0%</div>
+                </div>
+                <div class="p-2 bg-slate-950 rounded border border-terminal-border col-span-2">
+                  <div class="text-[10px] text-terminal-muted mb-0.5">Primary Grounding Citation</div>
+                  <span id="fund-citations-val" class="citation-tag">[SEBI-Filing-XYZ-Q3: Page 14]</span>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-[10px] text-terminal-muted mono uppercase font-bold">Filing Disclosure Excerpt:</span>
+                <div id="fund-evidence-snippet" class="p-2 bg-slate-950 rounded border border-terminal-border text-[11px] mono text-slate-300 leading-snug">
+                  Surge in short-term debt and auditor Emphasis of Matter regarding refinancing risk.
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-terminal-border flex justify-between text-[10px] mono text-slate-500">
+              <span>Latency: <span id="fund-lat-val" class="text-slate-300">18ms</span></span>
+              <span>Confidence: <span id="fund-conf-val" class="text-slate-300">0.90</span></span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: DECISION TWIN (5D)                   -->
+      <!-- ========================================== -->
+      <div id="tab-twin" class="page-view space-y-4 hidden">
+        
+        <div class="terminal-panel p-5 space-y-4">
+          <div class="flex flex-wrap items-center justify-between pb-2 border-b border-terminal-border gap-2">
+            <div>
+              <h2 class="text-sm font-bold text-white uppercase tracking-wider mono flex items-center gap-2">
+                <i data-lucide="columns" class="w-4 h-4 text-sky-400"></i> Five-Dimension Investment Decision Twin
+              </h2>
+              <p class="text-xs text-terminal-muted mt-0.5">Five separately scored dimensions evaluated side by side — never collapsed into one blended number.</p>
+            </div>
+            <span class="text-xs text-terminal-muted mono bg-slate-950 px-2.5 py-1 rounded border border-terminal-border">Strict Dimension Separation</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-xs mono">
+            
+            <!-- Dimension: Market Confidence -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 font-semibold">Market Conf</span>
+                <span id="twin-market-val" class="font-bold text-sky-400 text-base">0.85</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                <div id="bar-twin-market" class="bg-sky-500 h-full" style="width: 85%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">Multi-agent signal alignment without voting bias</p>
+            </div>
+
+            <!-- Dimension: Decision Fit -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 font-semibold">Decision Fit</span>
+                <span id="twin-fit-val" class="font-bold text-emerald-400 text-base">0.45</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                <div id="bar-twin-fit" class="bg-emerald-500 h-full" style="width: 45%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">Investor risk limits & portfolio suitability</p>
+            </div>
+
+            <!-- Dimension: Evidence Quality -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 font-semibold">Evidence Qual</span>
+                <span id="twin-evidence-val" class="font-bold text-indigo-400 text-base">0.95</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                <div id="bar-twin-evidence" class="bg-indigo-500 h-full" style="width: 95%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">Filing freshness, citations & disclosure density</p>
+            </div>
+
+            <!-- Dimension: Thesis Health -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 font-semibold">Thesis Health</span>
+                <span id="twin-thesis-val" class="font-bold text-amber-400 text-base">0.20</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                <div id="bar-twin-thesis" class="bg-amber-500 h-full" style="width: 20%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">Stored user thesis assumption status</p>
+            </div>
+
+            <!-- Dimension: Behavioral Risk -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-3">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 font-semibold">Behavioral Risk</span>
+                <span id="twin-behavioral-val" class="font-bold text-rose-400 text-base">0.85</span>
+              </div>
+              <div class="w-full bg-slate-800 h-2 rounded overflow-hidden">
+                <div id="bar-twin-behavioral" class="bg-rose-500 h-full" style="width: 85%"></div>
+              </div>
+              <p class="text-[11px] text-slate-400 leading-snug">FOMO, recency bias & drift detection</p>
+            </div>
+
+          </div>
+
+          <div class="p-3 bg-slate-950 rounded border border-terminal-border text-xs text-slate-300 mono flex items-center gap-2">
+            <i data-lucide="info" class="w-4 h-4 text-sky-400 flex-shrink-0"></i>
+            <span id="twin-composite-note">Analyzing decision twin telemetry across 5 distinct dimensions...</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: DEVIL'S ADVOCATE                     -->
+      <!-- ========================================== -->
+      <div id="tab-da" class="page-view space-y-4 hidden">
+        
+        <div class="terminal-panel p-5 space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-amber-400"></i>
+              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Devil's Advocate Adversarial Challenge Sequence</span>
+            </div>
+            <span id="da-severity-badge" class="px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+              HIGH SEVERITY CHALLENGE
+            </span>
+          </div>
+
+          <!-- 3-Step Flow: Draft Verdict -> Adversarial Challenge -> Final Synthesized Verdict -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            
+            <!-- Draft Verdict -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-2">
+              <div class="text-[11px] font-mono text-slate-400 font-bold uppercase">Draft Recommendation</div>
+              <div id="da-draft-verdict" class="text-xl font-bold text-sky-400 mono">BUY CANDIDATE</div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Draft synthesis based purely on initial technical momentum and positive news sentiment.
+              </p>
+            </div>
+
+            <!-- Adversarial Attack (The Challenge) -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-amber-600/50 space-y-2 bg-amber-950/10">
+              <div class="text-[11px] font-mono text-amber-400 font-bold uppercase flex items-center justify-between">
+                <span>Adversarial Attack</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-amber-400"></i>
+              </div>
+              <p id="da-counter-arg" class="text-xs text-amber-200 leading-relaxed font-mono">
+                Draft bullish verdict relies on momentum while ignoring disclosed 3.85x debt-to-equity leverage in <span class="citation-tag">[SEBI-Filing-XYZ-Q3: Page 14]</span>.
+              </p>
+              <div class="text-[11px] mono text-slate-400 pt-2 border-t border-amber-900/40">
+                <span class="text-terminal-muted">Weakest Assumption:</span> <span id="da-weakest-point" class="text-amber-300">Unhedged debt risk in filing.</span>
+              </div>
+            </div>
+
+            <!-- Final Synthesis -->
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-2">
+              <div class="text-[11px] font-mono text-emerald-400 font-bold uppercase">Final Decision</div>
+              <div id="da-final-verdict" class="text-xl font-bold text-emerald-400 mono">HOLD-WATCH</div>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Verdict revised downward following adversarial stress test; retail risk mitigated.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: THESIS & BIASES                      -->
+      <!-- ========================================== -->
+      <div id="tab-thesis" class="page-view space-y-4 hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          
+          <!-- Behavioral Bias Mirror & Drift Engine (6 cols) -->
+          <div class="lg:col-span-6 terminal-panel p-4 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+                <div class="flex items-center space-x-2">
+                  <i data-lucide="brain" class="w-4 h-4 text-emerald-400"></i>
+                  <span class="text-xs font-bold text-white mono uppercase tracking-wider">Behavioral Bias Mirror & Drift Engine</span>
+                </div>
+                <span id="drift-severity-badge" class="px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                  MILD DRIFT
+                </span>
+              </div>
+
+              <div id="behavioral-flags-container" class="space-y-2.5 mt-3">
+                <div class="p-3 bg-slate-950 border border-terminal-border rounded space-y-1">
+                  <div class="flex justify-between items-center text-xs">
+                    <span class="font-mono font-bold text-amber-400">MOMENTUM_CHASING</span>
+                    <span class="text-[10px] text-slate-500 mono">Bias Trigger</span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-snug">
+                    Rapid entry decisions following sharp price spikes often correlate with retail FOMO.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2.5 bg-slate-950 rounded border border-terminal-border text-xs mono text-slate-400 mt-2">
+              <span class="text-terminal-muted">Observed Action Pattern:</span>
+              <span id="drift-pattern-text" class="text-slate-300">Multiple rapid inquiries following price spike.</span>
+            </div>
+          </div>
+
+          <!-- Investment Thesis Tracker & Break Events (6 cols) -->
+          <div class="lg:col-span-6 terminal-panel p-4 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+                <div class="flex items-center space-x-2">
+                  <i data-lucide="bookmark" class="w-4 h-4 text-sky-400"></i>
+                  <span class="text-xs font-bold text-white mono uppercase tracking-wider">Investment Thesis Tracker</span>
+                </div>
+                <span id="thesis-status-badge" class="px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">
+                  ASSUMPTION BROKEN
+                </span>
+              </div>
+
+              <div class="space-y-2 mt-3 text-xs mono">
+                <span class="text-[10px] text-terminal-muted uppercase font-bold">Stored Key Assumptions:</span>
+                <ul id="thesis-assumptions-list" class="space-y-2">
+                  <li class="p-2.5 bg-slate-950 border border-terminal-border rounded flex items-center justify-between">
+                    <span class="text-slate-300">debt_to_equity stays below 1.2</span>
+                    <span class="text-rose-400 font-bold text-[10px]">BROKEN</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div id="thesis-breaks-box" class="p-3 bg-rose-950/20 border border-rose-900/40 rounded text-xs space-y-1.5 mt-2">
+              <div class="font-mono text-[11px] text-rose-400 uppercase font-semibold flex items-center gap-1">
+                <i data-lucide="alert-octagon" class="w-4 h-4"></i> Triggered Thesis Break:
+              </div>
+              <p id="thesis-break-explanation" class="text-slate-300 text-xs leading-snug">
+                Disclosed leverage (Debt/Equity: 3.85x) in <span class="citation-tag">[SEBI-Filing-XYZ-Q3: Page 14]</span> breaches thesis assumption.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: STRESS SIMULATOR                     -->
+      <!-- ========================================== -->
+      <div id="tab-sim" class="page-view space-y-4 hidden">
+        
+        <div class="terminal-panel p-5 space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+            <div class="flex items-center space-x-2">
+              <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i>
+              <span class="text-xs font-bold text-white mono uppercase tracking-wider">Deterministic Counterfactual Scenario Simulator</span>
+            </div>
+            <span class="text-[10px] text-terminal-muted mono">Deterministic Arithmetic &bull; Not a Guarantee</span>
+          </div>
+
+          <!-- Multiplier Range Slider -->
+          <div class="p-3 bg-slate-950 border border-terminal-border rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-xs mono">
+              <span class="text-terminal-muted">Position Size Multiplier:</span>
+              <strong id="pos-mult-label" class="text-sky-400 ml-2 font-bold text-sm">1.0x Allocation</strong>
+            </div>
+            <input type="range" id="pos-mult-slider" min="0.5" max="4.0" step="0.5" value="1.0" class="w-full sm:w-80 accent-sky-500 cursor-pointer" oninput="updateSimulationMultiplier(this.value)">
+          </div>
+
+          <!-- 4 Cards: Best / Base / Failure / Thesis-Break -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs mono">
+            
+            <div class="p-4 bg-slate-950 rounded-lg border border-emerald-900/40 space-y-2">
+              <div class="flex justify-between text-emerald-400 font-bold text-sm">
+                <span>BEST SCENARIO</span>
+                <span id="sim-best-impact">+1.25%</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">Momentum persists at upper bound (+25%).</p>
+            </div>
+
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-2">
+              <div class="flex justify-between text-sky-400 font-bold text-sm">
+                <span>BASE SCENARIO</span>
+                <span id="sim-base-impact">+0.20%</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">Multiples and margins remain steady.</p>
+            </div>
+
+            <div class="p-4 bg-slate-950 rounded-lg border border-terminal-border space-y-2">
+              <div class="flex justify-between text-amber-400 font-bold text-sm">
+                <span>FAILURE SCENARIO</span>
+                <span id="sim-fail-impact">-1.00%</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">Adverse earnings miss (-20%).</p>
+            </div>
+
+            <div class="p-4 bg-slate-950 rounded-lg border border-rose-900/40 space-y-2">
+              <div class="flex justify-between text-rose-400 font-bold text-sm">
+                <span>THESIS-BREAK</span>
+                <span id="sim-tb-impact">-2.25%</span>
+              </div>
+              <p class="text-xs text-slate-400 leading-relaxed">Debt distress materializes fully (-45%).</p>
+            </div>
+
+          </div>
+
+          <div class="text-[11px] text-terminal-muted mono text-center pt-2">
+            Simulated illustration for educational analysis. Projections assume historical parameter envelopes.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: AUDIT & REPLAY                       -->
+      <!-- ========================================== -->
+      <div id="tab-replay" class="page-view space-y-4 hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          
+          <!-- Evidence Graph Visualizer (7 cols) -->
+          <div class="lg:col-span-7 terminal-panel p-4 space-y-3">
+            <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+              <div class="flex items-center space-x-2">
+                <i data-lucide="network" class="w-4 h-4 text-sky-400"></i>
+                <span class="text-xs font-bold text-white mono uppercase tracking-wider">Evidence Provenance Graph</span>
+              </div>
+              <span class="text-[10px] text-terminal-muted mono">Decision &rarr; Claim &rarr; Evidence &rarr; Document</span>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded border border-terminal-border space-y-2 text-xs mono">
+              <!-- Node: Decision -->
+              <div class="flex items-center space-x-2 text-emerald-400">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="font-bold">[DECISION]</span>
+                <span id="graph-decision-label">HOLD-WATCH (XYZ_CORP)</span>
+              </div>
+              <!-- Node: Claim -->
+              <div class="pl-5 border-l border-terminal-border space-y-2">
+                <div class="flex items-center space-x-2 text-sky-300">
+                  <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                  <span class="font-semibold">[CLAIM]</span>
+                  <span>Solvency & Leverage Risk: CRITICAL_RISK</span>
+                </div>
+                <!-- Node: Evidence -->
+                <div class="pl-5 border-l border-terminal-border space-y-2">
+                  <div class="flex items-center space-x-2 text-amber-300 text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                    <span class="font-semibold">[EVIDENCE]</span>
+                    <span id="graph-evidence-label">Disclosed debt-to-equity ratio of 3.85x and auditor warning...</span>
+                  </div>
+                  <!-- Node: Document -->
+                  <div class="pl-5 border-l border-terminal-border">
+                    <div class="flex items-center space-x-2 text-indigo-400 text-[11px]">
+                      <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                      <span class="font-semibold">[DOCUMENT]</span>
+                      <span id="graph-doc-label" class="citation-tag">[SEBI-Filing-XYZ-Q3: Page 14]</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reasoning Replay Scrubber (5 cols) -->
+          <div class="lg:col-span-5 terminal-panel p-4 space-y-3 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-2 border-b border-terminal-border">
+                <div class="flex items-center space-x-2">
+                  <i data-lucide="fast-forward" class="w-4 h-4 text-emerald-400"></i>
+                  <span class="text-xs font-bold text-white mono uppercase tracking-wider">Reasoning Replay Scrubber</span>
+                </div>
+                <span id="scrubber-step-indicator" class="text-[10px] text-sky-400 mono font-bold">Step Active</span>
+              </div>
+
+              <div class="my-3">
+                <input type="range" id="reasoning-scrubber" min="1" max="7" value="7" class="w-full accent-sky-500 cursor-pointer" oninput="updateScrubber(this.value)">
+              </div>
+
+              <div class="p-3 bg-slate-950 border border-terminal-border rounded space-y-1">
+                <div id="scrubber-title" class="text-xs font-bold text-sky-400 mono">
+                  Final Multi-Agent Synthesis
+                </div>
+                <p id="scrubber-description" class="text-xs text-slate-300 leading-snug">
+                  Incorporated Devil's Advocate challenge and adjusted final verdict to HOLD-WATCH with complete source attributions.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex justify-between text-[10px] text-terminal-muted mono pt-2 border-t border-terminal-border">
+              <span>Stage: <span id="scrubber-stage" class="text-slate-300">Final Decision</span></span>
+              <span>Status: <span class="text-emerald-400 font-semibold">VERIFIED</span></span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- FOOTER TELEMETRY -->
+    <footer class="bg-slate-900 border-t border-terminal-border p-3 text-xs mono text-terminal-muted mt-auto flex-shrink-0">
+      <div class="max-w-[1600px] mx-auto space-y-2">
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 text-[11px]">
+          <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
+            <div class="text-slate-500">Session ID</div>
+            <div id="telem-session-id" class="text-white font-bold truncate">sess_demo_init</div>
+          </div>
+          <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
+            <div class="text-slate-500">Total Latency</div>
+            <div id="telem-total-lat" class="text-emerald-400 font-bold">24.5 ms</div>
+          </div>
+          <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
+            <div class="text-slate-500">Parallel Gather</div>
+            <div id="telem-parallel-lat" class="text-sky-400 font-bold">18.2 ms</div>
+          </div>
+          <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
+            <div class="text-slate-500">Sources Cited</div>
+            <div id="telem-sources-count" class="text-purple-400 font-bold">2 Documents</div>
+          </div>
+          <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
+            <div class="text-slate-500">Concentration</div>
+            <div id="telem-conc-score" class="text-amber-400 font-bold">5.0% Weight</div>
+          </div>
+          <div class="p-1.5 bg-slate-950 rounded border border-terminal-border">
+            <div class="text-slate-500">DA Challenge</div>
+            <div id="telem-da-changed" class="text-emerald-400 font-bold">Active</div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between text-[10px] text-slate-500 pt-1 border-t border-terminal-border">
+          <div>Research/education prototype for retail investors. No automated trade execution.</div>
+          <div>Calibration Index: <strong id="telem-calib-score" class="text-sky-400 font-bold">0.85</strong></div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- MODAL: RECORD THESIS -->
+  <div id="thesis-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur flex items-center justify-center p-4 hidden">
+    <div class="terminal-panel w-full max-w-lg overflow-hidden shadow-2xl">
+      <div class="bg-slate-900 px-4 py-3 border-b border-terminal-border flex justify-between items-center">
+        <div class="flex items-center space-x-2 text-xs mono text-emerald-400 font-bold">
+          <i data-lucide="bookmark-plus" class="w-4 h-4"></i> Record Stated Investment Thesis
+        </div>
+        <button onclick="openThesisModal()" class="text-slate-400 hover:text-white font-bold">&times;</button>
+      </div>
+      <div class="p-4 space-y-3 text-xs">
+        <div>
+          <label class="text-slate-400 mono block mb-1 text-[11px]">Target Ticker:</label>
+          <input type="text" id="modal-thesis-ticker" value="XYZ_CORP" disabled class="w-full bg-slate-950 border border-terminal-border rounded p-2 text-white mono font-bold">
+        </div>
+        <div>
+          <label class="text-slate-400 mono block mb-1 text-[11px]">Maximum Debt-to-Equity Assumption:</label>
+          <input type="number" step="0.1" id="modal-thesis-de" value="1.2" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-white mono">
+        </div>
+        <div>
+          <label class="text-slate-400 mono block mb-1 text-[11px]">Stated Investment Thesis Reason:</label>
+          <textarea id="modal-thesis-reason" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-white text-xs h-20">Purchased on expectation of clean power margin expansion; assumes debt leverage remains bounded below 1.2x.</textarea>
+        </div>
+        <div class="flex justify-end space-x-2 pt-2 border-t border-terminal-border">
+          <button onclick="openThesisModal()" class="px-3 py-1.5 rounded bg-slate-900 text-slate-300 mono text-xs">Cancel</button>
+          <button onclick="saveCustomThesis()" class="px-4 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-bold mono text-xs">Record Thesis</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    let currentTicker = "TATAMOTORS";
+    let currentPersona = "conservative";
+    let currentScenario = "aligned";
+    let lastSessionId = null;
+    let baseMultiplier = 1.0;
+
+    const tabNames = {
+      'tab-overview': 'Overview & Verdict',
+      'tab-agents': 'Agent Signals',
+      'tab-twin': 'Decision Twin',
+      'tab-da': "Devil's Advocate",
+      'tab-thesis': 'Thesis & Biases',
+      'tab-sim': 'Stress Simulator',
+      'tab-replay': 'Audit & Replay'
+    };
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('sidebar-link-active'));
+
+      const targetPage = document.getElementById(tabId);
+      if (targetPage) targetPage.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(tabId.replace('tab-', 'tabbtn-'));
+      if (activeBtn) activeBtn.classList.add('sidebar-link-active');
+
+      document.getElementById('active-tab-title').textContent = tabNames[tabId] || 'Overview & Verdict';
+      lucide.createIcons();
+    }
+
+    const scrubberSteps = [
+      { step: 1, title: "Technical Analysis Agent", stage: "Parallel Execution", desc: "Calculated 14-period RSI, MACD signal line crossovers, momentum, and volume anomaly z-scores from raw price/volume time series." },
+      { step: 2, title: "Fundamental RAG Ingestion & Freshness", stage: "Parallel Execution", desc: "Retrieved citation-tagged chunks from regulatory filings and verified document dates against the 12-month staleness threshold." },
+      { step: 3, title: "Sentiment & Flow Agent", stage: "Parallel Execution", desc: "Scored news headlines, social chatter intensity, and institutional FII/DII flow trends." },
+      { step: 4, title: "Investor Risk & Behavioral Profiling", stage: "Personalization Layer", desc: "Evaluated single-stock concentration limits, sector limits, and identified potential behavioral biases (FOMO, recency bias)." },
+      { step: 5, title: "Draft Multi-Agent Synthesis", stage: "Pass 1 Synthesis", desc: "Synthesized draft market classification, verdict, and initial confidence without majority-voting bias." },
+      { step: 6, title: "Devil's Advocate Adversarial Pass", stage: "Adversarial Stress Test", desc: "Stress-tested the draft verdict strictly against already-cited filing disclosures to identify the weakest evidence assumption." },
+      { step: 7, title: "Final Synthesis & Decision Twin", stage: "Final Decision", desc: "Upheld or revised the verdict, computed 5-dimension Decision Twin, and generated evidence provenance graph." }
+    ];
+
+    function selectTicker(ticker) {
+      currentTicker = ticker;
+      document.querySelectorAll('.ticker-btn').forEach(b => {
+        b.className = "ticker-btn w-full px-3 py-1.5 rounded font-semibold text-slate-400 hover:text-white bg-slate-950 border border-terminal-border flex justify-between items-center text-left";
+      });
+      if (ticker === 'TATAMOTORS') document.getElementById('btn-tata').className = "ticker-btn w-full px-3 py-1.5 rounded font-semibold text-white bg-slate-800 border border-sky-500 flex justify-between items-center text-left";
+      if (ticker === 'INFOSYS') document.getElementById('btn-infy').className = "ticker-btn w-full px-3 py-1.5 rounded font-semibold text-white bg-slate-800 border border-sky-500 flex justify-between items-center text-left";
+      if (ticker === 'XYZ_CORP') document.getElementById('btn-xyz').className = "ticker-btn w-full px-3 py-1.5 rounded font-semibold text-white bg-slate-800 border border-sky-500 flex justify-between items-center text-left";
+      triggerAnalysis();
+    }
+
+    function setPersona(persona) {
+      currentPersona = persona;
+      const consBtn = document.getElementById('btn-persona-cons');
+      const aggrBtn = document.getElementById('btn-persona-aggr');
+      if (persona === 'conservative') {
+        consBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-white bg-sky-600 text-center";
+        aggrBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-slate-400 hover:text-white text-center";
+      } else {
+        aggrBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-white bg-sky-600 text-center";
+        consBtn.className = "persona-btn px-2 py-1 rounded font-semibold text-slate-400 hover:text-white text-center";
+      }
+      triggerAnalysis();
+    }
+
+    function runScenario(scenarioId) {
+      document.querySelectorAll('.scen-btn').forEach(b => b.classList.remove('border-sky-500', 'bg-slate-900'));
+      if (scenarioId === 'A') {
+        currentTicker = 'TATAMOTORS';
+        currentScenario = 'aligned';
+        document.getElementById('scen-a').classList.add('border-sky-500', 'bg-slate-900');
+      } else if (scenarioId === 'B') {
+        currentTicker = 'XYZ_CORP';
+        currentScenario = 'conflict';
+        document.getElementById('scen-b').classList.add('border-sky-500', 'bg-slate-900');
+      } else if (scenarioId === 'C') {
+        currentTicker = 'TATAMOTORS';
+        currentScenario = 'degraded';
+        document.getElementById('scen-c').classList.add('border-sky-500', 'bg-slate-900');
+      } else if (scenarioId === 'D') {
+        currentTicker = 'XYZ_CORP';
+        currentScenario = 'stale_behavioral';
+        document.getElementById('scen-d').classList.add('border-sky-500', 'bg-slate-900');
+      }
+      selectTicker(currentTicker);
+    }
+
+    async function triggerAnalysis() {
+      const statusMsg = document.getElementById('engine-status-msg');
+      statusMsg.textContent = `Evaluating multi-agent signals for ${currentTicker}...`;
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ticker: currentTicker,
+            persona: currentPersona,
+            scenario: currentScenario
+          })
+        });
+
+        if (!res.ok) throw new Error('API Error ' + res.status);
+        const data = await res.json();
+        renderDashboard(data);
+        lastSessionId = data.session_id;
+        statusMsg.textContent = `Analysis verified for ${currentTicker} (Session: ${data.session_id.substring(0, 12)}).`;
+      } catch (err) {
+        statusMsg.textContent = `Error running analysis: ${err.message}`;
+      }
+    }
+
+    function renderDashboard(data) {
+      const synth = data.synthesis;
+      const agents = data.agent_outputs;
+      const twin = data.decision_twin;
+
+      // Synthesized Verdict
+      const verdictEl = document.getElementById('verdict-display');
+      verdictEl.textContent = synth.synthesized_verdict;
+      if (synth.synthesized_verdict.includes('BUY')) {
+        verdictEl.className = "text-3xl font-black mono text-market-bull";
+      } else if (synth.synthesized_verdict.includes('AVOID')) {
+        verdictEl.className = "text-3xl font-black mono text-market-bear";
+      } else {
+        verdictEl.className = "text-3xl font-black mono text-market-warning";
+      }
+
+      document.getElementById('market-class-display').textContent = synth.market_classification;
+      document.getElementById('personalized-advice-display').textContent = synth.personalized_advice;
+
+      // Alerts
+      const freshAlert = document.getElementById('freshness-alert');
+      if (synth.filing_freshness_warning) {
+        freshAlert.classList.remove('hidden');
+        freshAlert.textContent = synth.filing_freshness_warning;
+      } else {
+        freshAlert.classList.add('hidden');
+      }
+
+      const degAlert = document.getElementById('degraded-alert');
+      if (synth.degraded_data) {
+        degAlert.classList.remove('hidden');
+      } else {
+        degAlert.classList.add('hidden');
+      }
+
+      // Two-Track Confidence
+      const marketConfPct = Math.round(twin.market_confidence * 100);
+      const fitPct = Math.round(twin.decision_fit * 100);
+      document.getElementById('track-market-conf').textContent = `${marketConfPct}%`;
+      document.getElementById('bar-track-market').style.width = `${marketConfPct}%`;
+      document.getElementById('track-decision-fit').textContent = `${fitPct}%`;
+      document.getElementById('bar-track-fit').style.width = `${fitPct}%`;
+
+      // Confidence Decomposition
+      const cb = synth.confidence_breakdown;
+      document.getElementById('composite-conf-val').textContent = cb.composite_confidence;
+      document.getElementById('score-freshness').textContent = cb.data_freshness_score;
+      document.getElementById('score-agreement').textContent = cb.agent_agreement_score;
+      document.getElementById('score-evidence').textContent = cb.evidence_strength_score;
+      document.getElementById('score-calibration').textContent = cb.historical_calibration_score;
+
+      // Decision Twin
+      document.getElementById('twin-market-val').textContent = twin.market_confidence;
+      document.getElementById('bar-twin-market').style.width = `${twin.market_confidence * 100}%`;
+
+      document.getElementById('twin-fit-val').textContent = twin.decision_fit;
+      document.getElementById('bar-twin-fit').style.width = `${twin.decision_fit * 100}%`;
+
+      document.getElementById('twin-evidence-val').textContent = twin.evidence_quality;
+      document.getElementById('bar-twin-evidence').style.width = `${twin.evidence_quality * 100}%`;
+
+      document.getElementById('twin-thesis-val').textContent = twin.thesis_health;
+      document.getElementById('bar-twin-thesis').style.width = `${twin.thesis_health * 100}%`;
+
+      document.getElementById('twin-behavioral-val').textContent = twin.behavioral_risk;
+      document.getElementById('bar-twin-behavioral').style.width = `${twin.behavioral_risk * 100}%`;
+
+      document.getElementById('twin-composite-note').textContent = twin.composite_note;
+
+      // Technical Agent
+      const tech = agents.technical;
+      document.getElementById('tech-class-badge').textContent = tech.classification;
+      document.getElementById('tech-rsi-val').textContent = tech.rsi;
+      document.getElementById('tech-macd-val').textContent = tech.macd_signal;
+      document.getElementById('tech-mom-val').textContent = `${tech.momentum_score > 0 ? '+' : ''}${tech.momentum_score}%`;
+      document.getElementById('tech-vol-val').textContent = `${tech.volume_anomaly_score > 0 ? '+' : ''}${tech.volume_anomaly_score}`;
+      document.getElementById('tech-lat-val').textContent = `${data.telemetry.agent_latencies_ms.TechnicalAgent}ms`;
+      document.getElementById('tech-conf-val').textContent = tech.confidence;
+      document.getElementById('tech-reasons-list').innerHTML = tech.reasons.map(r => `<li>${r}</li>`).join('');
+
+      // Sentiment Agent
+      const sent = agents.sentiment;
+      document.getElementById('sent-class-badge').textContent = sent.classification;
+      document.getElementById('sent-headline-val').textContent = `${sent.news_sentiment > 0 ? '+' : ''}${sent.news_sentiment}`;
+      document.getElementById('sent-fii-val').textContent = sent.fii_flow_trend;
+      document.getElementById('sent-social-val').textContent = `${Math.round(sent.social_chatter_score * 100)}% (${sent.social_chatter_score > 0.7 ? 'High Buzz' : 'Balanced'})`;
+      document.getElementById('sent-lat-val').textContent = `${data.telemetry.agent_latencies_ms.SentimentAgent}ms`;
+      document.getElementById('sent-conf-val').textContent = sent.confidence;
+      document.getElementById('sent-reasons-list').innerHTML = sent.reasons.map(r => `<li>${r}</li>`).join('');
+
+      // Fundamental RAG Panel
+      const fund = agents.fundamental;
+      document.getElementById('fund-class-badge').textContent = fund.filing_verdict;
+      document.getElementById('fund-de-val').textContent = `${fund.debt_to_equity.toFixed(2)}x`;
+      document.getElementById('fund-growth-val').textContent = `${fund.earnings_growth > 0 ? '+' : ''}${(fund.earnings_growth * 100).toFixed(1)}%`;
+      document.getElementById('fund-citations-val').textContent = fund.rag_citations[0] || 'No citation tag';
+      document.getElementById('fund-evidence-snippet').textContent = fund.evidence[0] || 'No verified filing excerpts.';
+      document.getElementById('fund-lat-val').textContent = `${data.telemetry.agent_latencies_ms.FundamentalRAGAgent}ms`;
+      document.getElementById('fund-conf-val').textContent = fund.confidence;
+
+      // Devil's Advocate Flow
+      const da = agents.devils_advocate;
+      document.getElementById('da-severity-badge').textContent = `${da.severity} SEVERITY CHALLENGE`;
+      document.getElementById('da-draft-verdict').textContent = da.target_verdict;
+      document.getElementById('da-final-verdict').textContent = synth.synthesized_verdict;
+      document.getElementById('da-counter-arg').textContent = da.counter_argument;
+      document.getElementById('da-weakest-point').textContent = da.weakest_evidence_point;
+
+      // Behavioral Bias Mirror & Drift
+      const drift = data.behavioral_drift_report;
+      document.getElementById('drift-severity-badge').textContent = `${drift.drift_severity} DRIFT`;
+      document.getElementById('drift-pattern-text').textContent = drift.observed_behavior_pattern;
+
+      const flagsContainer = document.getElementById('behavioral-flags-container');
+      if (drift.drift_flags.length > 0) {
+        flagsContainer.innerHTML = drift.drift_flags.map(f => `
+          <div class="p-2.5 bg-slate-950 border border-terminal-border rounded space-y-1">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-mono font-bold text-amber-400">${f.flag_type}</span>
+              <span class="text-[10px] text-slate-500 mono">Bias Trigger</span>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-snug">${f.nudge_message}</p>
+          </div>
+        `).join('');
+      } else {
+        flagsContainer.innerHTML = `
+          <div class="p-2.5 bg-slate-950/70 border border-terminal-border rounded text-xs text-slate-400 mono">
+            No cognitive bias triggers detected. Inquiry parameters align with declared profile.
+          </div>
+        `;
+      }
+
+      // Thesis Tracker
+      const thesisBreaks = data.thesis_break_events;
+      const thesisBadge = document.getElementById('thesis-status-badge');
+      const breaksBox = document.getElementById('thesis-breaks-box');
+      if (thesisBreaks.length > 0) {
+        thesisBadge.textContent = "ASSUMPTION BROKEN";
+        thesisBadge.className = "px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30";
+        breaksBox.classList.remove('hidden');
+        document.getElementById('thesis-break-explanation').textContent = thesisBreaks[0].explanation;
+      } else {
+        thesisBadge.textContent = "THESIS INTACT";
+        thesisBadge.className = "px-2.5 py-0.5 rounded text-[10px] mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+        breaksBox.classList.add('hidden');
+      }
+
+      // Evidence Graph
+      document.getElementById('graph-decision-label').textContent = `${synth.synthesized_verdict} (${data.ticker})`;
+      document.getElementById('graph-evidence-label').textContent = fund.evidence[0] || 'Uncited evidence stream';
+      document.getElementById('graph-doc-label').textContent = fund.rag_citations[0] || 'No Citation Tag';
+
+      // Telemetry
+      const telem = data.telemetry;
+      document.getElementById('telem-session-id').textContent = telem.session_id;
+      document.getElementById('telem-total-lat').textContent = `${telem.total_latency_ms} ms`;
+      document.getElementById('telem-parallel-lat').textContent = `${telem.agent_latencies_ms.ParallelGather} ms`;
+      document.getElementById('telem-sources-count').textContent = `${telem.source_count} Documents`;
+      document.getElementById('telem-conc-score').textContent = `${Math.round(telem.risk_concentration_score * 100)}% Weight`;
+      document.getElementById('latency-tag').textContent = `${telem.total_latency_ms} ms`;
+
+      updateSimulationMultiplier(baseMultiplier);
+      document.getElementById('reasoning-scrubber').value = 7;
+      updateScrubber(7);
+      lucide.createIcons();
+    }
+
+    function updateSimulationMultiplier(mult) {
+      baseMultiplier = parseFloat(mult);
+      document.getElementById('pos-mult-label').textContent = `${baseMultiplier.toFixed(1)}x Allocation`;
+
+      const best = (1.25 * baseMultiplier).toFixed(2);
+      const base = (0.20 * baseMultiplier).toFixed(2);
+      const fail = (-1.00 * baseMultiplier).toFixed(2);
+      const tb = (-2.25 * baseMultiplier).toFixed(2);
+
+      document.getElementById('sim-best-impact').textContent = `${best > 0 ? '+' : ''}${best}%`;
+      document.getElementById('sim-base-impact').textContent = `${base > 0 ? '+' : ''}${base}%`;
+      document.getElementById('sim-fail-impact').textContent = `${fail}%`;
+      document.getElementById('sim-tb-impact').textContent = `${tb}%`;
+    }
+
+    function updateScrubber(val) {
+      const stepIdx = parseInt(val) - 1;
+      const step = scrubberSteps[stepIdx];
+      document.getElementById('scrubber-title').textContent = step.title;
+      document.getElementById('scrubber-description').textContent = step.desc;
+      document.getElementById('scrubber-stage').textContent = step.stage;
+    }
+
+    function openThesisModal() {
+      document.getElementById('modal-thesis-ticker').value = currentTicker;
+      const modal = document.getElementById('thesis-modal');
+      modal.classList.toggle('hidden');
+      lucide.createIcons();
+    }
+
+    async function saveCustomThesis() {
+      const de = document.getElementById('modal-thesis-de').value;
+      const reason = document.getElementById('modal-thesis-reason').value;
+
+      try {
+        await fetch('/api/thesis', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ticker: currentTicker,
+            stated_reasons: [reason],
+            key_assumptions: [`debt_to_equity stays below ${de}`],
+            invalidating_conditions: [`debt exceeds ${de}x`]
+          })
+        });
+        openThesisModal();
+        triggerAnalysis();
+      } catch (e) {
+        alert('Error recording thesis: ' + e.message);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      triggerAnalysis();
+    });
+  </script>
+</body>
+</html>

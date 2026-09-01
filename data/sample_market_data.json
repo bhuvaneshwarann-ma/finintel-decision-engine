@@ -1,0 +1,173 @@
+{
+  "TATAMOTORS": {
+    "ticker": "TATAMOTORS",
+    "name": "Tata Motors Limited",
+    "sector": "Automobile",
+    "price_series": [
+      {"date": "2026-01-01", "open": 880.0, "high": 890.0, "low": 875.0, "close": 885.0, "volume": 5200000},
+      {"date": "2026-01-02", "open": 886.0, "high": 895.0, "low": 882.0, "close": 892.0, "volume": 5400000},
+      {"date": "2026-01-05", "open": 894.0, "high": 905.0, "low": 890.0, "close": 902.0, "volume": 6100000},
+      {"date": "2026-01-06", "open": 903.0, "high": 912.0, "low": 898.0, "close": 908.0, "volume": 5800000},
+      {"date": "2026-01-07", "open": 910.0, "high": 918.0, "low": 905.0, "close": 915.0, "volume": 6300000},
+      {"date": "2026-01-08", "open": 916.0, "high": 925.0, "low": 912.0, "close": 922.0, "volume": 7000000},
+      {"date": "2026-01-09", "open": 924.0, "high": 932.0, "low": 920.0, "close": 928.0, "volume": 6800000},
+      {"date": "2026-01-12", "open": 930.0, "high": 940.0, "low": 925.0, "close": 938.0, "volume": 7500000},
+      {"date": "2026-01-13", "open": 940.0, "high": 948.0, "low": 935.0, "close": 945.0, "volume": 7200000},
+      {"date": "2026-01-14", "open": 946.0, "high": 955.0, "low": 942.0, "close": 952.0, "volume": 8100000},
+      {"date": "2026-01-15", "open": 954.0, "high": 962.0, "low": 948.0, "close": 958.0, "volume": 7900000},
+      {"date": "2026-01-16", "open": 960.0, "high": 970.0, "low": 955.0, "close": 968.0, "volume": 8500000},
+      {"date": "2026-01-19", "open": 970.0, "high": 982.0, "low": 965.0, "close": 978.0, "volume": 9200000},
+      {"date": "2026-01-20", "open": 980.0, "high": 990.0, "low": 974.0, "close": 988.0, "volume": 8900000},
+      {"date": "2026-01-21", "open": 990.0, "high": 1002.0, "low": 985.0, "close": 998.0, "volume": 10500000},
+      {"date": "2026-01-22", "open": 1000.0, "high": 1015.0, "low": 995.0, "close": 1010.0, "volume": 11200000},
+      {"date": "2026-01-23", "open": 1012.0, "high": 1025.0, "low": 1008.0, "close": 1020.0, "volume": 10800000},
+      {"date": "2026-01-26", "open": 1022.0, "high": 1032.0, "low": 1015.0, "close": 1028.0, "volume": 9800000},
+      {"date": "2026-01-27", "open": 1030.0, "high": 1045.0, "low": 1025.0, "close": 1040.0, "volume": 12100000},
+      {"date": "2026-01-28", "open": 1042.0, "high": 1055.0, "low": 1038.0, "close": 1050.0, "volume": 12800000},
+      {"date": "2026-01-29", "open": 1052.0, "high": 1068.0, "low": 1048.0, "close": 1062.0, "volume": 13400000},
+      {"date": "2026-01-30", "open": 1064.0, "high": 1075.0, "low": 1058.0, "close": 1070.0, "volume": 12900000},
+      {"date": "2026-02-02", "open": 1072.0, "high": 1085.0, "low": 1066.0, "close": 1082.0, "volume": 14100000},
+      {"date": "2026-02-03", "open": 1084.0, "high": 1095.0, "low": 1078.0, "close": 1090.0, "volume": 13800000},
+      {"date": "2026-02-04", "open": 1092.0, "high": 1105.0, "low": 1086.0, "close": 1100.0, "volume": 15200000},
+      {"date": "2026-02-05", "open": 1102.0, "high": 1118.0, "low": 1095.0, "close": 1112.0, "volume": 16000000},
+      {"date": "2026-02-06", "open": 1115.0, "high": 1125.0, "low": 1108.0, "close": 1120.0, "volume": 15500000},
+      {"date": "2026-02-09", "open": 1122.0, "high": 1135.0, "low": 1115.0, "close": 1130.0, "volume": 16800000},
+      {"date": "2026-02-10", "open": 1132.0, "high": 1148.0, "low": 1125.0, "close": 1142.0, "volume": 17500000},
+      {"date": "2026-02-11", "open": 1144.0, "high": 1155.0, "low": 1136.0, "close": 1150.0, "volume": 18200000}
+    ],
+    "news_headlines": [
+      {"headline": "Tata Motors reports record quarterly EV sales across passenger and commercial segments", "sentiment": 0.85, "source": "NSE Financial Wire"},
+      {"headline": "JLR margin expansion accelerates debt reduction roadmap ahead of targets", "sentiment": 0.78, "source": "Auto Intel India"},
+      {"headline": "Institutional brokerage raises target price citing commercial vehicle market share gains", "sentiment": 0.82, "source": "Mint Markets"}
+    ],
+    "social_chatter_score": 0.76,
+    "fii_flow_trend": "INFLOW",
+    "financials": {
+      "debt_to_equity": 0.62,
+      "earnings_growth": 0.28,
+      "pe_ratio": 16.4,
+      "pb_ratio": 3.2,
+      "operating_margin": 0.142
+    },
+    "simulated_user_actions": {
+      "request_count_past_hour": 1,
+      "recent_price_spike_pct": 3.2,
+      "requested_position_size_multiplier": 1.0,
+      "sector_repeat_queries": 1
+    }
+  },
+  "INFOSYS": {
+    "ticker": "INFOSYS",
+    "name": "Infosys Limited",
+    "sector": "Information Technology",
+    "price_series": [
+      {"date": "2026-01-01", "open": 1620.0, "high": 1635.0, "low": 1612.0, "close": 1625.0, "volume": 3100000},
+      {"date": "2026-01-02", "open": 1628.0, "high": 1638.0, "low": 1618.0, "close": 1622.0, "volume": 2900000},
+      {"date": "2026-01-05", "open": 1624.0, "high": 1632.0, "low": 1615.0, "close": 1628.0, "volume": 3200000},
+      {"date": "2026-01-06", "open": 1630.0, "high": 1640.0, "low": 1622.0, "close": 1634.0, "volume": 3000000},
+      {"date": "2026-01-07", "open": 1635.0, "high": 1642.0, "low": 1625.0, "close": 1630.0, "volume": 2800000},
+      {"date": "2026-01-08", "open": 1632.0, "high": 1638.0, "low": 1620.0, "close": 1625.0, "volume": 2700000},
+      {"date": "2026-01-09", "open": 1626.0, "high": 1635.0, "low": 1618.0, "close": 1629.0, "volume": 3100000},
+      {"date": "2026-01-12", "open": 1630.0, "high": 1644.0, "low": 1624.0, "close": 1638.0, "volume": 3400000},
+      {"date": "2026-01-13", "open": 1640.0, "high": 1648.0, "low": 1632.0, "close": 1635.0, "volume": 3200000},
+      {"date": "2026-01-14", "open": 1636.0, "high": 1642.0, "low": 1626.0, "close": 1631.0, "volume": 2900000},
+      {"date": "2026-01-15", "open": 1632.0, "high": 1639.0, "low": 1622.0, "close": 1627.0, "volume": 2800000},
+      {"date": "2026-01-16", "open": 1628.0, "high": 1636.0, "low": 1619.0, "close": 1624.0, "volume": 3000000},
+      {"date": "2026-01-19", "open": 1625.0, "high": 1633.0, "low": 1615.0, "close": 1620.0, "volume": 2700000},
+      {"date": "2026-01-20", "open": 1622.0, "high": 1630.0, "low": 1614.0, "close": 1626.0, "volume": 2900000},
+      {"date": "2026-01-21", "open": 1628.0, "high": 1638.0, "low": 1620.0, "close": 1632.0, "volume": 3100000},
+      {"date": "2026-01-22", "open": 1634.0, "high": 1645.0, "low": 1628.0, "close": 1639.0, "volume": 3300000},
+      {"date": "2026-01-23", "open": 1640.0, "high": 1646.0, "low": 1630.0, "close": 1635.0, "volume": 2900000},
+      {"date": "2026-01-26", "open": 1636.0, "high": 1642.0, "low": 1627.0, "close": 1630.0, "volume": 2600000},
+      {"date": "2026-01-27", "open": 1632.0, "high": 1639.0, "low": 1622.0, "close": 1628.0, "volume": 2800000},
+      {"date": "2026-01-28", "open": 1629.0, "high": 1637.0, "low": 1621.0, "close": 1633.0, "volume": 3000000},
+      {"date": "2026-01-29", "open": 1635.0, "high": 1644.0, "low": 1628.0, "close": 1638.0, "volume": 3200000},
+      {"date": "2026-01-30", "open": 1640.0, "high": 1647.0, "low": 1631.0, "close": 1636.0, "volume": 3100000},
+      {"date": "2026-02-02", "open": 1638.0, "high": 1645.0, "low": 1629.0, "close": 1632.0, "volume": 2800000},
+      {"date": "2026-02-03", "open": 1633.0, "high": 1640.0, "low": 1625.0, "close": 1629.0, "volume": 2700000},
+      {"date": "2026-02-04", "open": 1630.0, "high": 1638.0, "low": 1622.0, "close": 1634.0, "volume": 2900000},
+      {"date": "2026-02-05", "open": 1635.0, "high": 1643.0, "low": 1627.0, "close": 1637.0, "volume": 3000000},
+      {"date": "2026-02-06", "open": 1638.0, "high": 1646.0, "low": 1630.0, "close": 1635.0, "volume": 2900000},
+      {"date": "2026-02-09", "open": 1636.0, "high": 1642.0, "low": 1626.0, "close": 1631.0, "volume": 2800000},
+      {"date": "2026-02-10", "open": 1632.0, "high": 1640.0, "low": 1624.0, "close": 1633.0, "volume": 2900000},
+      {"date": "2026-02-11", "open": 1634.0, "high": 1641.0, "low": 1626.0, "close": 1635.0, "volume": 3000000}
+    ],
+    "news_headlines": [
+      {"headline": "Infosys signs steady multi-year enterprise transformation renewal in Europe", "sentiment": 0.42, "source": "IT Business Today"},
+      {"headline": "Large deal total contract value remains consistent with seasonal guidance", "sentiment": 0.35, "source": "Economic Times"},
+      {"headline": "Attrition rates stabilize across major delivery centres in India", "sentiment": 0.28, "source": "Tech Wire India"}
+    ],
+    "social_chatter_score": 0.45,
+    "fii_flow_trend": "NEUTRAL",
+    "financials": {
+      "debt_to_equity": 0.08,
+      "earnings_growth": 0.09,
+      "pe_ratio": 24.1,
+      "pb_ratio": 6.8,
+      "operating_margin": 0.211
+    },
+    "simulated_user_actions": {
+      "request_count_past_hour": 0,
+      "recent_price_spike_pct": 0.1,
+      "requested_position_size_multiplier": 1.0,
+      "sector_repeat_queries": 0
+    }
+  },
+  "XYZ_CORP": {
+    "ticker": "XYZ_CORP",
+    "name": "XYZ CleanPower & Logistics Infra Ltd",
+    "sector": "Infrastructure & Energy",
+    "price_series": [
+      {"date": "2026-01-01", "open": 210.0, "high": 218.0, "low": 208.0, "close": 215.0, "volume": 1200000},
+      {"date": "2026-01-02", "open": 216.0, "high": 225.0, "low": 214.0, "close": 222.0, "volume": 1500000},
+      {"date": "2026-01-05", "open": 224.0, "high": 235.0, "low": 220.0, "close": 231.0, "volume": 2100000},
+      {"date": "2026-01-06", "open": 232.0, "high": 244.0, "low": 228.0, "close": 240.0, "volume": 2600000},
+      {"date": "2026-01-07", "open": 242.0, "high": 255.0, "low": 238.0, "close": 250.0, "volume": 3400000},
+      {"date": "2026-01-08", "open": 252.0, "high": 268.0, "low": 248.0, "close": 264.0, "volume": 4200000},
+      {"date": "2026-01-09", "open": 266.0, "high": 280.0, "low": 260.0, "close": 276.0, "volume": 5100000},
+      {"date": "2026-01-12", "open": 278.0, "high": 295.0, "low": 272.0, "close": 290.0, "volume": 6500000},
+      {"date": "2026-01-13", "open": 292.0, "high": 310.0, "low": 288.0, "close": 305.0, "volume": 7800000},
+      {"date": "2026-01-14", "open": 308.0, "high": 325.0, "low": 300.0, "close": 320.0, "volume": 9200000},
+      {"date": "2026-01-15", "open": 322.0, "high": 338.0, "low": 315.0, "close": 332.0, "volume": 8700000},
+      {"date": "2026-01-16", "open": 334.0, "high": 352.0, "low": 328.0, "close": 348.0, "volume": 10400000},
+      {"date": "2026-01-19", "open": 350.0, "high": 368.0, "low": 342.0, "close": 362.0, "volume": 11800000},
+      {"date": "2026-01-20", "open": 364.0, "high": 382.0, "low": 358.0, "close": 378.0, "volume": 13200000},
+      {"date": "2026-01-21", "open": 380.0, "high": 398.0, "low": 372.0, "close": 392.0, "volume": 14900000},
+      {"date": "2026-01-22", "open": 395.0, "high": 412.0, "low": 388.0, "close": 408.0, "volume": 16500000},
+      {"date": "2026-01-23", "open": 410.0, "high": 428.0, "low": 402.0, "close": 422.0, "volume": 17800000},
+      {"date": "2026-01-26", "open": 425.0, "high": 442.0, "low": 416.0, "close": 436.0, "volume": 19200000},
+      {"date": "2026-01-27", "open": 438.0, "high": 456.0, "low": 430.0, "close": 450.0, "volume": 21000000},
+      {"date": "2026-01-28", "open": 452.0, "high": 472.0, "low": 445.0, "close": 465.0, "volume": 22800000},
+      {"date": "2026-01-29", "open": 468.0, "high": 488.0, "low": 460.0, "close": 480.0, "volume": 24500000},
+      {"date": "2026-01-30", "open": 482.0, "high": 505.0, "low": 475.0, "close": 498.0, "volume": 26800000},
+      {"date": "2026-02-02", "open": 500.0, "high": 522.0, "low": 490.0, "close": 515.0, "volume": 28900000},
+      {"date": "2026-02-03", "open": 518.0, "high": 540.0, "low": 508.0, "close": 532.0, "volume": 31200000},
+      {"date": "2026-02-04", "open": 535.0, "high": 558.0, "low": 524.0, "close": 550.0, "volume": 33500000},
+      {"date": "2026-02-05", "open": 552.0, "high": 576.0, "low": 540.0, "close": 568.0, "volume": 35800000},
+      {"date": "2026-02-06", "open": 570.0, "high": 595.0, "low": 558.0, "close": 585.0, "volume": 38400000},
+      {"date": "2026-02-09", "open": 588.0, "high": 612.0, "low": 574.0, "close": 602.0, "volume": 41200000},
+      {"date": "2026-02-10", "open": 605.0, "high": 630.0, "low": 590.0, "close": 620.0, "volume": 44500000},
+      {"date": "2026-02-11", "open": 624.0, "high": 650.0, "low": 610.0, "close": 640.0, "volume": 48000000}
+    ],
+    "news_headlines": [
+      {"headline": "XYZ Corp secures mega highway concession and solar park mandate", "sentiment": 0.88, "source": "Infrastructure Flash"},
+      {"headline": "Retail trading volume hits all-time high amidst social media breakout chatter", "sentiment": 0.91, "source": "Dalal Street Buzz"},
+      {"headline": "Speculative momentum continues as stock doubles in 45 sessions", "sentiment": 0.79, "source": "Market Watch Daily"}
+    ],
+    "social_chatter_score": 0.94,
+    "fii_flow_trend": "INFLOW",
+    "financials": {
+      "debt_to_equity": 3.85,
+      "earnings_growth": -0.12,
+      "pe_ratio": 84.5,
+      "pb_ratio": 14.2,
+      "operating_margin": 0.045
+    },
+    "simulated_user_actions": {
+      "request_count_past_hour": 4,
+      "recent_price_spike_pct": 14.8,
+      "requested_position_size_multiplier": 3.5,
+      "sector_repeat_queries": 3
+    }
+  }
+}

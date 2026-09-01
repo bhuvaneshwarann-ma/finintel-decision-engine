@@ -1,0 +1,12 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: XYZ_CORP
+DOCUMENT_ID: SEBI-Filing-XYZ-Q4-2024-STALE
+DATE: 2024-05-10
+CITATION_TAG: [SEBI-Filing-XYZ-2024-STALE: Page 9]
+
+XYZ CLEANPOWER & LOGISTICS INFRASTRUCTURE LIMITED - HISTORICAL SEBI DISCLOSURES (OUTDATED)
+Page 9: Historical Capital Structure Overview
+The company reports debt-to-equity ratio of 2.10x with total debt at INR 7,500 Crores as of March 31, 2024.
+Promoter pledge stood at 18.0%.
+This is an archived regulatory filing older than 12 months, retained for audit continuity and historical baseline comparison.
+Current liabilities were adequately backed by short term receivables under previous market conditions.

@@ -1,0 +1,13 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: TATAMOTORS
+DOCUMENT_ID: EARNINGS-TATAMOTORS-Q3-2026
+DATE: 2026-01-22
+CITATION_TAG: [Earnings-TATAMOTORS-Q3: Page 4]
+
+TATA MOTORS LIMITED - Q3 FY26 INVESTOR PRESENTATION & FINANCIAL SUMMARY
+Page 4: Revenue and Profitability Metrics
+Consolidated quarterly revenue grew 28.4% YoY to INR 110,577 Crores.
+Consolidated EBITDA margin stood at 14.2%, an expansion of 190 basis points year-on-year.
+Commercial Vehicle domestic market share expanded to 41.8% driven by infrastructure spending and fleet renewals.
+Passenger EV market share maintained at 68.5% with the rollout of next-gen Acti.ev platforms.
+Management reiterates the goal of achieving zero net automotive debt by Q1 FY27.

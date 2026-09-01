@@ -1,0 +1,13 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: TATAMOTORS
+DOCUMENT_ID: SEBI-Filing-TATAMOTORS-Q3-2026
+DATE: 2026-01-20
+CITATION_TAG: [SEBI-Filing-TATAMOTORS-Q3: Page 12]
+
+TATA MOTORS LIMITED - DISCLOSURES UNDER SEBI LODR REGULATIONS Q3 FY26
+Page 12: Capital Structure and Deleveraging Schedule
+The consolidated net automotive debt reduced from INR 18,400 Crores to INR 6,200 Crores during the nine months ending December 31, 2025. 
+The debt-to-equity ratio of the company currently stands improved at 0.62x compared to 1.15x in the previous fiscal year. 
+Free cash flow generated at Jaguar Land Rover reached GBP 620 million in the quarter, driven by higher wholesale volumes of Range Rover and Defender models.
+Promoter holding remains stable at 46.36% with zero shares pledged or encumbered. 
+Capital expenditure guidance for electric mobility and battery architecture remains funded through internal operational accruals.

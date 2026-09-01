@@ -1,0 +1,14 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: INFOSYS
+DOCUMENT_ID: SEBI-Filing-INFOSYS-Q3-2026
+DATE: 2026-01-18
+CITATION_TAG: [SEBI-Filing-INFOSYS-Q3: Page 8]
+
+INFOSYS LIMITED - STATEMENT OF ASSETS AND LIABILITIES & STATUTORY AUDIT REPORT
+Page 8: Liquidity and Solvency Disclosures
+Infosys continues to maintain a pristine zero net-debt balance sheet.
+Total cash, cash equivalents and current investments stood at INR 34,250 Crores as of December 31, 2025.
+The debt-to-equity ratio is 0.08x, representing minor lease liabilities under Ind AS 116.
+Free cash flow generation for the quarter was INR 5,840 Crores, converting 92% of net profit into cash.
+Promoter holding stands at 14.8% with zero encumbrances or pledges.
+Contingent liabilities remain well within statutory reserves and present no material risk to operations.

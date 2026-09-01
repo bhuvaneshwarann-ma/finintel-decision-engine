@@ -1,0 +1,14 @@
+DOCUMENT_TYPE: REGULATORY_FILING
+TICKER: XYZ_CORP
+DOCUMENT_ID: SEBI-Filing-XYZ-Q3-2026
+DATE: 2026-01-25
+CITATION_TAG: [SEBI-Filing-XYZ-Q3: Page 14]
+
+XYZ CLEANPOWER & LOGISTICS INFRASTRUCTURE LIMITED - SEBI LODR DISCLOSURES
+Page 14: Note on Indebtedness, Promoter Pledges, and Going Concern Disclosures
+The company reports a substantial surge in short-term and long-term borrowings, taking total outstanding consolidated debt to INR 14,850 Crores against a tangible net worth of INR 3,857 Crores.
+The resulting debt-to-equity ratio has expanded to 3.85x, significantly breaching statutory covenants.
+Promoter encumbrance and share pledge have reached 42.5% of total promoter holding as collateral for working capital credit lines.
+Working capital interest coverage ratio has deteriorated to 1.18x, leaving minimal cushion against floating interest rate spikes.
+Auditors have inserted an Emphasis of Matter regarding refinancing risk on INR 3,200 Crores of non-convertible debentures maturing within the next 6 months.
+Off-balance-sheet corporate guarantees extended to unlisted subsidiaries stand at INR 2,100 Crores.

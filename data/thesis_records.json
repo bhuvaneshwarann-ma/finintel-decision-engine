@@ -1,0 +1,60 @@
+{
+  "XYZ_CORP": {
+    "thesis_record_id": "THESIS-XYZ-001",
+    "ticker": "XYZ_CORP",
+    "user_id": "retail_user_01",
+    "created_at": "2025-11-15T10:30:00Z",
+    "stated_reasons": [
+      "Bought for clean power infrastructure expansion and government solar concessions",
+      "Anticipating operational margin recovery and aggressive debt reduction"
+    ],
+    "key_assumptions": [
+      "debt_to_equity stays below 1.2",
+      "operating cash flows cover debt repayment obligations",
+      "promoter pledge remains below 10%"
+    ],
+    "invalidating_conditions": [
+      "Debt-to-equity ratio exceeds 1.5x",
+      "Contingent liabilities or pledge ratios exceed 25%",
+      "Regulatory investigation into off-balance-sheet guarantees"
+    ]
+  },
+  "TATAMOTORS": {
+    "thesis_record_id": "THESIS-TATA-001",
+    "ticker": "TATAMOTORS",
+    "user_id": "retail_user_01",
+    "created_at": "2026-01-10T14:00:00Z",
+    "stated_reasons": [
+      "Leading Indian EV transition and commercial vehicle cyclical recovery",
+      "JLR cash generation driving consolidated balance sheet deleveraging"
+    ],
+    "key_assumptions": [
+      "JLR EBIT margins remain above 8%",
+      "Domestic EV market share remains above 60%",
+      "Net debt continues on trajectory toward near-zero"
+    ],
+    "invalidating_conditions": [
+      "Sharp global demand contraction for luxury vehicles",
+      "Debt reduction trajectory reverses"
+    ]
+  },
+  "INFOSYS": {
+    "thesis_record_id": "THESIS-INFY-001",
+    "ticker": "INFOSYS",
+    "user_id": "retail_user_01",
+    "created_at": "2026-01-15T09:15:00Z",
+    "stated_reasons": [
+      "Defensive compounder with strong free cash flow and dividend yield",
+      "Large deal momentum in AI enterprise migrations"
+    ],
+    "key_assumptions": [
+      "Operating margins sustain between 20% and 22%",
+      "Zero net debt policy maintained",
+      "Dividend payout ratio stays above 70%"
+    ],
+    "invalidating_conditions": [
+      "Sustained large-client enterprise spending freeze",
+      "Operating margins deteriorate below 18%"
+    ]
+  }
+}

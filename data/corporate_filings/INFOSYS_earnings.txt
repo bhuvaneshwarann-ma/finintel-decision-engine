@@ -1,0 +1,14 @@
+DOCUMENT_TYPE: EARNINGS_REPORT
+TICKER: INFOSYS
+DOCUMENT_ID: EARNINGS-INFOSYS-Q3-2026
+DATE: 2026-01-19
+CITATION_TAG: [Earnings-INFOSYS-Q3: Page 3]
+
+INFOSYS LIMITED - Q3 FY26 OPERATIONAL PERFORMANCE AND REVENUE UPDATE
+Page 3: Segmental Performance and Outlook
+Constant currency revenue increased 9.2% YoY to INR 41,800 Crores.
+Operating margin came in at 21.1%, reflecting tight cost optimization and utilization gains.
+Large deal Total Contract Value (TCV) was signed at USD 3.2 billion, with 54% net new deals.
+Attrition declined sequentially to 12.1%.
+The company reaffirmed full-year constant currency revenue growth guidance of 8.5% to 10.0%.
+Dividend payout commitment of over 75% of cumulative free cash flow over 5 years reiterated.
