@@ -1,0 +1,9 @@
+.git
+.pytest_cache
+__pycache__
+*.pyc
+.env
+chroma_db/
+auth.db
+tests/
+logs/*.jsonl
