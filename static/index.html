@@ -1167,7 +1167,7 @@
             <h4 class="text-xs font-bold text-white tracking-wide">FinIntel AI Assistant</h4>
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
           </div>
-          <p class="text-[10px] text-slate-400 mono">Terminal Guide & RAG Evidence</p>
+          <p class="text-[10px] text-slate-400 mono">Financial Intelligence & Research Copilot</p>
         </div>
       </div>
       <div class="flex items-center space-x-1">
@@ -1181,11 +1181,14 @@
     </div>
 
     <!-- Quick Prompt Suggestions Chips -->
-    <div class="p-2.5 bg-slate-900/50 border-b border-slate-800/80 overflow-x-auto flex space-x-1.5 no-scrollbar">
-      <button onclick="quickAsk('What is this website and how do I use it?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🚀 Website Guide</button>
-      <button onclick="quickAsk('How does Devil\'s Advocate work?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🛡️ Devil's Advocate</button>
-      <button onclick="quickAsk('Explain the Decision Twin (5D) scores')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">📊 Decision Twin</button>
-      <button onclick="quickAsk('What is the debt to equity ratio disclosed for ' + currentTicker + '?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">📑 Filing Evidence</button>
+    <div class="p-2.5 bg-slate-900/60 border-b border-slate-800/80 overflow-x-auto flex space-x-1.5 no-scrollbar">
+      <button onclick="quickAsk('What is this website and how do I use it?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🚀 Terminal Guide</button>
+      <button onclick="quickAsk('Explain Market View vs Personal Fit')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-emerald-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">⚖️ Market View vs Fit</button>
+      <button onclick="quickAsk('How to evaluate Debt to Equity ratio?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">📊 Debt/Equity</button>
+      <button onclick="quickAsk('What is RSI and MACD in stock trading?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-purple-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">⚡ RSI & MACD</button>
+      <button onclick="quickAsk('Tell me about ' + currentTicker + ' business and financials')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-sky-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🏢 Active Stock Overview</button>
+      <button onclick="quickAsk('What are the benefits of SIP and compounding?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-teal-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🎯 SIP & Compounding</button>
+      <button onclick="quickAsk('How does Devil\'s Advocate challenge recommendations?')" class="px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-rose-300 text-[11px] font-medium whitespace-nowrap border border-slate-700">🛡️ Devil's Advocate</button>
     </div>
 
     <!-- Messages Container -->
@@ -1196,9 +1199,9 @@
           <i data-lucide="bot" class="w-3.5 h-3.5"></i>
         </div>
         <div class="bg-slate-900 border border-slate-800 rounded-xl rounded-tl-none p-3 text-slate-200 shadow-sm max-w-[85%] space-y-2">
-          <p>👋 <strong>Hello! I'm your FinIntelligence AI Assistant.</strong></p>
-          <p class="text-slate-300">I can help you navigate this terminal, explain multi-agent calculations, or retrieve verified corporate filing disclosures for any stock.</p>
-          <p class="text-[11px] text-sky-400 font-mono">💡 Click any suggestion chip above or ask me your question below!</p>
+          <p>👋 <strong>Hello! I'm your FinIntelligence AI Research Copilot.</strong></p>
+          <p class="text-slate-300">You can ask me <strong>anything</strong> about stocks, technical indicators (RSI/MACD), financial ratios (P/E, D/E), verified SEBI filing disclosures, or retail investment strategies!</p>
+          <p class="text-[11px] text-sky-400 font-mono">💡 Click any topic chip above or type any stock/investment question below.</p>
         </div>
       </div>
     </div>
@@ -1208,13 +1211,13 @@
       <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse"></span>
       <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse delay-75"></span>
       <span class="w-1.5 h-1.5 bg-sky-400 rounded-full animate-pulse delay-150"></span>
-      <span>Querying ChromaDB & analyzing evidence...</span>
+      <span>Analyzing financial intelligence & evidence...</span>
     </div>
 
     <!-- Chat Input Area -->
     <div class="p-3 bg-slate-900 border-t border-terminal-border">
       <form onsubmit="handleChatSubmit(event)" class="flex items-center space-x-2">
-        <input type="text" id="chat-input" placeholder="Ask about features, agents, or stocks..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-sky-500" autocomplete="off" />
+        <input type="text" id="chat-input" placeholder="💬 Ask anything about stocks, valuation, ratios, or market strategies..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-sky-500" autocomplete="off" />
         <button type="submit" id="chat-send-btn" class="px-3 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-lg transition-colors flex items-center justify-center font-bold">
           <i data-lucide="send" class="w-4 h-4"></i>
         </button>
