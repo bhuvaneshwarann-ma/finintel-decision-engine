@@ -3,12 +3,29 @@
 > **HACKVERSE 2026 — Problem Statement 01 (PS-01)**  
 > *Vellore Institute of Technology (VIT) Chennai*
 
-[![Build & Test Status](https://img.shields.io/badge/pytest-48%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/tests/test_auth.py)
+[![Build & Test Status](https://img.shields.io/badge/pytest-56%20passed%20%7C%20100%25-emerald?style=flat-square&logo=pytest)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/tests/test_rag_provenance.py)
 [![Security & Auth](https://img.shields.io/badge/Auth-JWT%20%2B%20Argon2-blue?style=flat-square&logo=jsonwebtokens)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/auth/auth_service.py)
+[![Evidence RAG](https://img.shields.io/badge/RAG-Zero%20Hardcoded%20Truth-success?style=flat-square&logo=diagramsdotnet)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/fundamental_rag_agent.py)
 [![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue?style=flat-square&logo=python)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine)
 [![Framework](https://img.shields.io/badge/FastAPI-3.0.0-009688?style=flat-square&logo=fastapi)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/main.py)
 [![Vector RAG](https://img.shields.io/badge/ChromaDB-Semantic%20Vector-purple?style=flat-square)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/fundamental_rag_agent.py)
 [![Architecture](https://img.shields.io/badge/Architecture-Market%20View%20%E2%89%A0%20Personal%20Action-orange?style=flat-square)](file:///c:/Users/GUNALAN/Downloads/finintel-decision-engine/agents/orchestrator.py)
+
+---
+
+## 📑 Table of Contents
+
+1. [Problem Statement & Core Concept](#1-problem-statement--core-concept)
+2. [End-to-End System Architecture](#2-end-to-end-system-architecture)
+3. [Multi-Agent System & Core Engines](#3-multi-agent-system--core-engines)
+4. [Evidence-Grounded RAG Pipeline & Provenance](#4-evidence-grounded-rag-pipeline--provenance)
+5. [Benchmark Demonstration Scenarios](#5-benchmark-demonstration-scenarios)
+6. [Security, Resilience & Compliance](#6-security-resilience--compliance)
+7. [Production-Grade Authentication & Multi-User Isolation](#7-production-grade-authentication--multi-user-isolation)
+8. [Automated Test Suite (56/56 Passing)](#8-automated-test-suite-5656-passing)
+9. [Project Directory Structure](#9-project-directory-structure)
+10. [Quick Start & Execution](#10-quick-start--execution)
+11. [Compliance & Educational Disclaimer](#11-compliance--educational-disclaimer)
 
 ---
 
@@ -72,6 +89,7 @@ flowchart TD
 - Strict chunk citation tagging (e.g. `[SEBI-Filing-XYZ-Q3: Page 14]`).
 - **Null-Safe Solvency Evaluation**: Missing filings or missing debt are represented as `None` / `data_available=False`, never coerced to `0.0x`.
 - Filing freshness detector flags documents $> 12$ months old.
+- **Zero Hardcoded Truth**: All metrics and verdicts originate from retrieved evidence chunks with complete provenance objects.
 
 ### 3.3. Sentiment & Flow Agent (`agents/sentiment_agent.py`)
 - Separates Foreign Institutional Investors (`fii_flow: INFLOW / OUTFLOW / NEUTRAL`) and Domestic Institutions (`dii_flow: INFLOW / OUTFLOW / NEUTRAL`).
@@ -102,9 +120,47 @@ Five separately scored dimensions evaluated side by side — **never averaged in
 $$\text{Composite Confidence} = 0.25 \cdot \text{Freshness} + 0.35 \cdot \text{Agreement} + 0.25 \cdot \text{Evidence} + 0.15 \cdot \text{Calibration}$$
 $$\sum w_i = 1.000$$
 
+### 3.9. AI Copilot Research Assistant (`main.py` - `/api/copilot/query`)
+- Interactive evidence-grounded chatbot embedded directly on the dashboard.
+- Queries ChromaDB vector database in real-time to answer investor queries with exact citation provenance and page-level references.
+
 ---
 
-## 4. Benchmark Demonstration Scenarios
+## 4. Evidence-Grounded RAG Pipeline & Provenance
+
+```
+SEBI Filing / Earnings Document
+  ↓
+Document Chunking & Metadata Parsing (Page numbers, citation tags)
+  ↓
+ChromaDB Vector Store (Cosine semantic embeddings)
+  ↓
+Semantic Vector Retrieval (Ticker used strictly for document filtering)
+  ↓
+Evidence Extraction (Regex & metadata extraction directly on retrieved text)
+  ↓
+Financial Metric & Provenance Object (value, citation, page, document_id, snippet)
+  ↓
+FundamentalSignal (Evidence-grounded verdict derivation)
+```
+
+### Provenance Structure Example:
+```json
+{
+  "debt_to_equity": {
+    "value": 3.85,
+    "citation": "[SEBI-Filing-XYZ-Q3: Page 14]",
+    "page": 14,
+    "document_id": "SEBI-Filing-XYZ-Q3-2026",
+    "source_file": "XYZ_CORP_sebi_filing.txt",
+    "evidence_snippet": "The resulting debt-to-equity ratio has expanded to 3.85x, significantly breaching statutory covenants..."
+  }
+}
+```
+
+---
+
+## 5. Benchmark Demonstration Scenarios
 
 | Scenario | Ticker | Market Setup | Conservative Senior | Aggressive Gen-Z | Anti-Majority Resolution |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -115,76 +171,12 @@ $$\sum w_i = 1.000$$
 
 ---
 
-## 5. Security, Resilience & Compliance
+## 6. Security, Resilience & Compliance
 
 - **Zero Hardcoded Secrets**: All Gemini API keys loaded from environment variables (`.env` gitignored).
 - **Graceful Fallback**: Gemini timeouts or offline states automatically execute deterministic synthesis (`fallback_used: True`). Zero HTTP 500 errors.
 - **Strict Citation Provenance**: Every cited source in reasoning traces originates from retrieved ChromaDB chunks.
 - **Demo Data Honesty**: Transparent labeling (`SIMULATED MARKET FEED: HEALTHY`, `INDEXED DEMO EVIDENCE`).
-
----
-
-## 6. Automated Test Suite (32/32 Passing)
-
-```bash
-python -m pytest -v tests/
-```
-
-```
-============================= test session starts =============================
-collected 48 items
-
-tests/test_auth.py::test_1_successful_registration PASSED                [  2%]
-tests/test_auth.py::test_2_duplicate_registration_returns_409 PASSED     [  4%]
-tests/test_auth.py::test_3_weak_password_rejected PASSED                 [  6%]
-tests/test_auth.py::test_4_successful_login PASSED                       [  8%]
-tests/test_auth.py::test_5_invalid_password_returns_401 PASSED           [ 10%]
-tests/test_auth.py::test_6_invalid_email_format PASSED                   [ 12%]
-tests/test_auth.py::test_7_missing_token_returns_401 PASSED              [ 14%]
-tests/test_auth.py::test_8_invalid_token_returns_401 PASSED              [ 16%]
-tests/test_auth.py::test_9_expired_token_returns_401 PASSED              [ 18%]
-tests/test_auth.py::test_10_auth_me_returns_identity PASSED              [ 20%]
-tests/test_auth.py::test_11_analyze_endpoint_with_auth PASSED            [ 22%]
-tests/test_auth.py::test_12_user_profile_crud_and_isolation PASSED       [ 25%]
-tests/test_auth.py::test_13_multi_user_thesis_isolation PASSED           [ 27%]
-tests/test_auth.py::test_14_multi_user_session_isolation PASSED          [ 29%]
-tests/test_auth.py::test_15_brute_force_rate_limiting PASSED             [ 31%]
-tests/test_auth.py::test_16_security_headers PASSED                      [ 33%]
-tests/test_system.py::test_1_technical_calculations PASSED               [ 35%]
-tests/test_system.py::test_2_rag_retrieves_xyz_debt_evidence PASSED      [ 37%]
-tests/test_system.py::test_3_parallel_agents_concurrency PASSED          [ 39%]
-tests/test_system.py::test_4_divergent_persona_advice PASSED             [ 41%]
-tests/test_system.py::test_5_conflict_resolution_no_majority_vote PASSED [ 43%]
-tests/test_system.py::test_6_missing_filing_resilience PASSED            [ 45%]
-tests/test_system.py::test_7_gemini_failure_fallback PASSED              [ 47%]
-tests/test_system.py::test_8_invalid_ticker_validation PASSED            [ 50%]
-tests/test_system.py::test_9_invalid_persona_validation PASSED           [ 52%]
-tests/test_system.py::test_10_no_api_key_required_in_mock_mode PASSED    [ 54%]
-tests/test_system.py::test_11_fundamental_recommendation_citations PASSED [ 56%]
-tests/test_system.py::test_12_degraded_mode_confidence_reduction PASSED  [ 58%]
-tests/test_system.py::test_13_devils_advocate_evidence_constrained PASSED [ 60%]
-tests/test_system.py::test_14_confidence_breakdown_bounded_and_consistent PASSED [ 62%]
-tests/test_system.py::test_15_stale_filing_detection PASSED              [ 64%]
-tests/test_system.py::test_16_behavioral_bias_flags_and_control PASSED   [ 66%]
-tests/test_system.py::test_17_decision_twin_five_scores_independent PASSED [ 68%]
-tests/test_system.py::test_18_thesis_break_requires_citation_evidence PASSED [ 70%]
-tests/test_system.py::test_19_counterfactual_simulator_disclaimer_and_assumptions PASSED [ 72%]
-tests/test_system.py::test_20_evidence_graph_claim_resolution PASSED     [ 75%]
-tests/test_system.py::test_21_what_changed_empty_on_no_changes PASSED    [ 77%]
-tests/test_system.py::test_22_behavioral_drift_no_diagnostic_terms PASSED [ 79%]
-tests/test_system.py::test_23_copilot_endpoint_grounded_answer PASSED    [ 81%]
-tests/test_system.py::test_24_market_view_vs_investor_fit_separation PASSED [ 83%]
-tests/test_system.py::test_25_separate_fii_dii_flows PASSED              [ 85%]
-tests/test_system.py::test_26_missing_debt_data_is_none PASSED           [ 87%]
-tests/test_system.py::test_27_citation_integrity_no_hallucinations PASSED [ 89%]
-tests/test_system.py::test_28_api_stocks_and_personas PASSED             [ 91%]
-tests/test_system.py::test_29_demo_scenarios_and_calibration PASSED      [ 93%]
-tests/test_system.py::test_30_health_check_endpoint PASSED               [ 95%]
-tests/test_system.py::test_31_thesis_endpoints_save_and_retrieve PASSED  [ 97%]
-tests/test_system.py::test_32_simulation_endpoint PASSED                 [100%]
-
-============================= 48 passed in 12.03s =============================
-```
 
 ---
 
@@ -210,7 +202,130 @@ FinIntelligence AI implements **Zero-Trust Multi-User Isolation** with industry-
 
 ---
 
-## 8. Quick Start & Execution
+## 8. Automated Test Suite (56/56 Passing)
+
+```bash
+python -m pytest -v tests/
+```
+
+```
+============================= test session starts =============================
+platform win32 -- Python 3.11.9, pytest-9.1.1, pluggy-1.6.0
+collected 56 items
+
+tests/test_auth.py::test_1_successful_registration PASSED                [  1%]
+tests/test_auth.py::test_2_duplicate_registration_returns_409 PASSED     [  3%]
+tests/test_auth.py::test_3_weak_password_rejected PASSED                 [  5%]
+tests/test_auth.py::test_4_successful_login PASSED                       [  7%]
+tests/test_auth.py::test_5_invalid_password_returns_401 PASSED           [  8%]
+tests/test_auth.py::test_6_invalid_email_format PASSED                   [ 10%]
+tests/test_auth.py::test_7_missing_token_returns_401 PASSED              [ 12%]
+tests/test_auth.py::test_8_invalid_token_returns_401 PASSED              [ 14%]
+tests/test_auth.py::test_9_expired_token_returns_401 PASSED              [ 16%]
+tests/test_auth.py::test_10_auth_me_returns_identity PASSED              [ 17%]
+tests/test_auth.py::test_11_analyze_endpoint_with_auth PASSED            [ 19%]
+tests/test_auth.py::test_12_user_profile_crud_and_isolation PASSED       [ 21%]
+tests/test_auth.py::test_13_multi_user_thesis_isolation PASSED           [ 23%]
+tests/test_auth.py::test_14_multi_user_session_isolation PASSED          [ 25%]
+tests/test_auth.py::test_15_brute_force_rate_limiting PASSED             [ 26%]
+tests/test_auth.py::test_16_security_headers PASSED                      [ 28%]
+tests/test_rag_provenance.py::test_1_xyz_debt_value_provenance PASSED    [ 30%]
+tests/test_rag_provenance.py::test_2_citation_comes_from_retrieved_evidence PASSED [ 32%]
+tests/test_rag_provenance.py::test_3_missing_filing_produces_unknown_and_null PASSED [ 33%]
+tests/test_rag_provenance.py::test_4_missing_evidence_never_becomes_zero PASSED [ 35%]
+tests/test_rag_provenance.py::test_5_no_ticker_specific_financial_assignments_in_source PASSED [ 37%]
+tests/test_rag_provenance.py::test_6_scenario_b_detects_xyz_debt_warning PASSED [ 39%]
+tests/test_rag_provenance.py::test_7_scenario_c_degraded_mode PASSED     [ 41%]
+tests/test_rag_provenance.py::test_8_tata_and_infosys_provenance PASSED   [ 42%]
+tests/test_system.py::test_1_technical_calculations PASSED               [ 44%]
+tests/test_system.py::test_2_rag_retrieves_xyz_debt_evidence PASSED      [ 46%]
+tests/test_system.py::test_3_parallel_agents_concurrency PASSED          [ 48%]
+tests/test_system.py::test_4_divergent_persona_advice PASSED             [ 50%]
+tests/test_system.py::test_5_conflict_resolution_no_majority_vote PASSED [ 51%]
+tests/test_system.py::test_6_missing_filing_resilience PASSED            [ 53%]
+tests/test_system.py::test_7_gemini_failure_fallback PASSED              [ 55%]
+tests/test_system.py::test_8_invalid_ticker_validation PASSED            [ 57%]
+tests/test_system.py::test_9_invalid_persona_validation PASSED           [ 58%]
+tests/test_system.py::test_10_no_api_key_required_in_mock_mode PASSED    [ 60%]
+tests/test_system.py::test_11_fundamental_recommendation_citations PASSED [ 62%]
+tests/test_system.py::test_12_degraded_mode_confidence_reduction PASSED  [ 64%]
+tests/test_system.py::test_13_devils_advocate_evidence_constrained PASSED [ 66%]
+tests/test_system.py::test_14_confidence_breakdown_bounded_and_consistent PASSED [ 67%]
+tests/test_system.py::test_15_stale_filing_detection PASSED              [ 69%]
+tests/test_system.py::test_16_behavioral_bias_flags_and_control PASSED   [ 71%]
+tests/test_system.py::test_17_decision_twin_five_scores_independent PASSED [ 73%]
+tests/test_system.py::test_18_thesis_break_requires_citation_evidence PASSED [ 75%]
+tests/test_system.py::test_19_counterfactual_simulator_disclaimer_and_assumptions PASSED [ 76%]
+tests/test_system.py::test_20_evidence_graph_claim_resolution PASSED     [ 78%]
+tests/test_system.py::test_21_what_changed_empty_on_no_changes PASSED    [ 80%]
+tests/test_system.py::test_22_behavioral_drift_no_diagnostic_terms PASSED [ 82%]
+tests/test_system.py::test_23_copilot_endpoint_grounded_answer PASSED    [ 83%]
+tests/test_system.py::test_24_market_view_vs_investor_fit_separation PASSED [ 85%]
+tests/test_system.py::test_25_separate_fii_dii_flows PASSED              [ 87%]
+tests/test_system.py::test_26_missing_debt_data_is_none PASSED           [ 89%]
+tests/test_system.py::test_27_citation_integrity_no_hallucinations PASSED [ 91%]
+tests/test_system.py::test_28_api_stocks_and_personas PASSED             [ 92%]
+tests/test_system.py::test_29_demo_scenarios_and_calibration PASSED      [ 94%]
+tests/test_system.py::test_30_health_check_endpoint PASSED               [ 96%]
+tests/test_system.py::test_31_thesis_endpoints_save_and_retrieve PASSED  [ 98%]
+tests/test_system.py::test_32_simulation_endpoint PASSED                 [100%]
+
+============================= 56 passed in 15.19s =============================
+```
+
+---
+
+## 9. Project Directory Structure
+
+```
+finintel-decision-engine/
+├── agents/
+│   ├── counterfactual_simulator.py  # Scenario & shock simulation
+│   ├── devils_advocate_agent.py     # Adversarial stress tester
+│   ├── fundamental_rag_agent.py     # ChromaDB vector RAG with provenance
+│   ├── orchestrator.py              # Parallel execution & synthesis pipeline
+│   ├── risk_agent.py                # Investor personalization & risk limits
+│   ├── sentiment_agent.py           # FII/DII flow separation & news sentiment
+│   ├── technical_agent.py           # RSI, MACD, momentum & volume anomalies
+│   └── thesis_break_agent.py        # Thesis invalidation monitoring
+├── auth/
+│   ├── auth_service.py              # Argon2 password hasher & PyJWT manager
+│   ├── database.py                  # SQLite isolated tables for users & theses
+│   ├── dependencies.py              # FastAPI Bearer auth dependencies
+│   └── models.py                    # Pydantic schemas for auth & profiles
+├── data/
+│   └── corporate_filings/           # Real indexed SEBI disclosures & earnings
+├── engine/
+│   ├── change_digest.py             # What-changed snapshot delta engine
+│   ├── decision_twin.py             # 5-Dimensional independent Decision Twin
+│   └── evidence_graph.py            # Node-link provenance graph constructor
+├── logs/
+│   ├── calibration_ledger.py        # Brier calibration score tracker
+│   ├── decision_audit_trail.jsonl   # Append-only decision audit ledger
+│   └── session_logger.py            # Session telemetry & user ownership logger
+├── profiling/
+│   ├── behavioral_bias_mirror.py    # Non-diagnostic bias flag detector
+│   ├── behavioral_drift.py          # Long-term behavioral drift monitor
+│   └── user_profile.py              # Investor persona definitions
+├── static/
+│   └── index.html                   # High-density Terminal UI + Auth Gate
+├── tests/
+│   ├── test_auth.py                 # 16 Authentication & isolation tests
+│   ├── test_rag_provenance.py       # 8 Pure evidence extraction tests
+│   └── test_system.py               # 32 Multi-agent system & scenario tests
+├── utils/
+│   ├── filing_freshness.py          # 12-month filing staleness monitor
+│   ├── metrics.py                   # 4-factor confidence breakdown formula
+│   └── security.py                  # Input sanitizer & non-diagnostic filter
+├── config.py                        # Centralized system configurations
+├── main.py                          # FastAPI application & API router
+├── requirements.txt                 # Python dependencies
+└── README.md                        # Documentation & verification report
+```
+
+---
+
+## 10. Quick Start & Execution
 
 ### 1. Installation
 ```bash
@@ -225,13 +340,19 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
 ### 3. Open Terminal Dashboard
-- Dashboard UI: **[http://localhost:8000/](http://localhost:8000/)** (or `/dashboard`)
-- Interactive Physics Experience: **[http://localhost:8000/antigravity](http://localhost:8000/antigravity)**
-- Interactive API Docs: **[http://localhost:8000/docs](http://localhost:8000/docs)**
+- **Dashboard UI**: **[http://localhost:8000/](http://localhost:8000/)** (or `/dashboard`)
+- **Interactive Physics View**: **[http://localhost:8000/antigravity](http://localhost:8000/antigravity)**
+- **Interactive Swagger API Docs**: **[http://localhost:8000/docs](http://localhost:8000/docs)**
+- **System Health Check**: **[http://localhost:8000/health](http://localhost:8000/health)**
+
+### 4. Instant Demo Credentials
+Click the **`⚡ Instant Demo Access`** button directly on the login screen, or sign in using:
+- **Email**: `investor@example.com`
+- **Password**: `DemoPassword123!`
 
 ---
 
-## 8. Compliance & Educational Disclaimer
+## 11. Compliance & Educational Disclaimer
 
 > **RESEARCH & EDUCATIONAL PROTOTYPE ONLY**  
 > FinIntelligence AI is developed for academic evaluation at HACKVERSE 2026 (VIT Chennai). It does not provide financial advice, personalized portfolio management, or automated trade execution under SEBI (Investment Advisers) Regulations. All scenarios use indexed demonstration documents and simulated market feeds.
